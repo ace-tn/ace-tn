@@ -96,14 +96,200 @@
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
 </section>
-<section id="acetn-model-models-heisenberg-module">
-<h2>acetn.model.models.heisenberg module<a class="headerlink" href="#acetn-model-models-heisenberg-module" title="Link to this heading"></a></h2>
+<section id="module-acetn.model.models.heisenberg">
+<span id="acetn-model-models-heisenberg-module"></span><h2>acetn.model.models.heisenberg module<a class="headerlink" href="#module-acetn.model.models.heisenberg" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="acetn.model.models.heisenberg.HeisenbergModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">acetn.model.models.heisenberg.</span></span><span class="sig-name descname"><span class="pre">HeisenbergModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.model.models.heisenberg.HeisenbergModel" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.model.models.heisenberg.HeisenbergModel.initial_site_state">
+<span class="sig-name descname"><span class="pre">initial_site_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">site</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.model.models.heisenberg.HeisenbergModel.initial_site_state" title="Link to this definition"></a></dt>
+<dd><p>Initialize in the Neel state</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.model.models.heisenberg.HeisenbergModel.one_site_observables">
+<span class="sig-name descname"><span class="pre">one_site_observables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">site</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.model.models.heisenberg.HeisenbergModel.one_site_observables" title="Link to this definition"></a></dt>
+<dd><p>Measure staggered magnetization</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.model.models.heisenberg.HeisenbergModel.two_site_hamiltonian">
+<span class="sig-name descname"><span class="pre">two_site_hamiltonian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bond</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.model.models.heisenberg.HeisenbergModel.two_site_hamiltonian" title="Link to this definition"></a></dt>
+<dd><p>$H_{ij} = vec{S}_icdotvec{S}_j$</p>
+</dd></dl>
+
+</dd></dl>
+
 </section>
-<section id="acetn-model-models-ising-module">
-<h2>acetn.model.models.ising module<a class="headerlink" href="#acetn-model-models-ising-module" title="Link to this heading"></a></h2>
+<section id="module-acetn.model.models.ising">
+<span id="acetn-model-models-ising-module"></span><h2>acetn.model.models.ising module<a class="headerlink" href="#module-acetn.model.models.ising" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="acetn.model.models.ising.IsingModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">acetn.model.models.ising.</span></span><span class="sig-name descname"><span class="pre">IsingModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.model.models.ising.IsingModel" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.model.models.ising.IsingModel.one_site_hamiltonian">
+<span class="sig-name descname"><span class="pre">one_site_hamiltonian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">site</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.model.models.ising.IsingModel.one_site_hamiltonian" title="Link to this definition"></a></dt>
+<dd><p>Returns the one-site Hamiltonian for a given site.</p>
+<p>This is a placeholder method intended to be overridden in subclasses.</p>
+<section id="parameters">
+<h3>Parameters:<a class="headerlink" href="#parameters" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>site<span class="classifier">optional</span></dt><dd><p>The site for which to return the one-site Hamiltonian (default: None).</p>
+</dd>
+</dl>
 </section>
-<section id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Link to this heading"></a></h2>
+<section id="returns">
+<h3>Returns:<a class="headerlink" href="#returns" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>torch.Tensor or None</dt><dd><p>The one-site Hamiltonian as a tensor, or None if not defined.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.model.models.ising.IsingModel.one_site_observables">
+<span class="sig-name descname"><span class="pre">one_site_observables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">site</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.model.models.ising.IsingModel.one_site_observables" title="Link to this definition"></a></dt>
+<dd><p>Returns a dictionary of one-site observables for a given site.</p>
+<p>This is a placeholder method intended to be overridden in subclasses.</p>
+<section id="id1">
+<h3>Parameters:<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>site<span class="classifier">optional</span></dt><dd><p>The site for which to return the one-site observables (default: None).</p>
+</dd>
+</dl>
+</section>
+<section id="id2">
+<h3>Returns:<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>dict</dt><dd><p>A dictionary of one-site observables.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.model.models.ising.IsingModel.two_site_hamiltonian">
+<span class="sig-name descname"><span class="pre">two_site_hamiltonian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bond</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.model.models.ising.IsingModel.two_site_hamiltonian" title="Link to this definition"></a></dt>
+<dd><p>Abstract method to compute the two-site Hamiltonian for a given bond.</p>
+<p>This method must be implemented by subclasses.</p>
+<section id="id3">
+<h3>Parameters:<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>bond<span class="classifier">optional</span></dt><dd><p>The bond for which to return the two-site Hamiltonian (default: None).</p>
+</dd>
+</dl>
+</section>
+<section id="id4">
+<h3>Returns:<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>torch.Tensor</dt><dd><p>The two-site Hamiltonian as a tensor.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-acetn.model.models">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-acetn.model.models" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="acetn.model.models.HeisenbergModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">acetn.model.models.</span></span><span class="sig-name descname"><span class="pre">HeisenbergModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.model.models.HeisenbergModel" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.model.models.HeisenbergModel.initial_site_state">
+<span class="sig-name descname"><span class="pre">initial_site_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">site</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.model.models.HeisenbergModel.initial_site_state" title="Link to this definition"></a></dt>
+<dd><p>Initialize in the Neel state</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.model.models.HeisenbergModel.one_site_observables">
+<span class="sig-name descname"><span class="pre">one_site_observables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">site</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.model.models.HeisenbergModel.one_site_observables" title="Link to this definition"></a></dt>
+<dd><p>Measure staggered magnetization</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.model.models.HeisenbergModel.two_site_hamiltonian">
+<span class="sig-name descname"><span class="pre">two_site_hamiltonian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bond</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.model.models.HeisenbergModel.two_site_hamiltonian" title="Link to this definition"></a></dt>
+<dd><p>$H_{ij} = vec{S}_icdotvec{S}_j$</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="acetn.model.models.IsingModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">acetn.model.models.</span></span><span class="sig-name descname"><span class="pre">IsingModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.model.models.IsingModel" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.model.models.IsingModel.one_site_hamiltonian">
+<span class="sig-name descname"><span class="pre">one_site_hamiltonian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">site</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.model.models.IsingModel.one_site_hamiltonian" title="Link to this definition"></a></dt>
+<dd><p>Returns the one-site Hamiltonian for a given site.</p>
+<p>This is a placeholder method intended to be overridden in subclasses.</p>
+<section id="id5">
+<h3>Parameters:<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>site<span class="classifier">optional</span></dt><dd><p>The site for which to return the one-site Hamiltonian (default: None).</p>
+</dd>
+</dl>
+</section>
+<section id="id6">
+<h3>Returns:<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>torch.Tensor or None</dt><dd><p>The one-site Hamiltonian as a tensor, or None if not defined.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.model.models.IsingModel.one_site_observables">
+<span class="sig-name descname"><span class="pre">one_site_observables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">site</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.model.models.IsingModel.one_site_observables" title="Link to this definition"></a></dt>
+<dd><p>Returns a dictionary of one-site observables for a given site.</p>
+<p>This is a placeholder method intended to be overridden in subclasses.</p>
+<section id="id7">
+<h3>Parameters:<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>site<span class="classifier">optional</span></dt><dd><p>The site for which to return the one-site observables (default: None).</p>
+</dd>
+</dl>
+</section>
+<section id="id8">
+<h3>Returns:<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>dict</dt><dd><p>A dictionary of one-site observables.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.model.models.IsingModel.two_site_hamiltonian">
+<span class="sig-name descname"><span class="pre">two_site_hamiltonian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bond</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.model.models.IsingModel.two_site_hamiltonian" title="Link to this definition"></a></dt>
+<dd><p>Abstract method to compute the two-site Hamiltonian for a given bond.</p>
+<p>This method must be implemented by subclasses.</p>
+<section id="id9">
+<h3>Parameters:<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>bond<span class="classifier">optional</span></dt><dd><p>The bond for which to return the two-site Hamiltonian (default: None).</p>
+</dd>
+</dl>
+</section>
+<section id="id10">
+<h3>Returns:<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>torch.Tensor</dt><dd><p>The two-site Hamiltonian as a tensor.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 </section>
 

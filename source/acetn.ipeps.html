@@ -95,20 +95,473 @@
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
 </section>
-<section id="acetn-ipeps-ipeps-module">
-<h2>acetn.ipeps.ipeps module<a class="headerlink" href="#acetn-ipeps-ipeps-module" title="Link to this heading"></a></h2>
+<section id="module-acetn.ipeps.ipeps">
+<span id="acetn-ipeps-ipeps-module"></span><h2>acetn.ipeps.ipeps module<a class="headerlink" href="#module-acetn.ipeps.ipeps" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="acetn.ipeps.ipeps.Ipeps">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">acetn.ipeps.ipeps.</span></span><span class="sig-name descname"><span class="pre">Ipeps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ipeps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.ipeps.ipeps.Ipeps" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">TensorNetwork</span></code></p>
+<p>Infinite Projected Entangled Pair States (iPEPS) tensor network class.</p>
+<p>Handles initialization, evolution, renormalization, and measurement 
+procedures for iPEPS simulations, including distributed setup.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>config (IpepsConfig): Configuration for iPEPS simulation.
+dtype (torch.dtype): Data type for tensors.
+device (torch.device): Device (CPU/GPU) for computation.
+is_distributed (bool): Flag for distributed computation.
+rank (int): Process rank in distributed setting.
+world_size (int): Total number of processes in distributed setting.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.ipeps.ipeps.Ipeps.evolve">
+<span class="sig-name descname"><span class="pre">evolve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dtau</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">steps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.ipeps.ipeps.Ipeps.evolve" title="Link to this definition"></a></dt>
+<dd><p>Apply imaginary time evolution to the iPEPS state.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>dtau (float): Time step for evolution.
+steps (int): Number of evolution steps.
+model (optional): Custom model instance to use.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.ipeps.ipeps.Ipeps.measure">
+<span class="sig-name descname"><span class="pre">measure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.ipeps.ipeps.Ipeps.measure" title="Link to this definition"></a></dt>
+<dd><p>Perform measurements on the current iPEPS state.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>model (optional): Custom model instance to use.</p>
+</dd>
+<dt>Returns:</dt><dd><p>dict: Measurement results.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.ipeps.ipeps.Ipeps.renormalize">
+<span class="sig-name descname"><span class="pre">renormalize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#acetn.ipeps.ipeps.Ipeps.renormalize" title="Link to this definition"></a></dt>
+<dd><p>Perform CTMRG renormalization on the current iPEPS state.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.ipeps.ipeps.Ipeps.set_chi">
+<span class="sig-name descname"><span class="pre">set_chi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chi</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.ipeps.ipeps.Ipeps.set_chi" title="Link to this definition"></a></dt>
+<dd><p>Set the boundary bond dimension chi.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>chi (int): Boundary bond dimension.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.ipeps.ipeps.Ipeps.set_model">
+<span class="sig-name descname"><span class="pre">set_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.ipeps.ipeps.Ipeps.set_model" title="Link to this definition"></a></dt>
+<dd><p>Register and set a model for simulation.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>model_cls (type): Model class to register.
+params (dict): Parameters for the model.
+name (str, optional): Name for the custom model.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.ipeps.ipeps.Ipeps.set_model_params">
+<span class="sig-name descname"><span class="pre">set_model_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.ipeps.ipeps.Ipeps.set_model_params" title="Link to this definition"></a></dt>
+<dd><p>Update model parameters.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p><cite>**kwargs</cite>: Key-value pairs of model parameters to update.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.ipeps.ipeps.Ipeps.setup_distributed">
+<span class="sig-name descname"><span class="pre">setup_distributed</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#acetn.ipeps.ipeps.Ipeps.setup_distributed" title="Link to this definition"></a></dt>
+<dd><p>Set up distributed environment if available.</p>
+</dd></dl>
+
+</dd></dl>
+
 </section>
-<section id="acetn-ipeps-ipeps-config-module">
-<h2>acetn.ipeps.ipeps_config module<a class="headerlink" href="#acetn-ipeps-ipeps-config-module" title="Link to this heading"></a></h2>
+<section id="module-acetn.ipeps.ipeps_config">
+<span id="acetn-ipeps-ipeps-config-module"></span><h2>acetn.ipeps.ipeps_config module<a class="headerlink" href="#module-acetn.ipeps.ipeps_config" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="acetn.ipeps.ipeps_config.CTMRGConfig">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">acetn.ipeps.ipeps_config.</span></span><span class="sig-name descname"><span class="pre">CTMRGConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">steps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">40</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">projectors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'half-system'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'full-system'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'half-system'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">svd_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'rsvd'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'full-rank'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'rsvd'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">svd_cutoff</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1e-12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rsvd_niter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rsvd_oversampling</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disable_progressbar</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.ipeps.ipeps_config.CTMRGConfig" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="acetn.ipeps.ipeps_config.CTMRGConfig.disable_progressbar">
+<span class="sig-name descname"><span class="pre">disable_progressbar</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#acetn.ipeps.ipeps_config.CTMRGConfig.disable_progressbar" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="acetn.ipeps.ipeps_config.CTMRGConfig.projectors">
+<span class="sig-name descname"><span class="pre">projectors</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'half-system'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'full-system'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'half-system'</span></em><a class="headerlink" href="#acetn.ipeps.ipeps_config.CTMRGConfig.projectors" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="acetn.ipeps.ipeps_config.CTMRGConfig.rsvd_niter">
+<span class="sig-name descname"><span class="pre">rsvd_niter</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#acetn.ipeps.ipeps_config.CTMRGConfig.rsvd_niter" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="acetn.ipeps.ipeps_config.CTMRGConfig.rsvd_oversampling">
+<span class="sig-name descname"><span class="pre">rsvd_oversampling</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#acetn.ipeps.ipeps_config.CTMRGConfig.rsvd_oversampling" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="acetn.ipeps.ipeps_config.CTMRGConfig.steps">
+<span class="sig-name descname"><span class="pre">steps</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">40</span></em><a class="headerlink" href="#acetn.ipeps.ipeps_config.CTMRGConfig.steps" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="acetn.ipeps.ipeps_config.CTMRGConfig.svd_cutoff">
+<span class="sig-name descname"><span class="pre">svd_cutoff</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1e-12</span></em><a class="headerlink" href="#acetn.ipeps.ipeps_config.CTMRGConfig.svd_cutoff" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="acetn.ipeps.ipeps_config.CTMRGConfig.svd_type">
+<span class="sig-name descname"><span class="pre">svd_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'rsvd'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'full-rank'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'rsvd'</span></em><a class="headerlink" href="#acetn.ipeps.ipeps_config.CTMRGConfig.svd_type" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="acetn.ipeps.ipeps_config.EvolutionConfig">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">acetn.ipeps.ipeps_config.</span></span><span class="sig-name descname"><span class="pre">EvolutionConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">update_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'full'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_gauge_fix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gauge_fix_atol</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1e-12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">positive_approx_cutoff</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1e-12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">als_niter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">als_tol</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1e-12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">als_method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'cholesky'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'pinv'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'cholesky'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">als_epsilon</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1e-12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disable_progressbar</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.ipeps.ipeps_config.EvolutionConfig" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="acetn.ipeps.ipeps_config.EvolutionConfig.als_epsilon">
+<span class="sig-name descname"><span class="pre">als_epsilon</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1e-12</span></em><a class="headerlink" href="#acetn.ipeps.ipeps_config.EvolutionConfig.als_epsilon" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="acetn.ipeps.ipeps_config.EvolutionConfig.als_method">
+<span class="sig-name descname"><span class="pre">als_method</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'cholesky'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'pinv'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'cholesky'</span></em><a class="headerlink" href="#acetn.ipeps.ipeps_config.EvolutionConfig.als_method" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="acetn.ipeps.ipeps_config.EvolutionConfig.als_niter">
+<span class="sig-name descname"><span class="pre">als_niter</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">50</span></em><a class="headerlink" href="#acetn.ipeps.ipeps_config.EvolutionConfig.als_niter" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="acetn.ipeps.ipeps_config.EvolutionConfig.als_tol">
+<span class="sig-name descname"><span class="pre">als_tol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1e-12</span></em><a class="headerlink" href="#acetn.ipeps.ipeps_config.EvolutionConfig.als_tol" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="acetn.ipeps.ipeps_config.EvolutionConfig.disable_progressbar">
+<span class="sig-name descname"><span class="pre">disable_progressbar</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#acetn.ipeps.ipeps_config.EvolutionConfig.disable_progressbar" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="acetn.ipeps.ipeps_config.EvolutionConfig.gauge_fix_atol">
+<span class="sig-name descname"><span class="pre">gauge_fix_atol</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1e-12</span></em><a class="headerlink" href="#acetn.ipeps.ipeps_config.EvolutionConfig.gauge_fix_atol" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="acetn.ipeps.ipeps_config.EvolutionConfig.positive_approx_cutoff">
+<span class="sig-name descname"><span class="pre">positive_approx_cutoff</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1e-12</span></em><a class="headerlink" href="#acetn.ipeps.ipeps_config.EvolutionConfig.positive_approx_cutoff" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="acetn.ipeps.ipeps_config.EvolutionConfig.update_type">
+<span class="sig-name descname"><span class="pre">update_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'full'</span></em><a class="headerlink" href="#acetn.ipeps.ipeps_config.EvolutionConfig.update_type" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="acetn.ipeps.ipeps_config.EvolutionConfig.use_gauge_fix">
+<span class="sig-name descname"><span class="pre">use_gauge_fix</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#acetn.ipeps.ipeps_config.EvolutionConfig.use_gauge_fix" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="acetn.ipeps.ipeps_config.IpepsConfig">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">acetn.ipeps.ipeps_config.</span></span><span class="sig-name descname"><span class="pre">IpepsConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">TN:</span> <span class="pre">~typing.Dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype:</span> <span class="pre">str</span> <span class="pre">|</span> <span class="pre">~torch.dtype</span> <span class="pre">=</span> <span class="pre">'float64'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device:</span> <span class="pre">str</span> <span class="pre">|</span> <span class="pre">~torch.device</span> <span class="pre">=</span> <span class="pre">'cpu'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctmrg:</span> <span class="pre">~typing.Dict</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evolution:</span> <span class="pre">~typing.Dict</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model:</span> <span class="pre">~typing.Dict</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.ipeps.ipeps_config.IpepsConfig" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Configuration class for iPEPS setup.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="acetn.ipeps.ipeps_config.IpepsConfig.TN">
+<span class="sig-name descname"><span class="pre">TN</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Dict</span></em><a class="headerlink" href="#acetn.ipeps.ipeps_config.IpepsConfig.TN" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="acetn.ipeps.ipeps_config.IpepsConfig.ctmrg">
+<span class="sig-name descname"><span class="pre">ctmrg</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Dict</span></em><a class="headerlink" href="#acetn.ipeps.ipeps_config.IpepsConfig.ctmrg" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="acetn.ipeps.ipeps_config.IpepsConfig.device">
+<span class="sig-name descname"><span class="pre">device</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">device</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'cpu'</span></em><a class="headerlink" href="#acetn.ipeps.ipeps_config.IpepsConfig.device" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.ipeps.ipeps_config.IpepsConfig.disable_pbar_if_slurm">
+<span class="sig-name descname"><span class="pre">disable_pbar_if_slurm</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#acetn.ipeps.ipeps_config.IpepsConfig.disable_pbar_if_slurm" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="acetn.ipeps.ipeps_config.IpepsConfig.dtype">
+<span class="sig-name descname"><span class="pre">dtype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">dtype</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'float64'</span></em><a class="headerlink" href="#acetn.ipeps.ipeps_config.IpepsConfig.dtype" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="acetn.ipeps.ipeps_config.IpepsConfig.evolution">
+<span class="sig-name descname"><span class="pre">evolution</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Dict</span></em><a class="headerlink" href="#acetn.ipeps.ipeps_config.IpepsConfig.evolution" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="acetn.ipeps.ipeps_config.IpepsConfig.model">
+<span class="sig-name descname"><span class="pre">model</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Dict</span></em><a class="headerlink" href="#acetn.ipeps.ipeps_config.IpepsConfig.model" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.ipeps.ipeps_config.IpepsConfig.set_device">
+<span class="sig-name descname"><span class="pre">set_device</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.ipeps.ipeps_config.IpepsConfig.set_device" title="Link to this definition"></a></dt>
+<dd><p>Set the device to either the provided value or a default.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.ipeps.ipeps_config.IpepsConfig.set_dtype">
+<span class="sig-name descname"><span class="pre">set_dtype</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dtype</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.ipeps.ipeps_config.IpepsConfig.set_dtype" title="Link to this definition"></a></dt>
+<dd><p>Set the dtype to either the provided value or a default.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="acetn.ipeps.ipeps_config.ModelConfig">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">acetn.ipeps.ipeps_config.</span></span><span class="sig-name descname"><span class="pre">ModelConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">torch.dtype</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">torch.device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.ipeps.ipeps_config.ModelConfig" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="acetn.ipeps.ipeps_config.ModelConfig.device">
+<span class="sig-name descname"><span class="pre">device</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">device</span></em><a class="headerlink" href="#acetn.ipeps.ipeps_config.ModelConfig.device" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="acetn.ipeps.ipeps_config.ModelConfig.dim">
+<span class="sig-name descname"><span class="pre">dim</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#acetn.ipeps.ipeps_config.ModelConfig.dim" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="acetn.ipeps.ipeps_config.ModelConfig.dtype">
+<span class="sig-name descname"><span class="pre">dtype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dtype</span></em><a class="headerlink" href="#acetn.ipeps.ipeps_config.ModelConfig.dtype" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="acetn.ipeps.ipeps_config.ModelConfig.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#acetn.ipeps.ipeps_config.ModelConfig.name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="acetn.ipeps.ipeps_config.ModelConfig.params">
+<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#acetn.ipeps.ipeps_config.ModelConfig.params" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="acetn.ipeps.ipeps_config.TNConfig">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">acetn.ipeps.ipeps_config.</span></span><span class="sig-name descname"><span class="pre">TNConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nx:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ny:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dims:</span> <span class="pre">Dict[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">int]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_site_states:</span> <span class="pre">Literal['ferro'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'neel']</span> <span class="pre">=</span> <span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.ipeps.ipeps_config.TNConfig" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="acetn.ipeps.ipeps_config.TNConfig.dims">
+<span class="sig-name descname"><span class="pre">dims</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#acetn.ipeps.ipeps_config.TNConfig.dims" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="acetn.ipeps.ipeps_config.TNConfig.initial_site_states">
+<span class="sig-name descname"><span class="pre">initial_site_states</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'ferro'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'neel'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#acetn.ipeps.ipeps_config.TNConfig.initial_site_states" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="acetn.ipeps.ipeps_config.TNConfig.nx">
+<span class="sig-name descname"><span class="pre">nx</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#acetn.ipeps.ipeps_config.TNConfig.nx" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="acetn.ipeps.ipeps_config.TNConfig.ny">
+<span class="sig-name descname"><span class="pre">ny</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#acetn.ipeps.ipeps_config.TNConfig.ny" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
-<section id="acetn-ipeps-site-tensor-module">
-<h2>acetn.ipeps.site_tensor module<a class="headerlink" href="#acetn-ipeps-site-tensor-module" title="Link to this heading"></a></h2>
+<section id="module-acetn.ipeps.site_tensor">
+<span id="acetn-ipeps-site-tensor-module"></span><h2>acetn.ipeps.site_tensor module<a class="headerlink" href="#module-acetn.ipeps.site_tensor" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="acetn.ipeps.site_tensor.SiteTensor">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">acetn.ipeps.site_tensor.</span></span><span class="sig-name descname"><span class="pre">SiteTensor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dims</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">site_tensor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">site_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[1.0,</span> <span class="pre">0.0]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">torch.float64</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">device(type='cpu')</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.ipeps.site_tensor.SiteTensor" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A class that represents a site tensor with corner and edge tensors in a tensor network.</p>
+<p>The <cite>SiteTensor</cite> class provides methods to initialize, copy, and manipulate the site tensor, 
+corner tensors, and edge tensors. These tensors are used to form the iPEPS tensor network.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.ipeps.site_tensor.SiteTensor.bond_permute">
+<span class="sig-name descname"><span class="pre">bond_permute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.ipeps.site_tensor.SiteTensor.bond_permute" title="Link to this definition"></a></dt>
+<dd><p>Permutes the bond indices of the site tensor.</p>
+<p>This method returns a version of the site tensor with its bond dimensions permuted by an offset <cite>k</cite>.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>k (int): The offset used to permute the bond dimensions.</p>
+</dd>
+<dt>Returns:</dt><dd><p>torch.Tensor: The permuted site tensor.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.ipeps.site_tensor.SiteTensor.copy">
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">site_tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noise</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.ipeps.site_tensor.SiteTensor.copy" title="Link to this definition"></a></dt>
+<dd><p>Copies the tensors from another <cite>SiteTensor</cite> and adds optional noise to the site tensor.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>site_tensor (SiteTensor): The <cite>SiteTensor</cite> to copy from.
+noise (float, optional): The amount of noise to add to the site tensor (default is 0.0).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.ipeps.site_tensor.SiteTensor.initialize_corner_tensors">
+<span class="sig-name descname"><span class="pre">initialize_corner_tensors</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#acetn.ipeps.site_tensor.SiteTensor.initialize_corner_tensors" title="Link to this definition"></a></dt>
+<dd><p>Initializes the corner tensors for the site tensor.</p>
+<p>The corner tensors are computed from the bond-permuted site tensor using an einsum contraction.
+They are normalized, and stored in <cite>self._corner_tensors</cite>.</p>
+<p>If <cite>initial_condition</cite> is set to “random”, the corner tensors are initialized randomly.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.ipeps.site_tensor.SiteTensor.initialize_edge_tensors">
+<span class="sig-name descname"><span class="pre">initialize_edge_tensors</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#acetn.ipeps.site_tensor.SiteTensor.initialize_edge_tensors" title="Link to this definition"></a></dt>
+<dd><p>Initializes the edge tensors for the site tensor.</p>
+<p>The edge tensors are computed from the bond-permuted site tensor using an einsum contraction.
+They are normalized, and stored in <cite>self._edge_tensors</cite>.</p>
+<p>If <cite>initial_condition</cite> is set to “random”, the edge tensors are initialized randomly.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.ipeps.site_tensor.SiteTensor.initialize_site_tensor">
+<span class="sig-name descname"><span class="pre">initialize_site_tensor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">site_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[1.0]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noise</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.ipeps.site_tensor.SiteTensor.initialize_site_tensor" title="Link to this definition"></a></dt>
+<dd><p>Initializes the site tensor with a given state and optional noise.</p>
+<p>The site tensor is initialized with random values, and the provided <cite>site_state</cite> is added
+to the first entry of the tensor. The tensor is then normalized.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>site_state (list, optional): A list specifying the initial state for the site tensor (default is [1.]).
+noise (float, optional): The amount of noise to add to the site tensor (default is 0.0).</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
-<section id="acetn-ipeps-tensor-network-module">
-<h2>acetn.ipeps.tensor_network module<a class="headerlink" href="#acetn-ipeps-tensor-network-module" title="Link to this heading"></a></h2>
+<section id="module-acetn.ipeps.tensor_network">
+<span id="acetn-ipeps-tensor-network-module"></span><h2>acetn.ipeps.tensor_network module<a class="headerlink" href="#module-acetn.ipeps.tensor_network" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="acetn.ipeps.tensor_network.TensorNetwork">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">acetn.ipeps.tensor_network.</span></span><span class="sig-name descname"><span class="pre">TensorNetwork</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tensor_network</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.ipeps.tensor_network.TensorNetwork" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A class representing a tensor network, specifically for the iPEPS (infinite projected entangled pair states) method.</p>
+<p>This class handles the construction, initialization, and manipulation of a tensor network.
+It supports operations such as saving, loading, and setting up tensor networks, as well as managing the tensors.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.ipeps.tensor_network.TensorNetwork.build_bond_list">
+<span class="sig-name descname"><span class="pre">build_bond_list</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#acetn.ipeps.tensor_network.TensorNetwork.build_bond_list" title="Link to this definition"></a></dt>
+<dd><p>Builds the list of bonds connecting sites in the tensor network.</p>
+<p>This method creates horizontal and vertical bonds between adjacent sites in the lattice.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>list: A list of bonds, where each bond is represented as a list of two sites and the bond direction.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.ipeps.tensor_network.TensorNetwork.build_site_list">
+<span class="sig-name descname"><span class="pre">build_site_list</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#acetn.ipeps.tensor_network.TensorNetwork.build_site_list" title="Link to this definition"></a></dt>
+<dd><p>Builds the list of all sites in the tensor network.</p>
+<p>This method creates a list of all (xi, yi) coordinates for the lattice sites.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>list: A list of all site coordinates in the tensor network.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.ipeps.tensor_network.TensorNetwork.copy">
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tensor_network</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.ipeps.tensor_network.TensorNetwork.copy" title="Link to this definition"></a></dt>
+<dd><p>Copies the tensor network from another instance.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>tensor_network (TensorNetwork): Another instance of TensorNetwork to copy tensors from.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.ipeps.tensor_network.TensorNetwork.initial_site_state_map">
+<span class="sig-name descname"><span class="pre">initial_site_state_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">site</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.ipeps.tensor_network.TensorNetwork.initial_site_state_map" title="Link to this definition"></a></dt>
+<dd><p>Determines the initial state for a site based on the configuration.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>site (tuple): Tuple containing the (x,y) coordinates of the site.</p>
+</dd>
+<dt>Returns:</dt><dd><p>list: The initial state for the site as a list of values.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.ipeps.tensor_network.TensorNetwork.initialize_site_tensors">
+<span class="sig-name descname"><span class="pre">initialize_site_tensors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">site_state_map</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.ipeps.tensor_network.TensorNetwork.initialize_site_tensors" title="Link to this definition"></a></dt>
+<dd><p>Initializes the tensors for the entire tensor network.</p>
+<p>This method creates tensors for all sites in the network and stores them in the <cite>_tensor_network</cite> dictionary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.ipeps.tensor_network.TensorNetwork.load">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.ipeps.tensor_network.TensorNetwork.load" title="Link to this definition"></a></dt>
+<dd><p>Loads the tensor network from a file.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>filename (str): The name of the file to load the tensor network from.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.ipeps.tensor_network.TensorNetwork.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ipeps'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.ipeps.tensor_network.TensorNetwork.save" title="Link to this definition"></a></dt>
+<dd><p>Saves the current tensor network to a file.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>prefix (str): The prefix for the saved file. The file will be saved as “&lt;prefix&gt;.pt”.</p>
+</dd>
+</dl>
+<p>Saves the tensor network and its tensors to a PyTorch .pt file.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.ipeps.tensor_network.TensorNetwork.setup_tensor_network">
+<span class="sig-name descname"><span class="pre">setup_tensor_network</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tensor_network</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.ipeps.tensor_network.TensorNetwork.setup_tensor_network" title="Link to this definition"></a></dt>
+<dd><p>Initializes or copies the tensor network based on the input.</p>
+<p>If no tensor network is provided, it initializes a new one. Otherwise, it copies from the provided network.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>tensor_network (TensorNetwork, optional): Another tensor network to copy from. If None, a new network is created.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
-<section id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Link to this heading"></a></h2>
+<section id="module-acetn.ipeps">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-acetn.ipeps" title="Link to this heading"></a></h2>
 </section>
 </section>
 

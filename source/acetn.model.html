@@ -98,9 +98,39 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="acetn.model.models.html">acetn.model.models package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="acetn.model.models.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="acetn.model.models.html#acetn-model-models-heisenberg-module">acetn.model.models.heisenberg module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="acetn.model.models.html#acetn-model-models-ising-module">acetn.model.models.ising module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="acetn.model.models.html#module-contents">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="acetn.model.models.html#module-acetn.model.models.heisenberg">acetn.model.models.heisenberg module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="acetn.model.models.html#acetn.model.models.heisenberg.HeisenbergModel"><code class="docutils literal notranslate"><span class="pre">HeisenbergModel</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="acetn.model.models.html#acetn.model.models.heisenberg.HeisenbergModel.initial_site_state"><code class="docutils literal notranslate"><span class="pre">HeisenbergModel.initial_site_state()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="acetn.model.models.html#acetn.model.models.heisenberg.HeisenbergModel.one_site_observables"><code class="docutils literal notranslate"><span class="pre">HeisenbergModel.one_site_observables()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="acetn.model.models.html#acetn.model.models.heisenberg.HeisenbergModel.two_site_hamiltonian"><code class="docutils literal notranslate"><span class="pre">HeisenbergModel.two_site_hamiltonian()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="acetn.model.models.html#module-acetn.model.models.ising">acetn.model.models.ising module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="acetn.model.models.html#acetn.model.models.ising.IsingModel"><code class="docutils literal notranslate"><span class="pre">IsingModel</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="acetn.model.models.html#acetn.model.models.ising.IsingModel.one_site_hamiltonian"><code class="docutils literal notranslate"><span class="pre">IsingModel.one_site_hamiltonian()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="acetn.model.models.html#acetn.model.models.ising.IsingModel.one_site_observables"><code class="docutils literal notranslate"><span class="pre">IsingModel.one_site_observables()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="acetn.model.models.html#acetn.model.models.ising.IsingModel.two_site_hamiltonian"><code class="docutils literal notranslate"><span class="pre">IsingModel.two_site_hamiltonian()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="acetn.model.models.html#module-acetn.model.models">Module contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="acetn.model.models.html#acetn.model.models.HeisenbergModel"><code class="docutils literal notranslate"><span class="pre">HeisenbergModel</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="acetn.model.models.html#acetn.model.models.HeisenbergModel.initial_site_state"><code class="docutils literal notranslate"><span class="pre">HeisenbergModel.initial_site_state()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="acetn.model.models.html#acetn.model.models.HeisenbergModel.one_site_observables"><code class="docutils literal notranslate"><span class="pre">HeisenbergModel.one_site_observables()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="acetn.model.models.html#acetn.model.models.HeisenbergModel.two_site_hamiltonian"><code class="docutils literal notranslate"><span class="pre">HeisenbergModel.two_site_hamiltonian()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="acetn.model.models.html#acetn.model.models.IsingModel"><code class="docutils literal notranslate"><span class="pre">IsingModel</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="acetn.model.models.html#acetn.model.models.IsingModel.one_site_hamiltonian"><code class="docutils literal notranslate"><span class="pre">IsingModel.one_site_hamiltonian()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="acetn.model.models.html#acetn.model.models.IsingModel.one_site_observables"><code class="docutils literal notranslate"><span class="pre">IsingModel.one_site_observables()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="acetn.model.models.html#acetn.model.models.IsingModel.two_site_hamiltonian"><code class="docutils literal notranslate"><span class="pre">IsingModel.two_site_hamiltonian()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -278,11 +308,115 @@ It must be extended by specific models like IsingModel or HeisenbergModel.</p>
 </dd></dl>
 
 </section>
-<section id="acetn-model-model-factory-module">
-<h2>acetn.model.model_factory module<a class="headerlink" href="#acetn-model-model-factory-module" title="Link to this heading"></a></h2>
+<section id="module-acetn.model.model_factory">
+<span id="acetn-model-model-factory-module"></span><h2>acetn.model.model_factory module<a class="headerlink" href="#module-acetn.model.model_factory" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="acetn.model.model_factory.ModelFactory">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">acetn.model.model_factory.</span></span><span class="sig-name descname"><span class="pre">ModelFactory</span></span><a class="headerlink" href="#acetn.model.model_factory.ModelFactory" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A factory class for creating and managing model instances.</p>
+<p>The <cite>ModelFactory</cite> class allows for the registration of different model classes and the creation of 
+model instances based on a string identifier. It ensures that models are properly registered and 
+instantiated using the provided configuration.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>_models (dict): A dictionary mapping model names (strings) to their corresponding model classes.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.model.model_factory.ModelFactory.create">
+<span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.model.model_factory.ModelFactory.create" title="Link to this definition"></a></dt>
+<dd><p>Creates an instance of a model based on the registered model name.</p>
+<p>This method instantiates a model class that has been registered under the specified <cite>name</cite> and 
+initializes it with the provided configuration.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>name (str): The name of the registered model.
+config (dict): A configuration dictionary to initialize the model.</p>
+</dd>
+<dt>Raises:</dt><dd><p>KeyError: If the provided model name is not registered.</p>
+</dd>
+<dt>Returns:</dt><dd><p>Model: An instance of the registered model class initialized with the provided configuration.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.model.model_factory.ModelFactory.list_registered">
+<span class="sig-name descname"><span class="pre">list_registered</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#acetn.model.model_factory.ModelFactory.list_registered" title="Link to this definition"></a></dt>
+<dd><p>Lists all the registered model names.</p>
+<p>This method returns a list of all model names that have been registered with the factory.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>list: A list of strings representing the names of all registered models.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.model.model_factory.ModelFactory.register">
+<span class="sig-name descname"><span class="pre">register</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cls</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.model.model_factory.ModelFactory.register" title="Link to this definition"></a></dt>
+<dd><p>Registers a new model class under a given name.</p>
+<p>This method allows users to register new model classes with the factory. The registered class 
+must inherit from the <cite>Model</cite> base class.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>name (str): The name associated with the model class.
+cls (type): The model class that is to be registered.</p>
+</dd>
+<dt>Raises:</dt><dd><p>TypeError: If the provided class does not inherit from the <cite>Model</cite> base class.</p>
+</dd>
+<dt>Returns:</dt><dd><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
-<section id="acetn-model-pauli-matrix-module">
-<h2>acetn.model.pauli_matrix module<a class="headerlink" href="#acetn-model-pauli-matrix-module" title="Link to this heading"></a></h2>
+<section id="module-acetn.model.pauli_matrix">
+<span id="acetn-model-pauli-matrix-module"></span><h2>acetn.model.pauli_matrix module<a class="headerlink" href="#module-acetn.model.pauli_matrix" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="acetn.model.pauli_matrix.PauliMatrix">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">acetn.model.pauli_matrix.</span></span><span class="sig-name descname"><span class="pre">PauliMatrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.model.pauli_matrix.PauliMatrix" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A class that represents a Pauli matrix or identity matrix.</p>
+<p>This class allows operations with Pauli matrices and supports multiplication, addition,
+subtraction, negation, and division. The matrices are represented as tensors, and 
+the operations are performed using PyTorch. The class can handle the four standard 
+Pauli matrices (‘X’, ‘Y’, ‘Z’, ‘I’) and allows scaling and Kronecker product operations.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>key (str): A key representing the Pauli matrix (‘X’, ‘Y’, ‘Z’, ‘I’).
+dtype (torch.dtype): The data type for the matrix.
+device (torch.device): The device (e.g., CPU or CUDA) on which the matrix resides.
+mat (torch.Tensor): The Pauli matrix or identity matrix represented as a tensor.</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="acetn.model.pauli_matrix.PauliMatrix.mat">
+<span class="sig-name descname"><span class="pre">mat</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#acetn.model.pauli_matrix.PauliMatrix.mat" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="acetn.model.pauli_matrix.pauli_matrices">
+<span class="sig-prename descclassname"><span class="pre">acetn.model.pauli_matrix.</span></span><span class="sig-name descname"><span class="pre">pauli_matrices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dtype</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.model.pauli_matrix.pauli_matrices" title="Link to this definition"></a></dt>
+<dd><p>Creates and returns the four Pauli matrices (X, Y, Z, I) as instances of the PauliMatrix class.</p>
+<section id="id11">
+<h3>Parameters:<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>dtype<span class="classifier">torch.dtype</span></dt><dd><p>The data type of the Pauli matrices (e.g., torch.float32, torch.float64).</p>
+</dd>
+<dt>device<span class="classifier">torch.device</span></dt><dd><p>The device on which the Pauli matrices will be allocated (e.g., CPU or GPU).</p>
+</dd>
+</dl>
+</section>
+<section id="id12">
+<h3>Returns:<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>tuple</dt><dd><p>A tuple containing the four Pauli matrices (X, Y, Z, I) as instances of the PauliMatrix class.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
 </section>
 <section id="module-acetn.model">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-acetn.model" title="Link to this heading"></a></h2>
