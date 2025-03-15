@@ -62,7 +62,7 @@ AFM Heisenberg as the target model. The iPEPS is then instantiated with
 
 .. code-block:: python
 
-    from acetn import Ipeps
+    from acetn.ipeps import Ipeps
     import toml
 
     config = toml.load("input.toml")

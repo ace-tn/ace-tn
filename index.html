@@ -88,7 +88,7 @@ tensor-network building blocks, allowing users to quickly setup and manage iPEPS
 <section id="code-example">
 <h2>Code Example<a class="headerlink" href="#code-example" title="Link to this heading"></a></h2>
 <p>The basic workflow of an iPEPS ground-state calculation with Ace-TN can be executed with</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">acetn</span><span class="w"> </span><span class="kn">import</span> <span class="n">Ipeps</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">acetn.ipeps</span><span class="w"> </span><span class="kn">import</span> <span class="n">Ipeps</span>
 <span class="n">ipeps</span> <span class="o">=</span> <span class="n">Ipeps</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
 <span class="n">ipeps</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="n">dtau</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
 <span class="n">measurements</span> <span class="o">=</span> <span class="n">ipeps</span><span class="o">.</span><span class="n">measure</span><span class="p">()</span>

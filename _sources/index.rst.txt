@@ -32,7 +32,7 @@ The basic workflow of an iPEPS ground-state calculation with Ace-TN can be execu
 
 .. code-block:: python
 
-    from acetn import Ipeps
+    from acetn.ipeps import Ipeps
     ipeps = Ipeps(config)
     ipeps.evolve(dtau=0.01, steps=500)
     measurements = ipeps.measure()
