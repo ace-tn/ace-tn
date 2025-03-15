@@ -28,6 +28,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install sphinx sphinx-rtd-theme
+          pip install .
 
       # Step 4: Generate API docs using sphinx-apidoc
       - name: Generate API documentation
