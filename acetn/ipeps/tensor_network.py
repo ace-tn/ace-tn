@@ -31,15 +31,18 @@ class TensorNetwork:
 
     def __getitem__(self, site):
         """
-        Retrieves the tensor at the specified site.
+        Retrieves the site tensor at the specified site.
 
         Args:
             site (tuple): The site at which the tensor is located, represented as a tuple (xi, yi).
 
         Returns:
-            SiteTensor: The tensor at the specified site.
+            SiteTensor: The site tensor at the specified site.
         """
-        return self._tensor_network[site]
+        site_tensor = self._tensor_network.get(site)
+        if site_tensor is None:
+            raise ValueError(f"Site tensor not defined at site {site}.")
+        return site_tensor
 
     def __setitem__(self, site, site_tensor):
         """
@@ -88,6 +91,7 @@ class TensorNetwork:
         """
         state_dict = torch.load(filename)
         self._tensor_network = state_dict['tensors']
+        self.site_states_initialized = True
 
     def setup_tensor_network(self, tensor_network):
         """
