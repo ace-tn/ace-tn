@@ -1,9 +1,8 @@
 import pytest
 import torch
-from ipeps.site_tensor import SiteTensor
-from ipeps.tensor_network import TensorNetwork
-from ipeps.ipeps_config import TNConfig
-
+from acetn.ipeps.site_tensor import SiteTensor
+from acetn.ipeps.tensor_network import TensorNetwork
+from acetn.ipeps.ipeps_config import TNConfig
 
 @pytest.fixture
 def setup_tensor_network():

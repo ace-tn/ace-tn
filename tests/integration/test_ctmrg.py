@@ -1,9 +1,7 @@
 import torch
 import pytest
-import torch.distributed as dist
-from ipeps.ipeps import Ipeps
-from renormalization.directional_mover import DirectionalMover
-from renormalization.ctmrg import ctmrg
+from acetn.ipeps import Ipeps
+from acetn.renormalization.ctmrg import ctmrg
 
 @pytest.fixture
 def ipeps():

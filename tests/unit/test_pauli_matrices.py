@@ -1,6 +1,6 @@
 import pytest
 import torch
-from model.pauli_matrix import PauliMatrix, pauli_matrices
+from acetn.model.pauli_matrix import PauliMatrix, pauli_matrices
 
 @pytest.fixture
 def setup_matrices():

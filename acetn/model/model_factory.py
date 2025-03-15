@@ -1,6 +1,5 @@
 from .model import Model
 from .models import models
-import tqdm
 
 class ModelFactory:
     """

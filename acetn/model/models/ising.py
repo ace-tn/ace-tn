@@ -1,5 +1,5 @@
-from model.model import Model
-from model.pauli_matrix import pauli_matrices
+from ..model import Model
+from ..pauli_matrix import pauli_matrices
 
 class IsingModel(Model):
     def __init__(self, config):

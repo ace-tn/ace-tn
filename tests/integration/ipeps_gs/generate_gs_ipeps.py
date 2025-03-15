@@ -1,4 +1,4 @@
-from ipeps import Ipeps
+from acetn.ipeps import Ipeps
 import toml
 import csv
 

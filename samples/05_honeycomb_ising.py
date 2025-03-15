@@ -1,6 +1,6 @@
-from ipeps import Ipeps
-from model import Model
-from model.pauli_matrix import pauli_matrices
+from acetn.ipeps import Ipeps
+from acetn.model import Model
+from acetn.model.pauli_matrix import pauli_matrices
 import numpy as np
 
 class HoneycombIsingModel(Model):

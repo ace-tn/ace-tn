@@ -1,8 +1,8 @@
 import torch
 import torch.distributed as dist
 import pytest
-from ipeps.ipeps import Ipeps
-from renormalization.directional_mover import DirectionalMover
+from acetn.ipeps import Ipeps
+from acetn.renormalization.directional_mover import DirectionalMover
 
 @pytest.fixture
 def ipeps_and_directional_mover():

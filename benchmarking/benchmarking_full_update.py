@@ -1,8 +1,8 @@
-from ipeps.ipeps import Ipeps
-from model.model_factory import model_factory
-from evolution.full_update import *
-from evolution.gate import Gate
-from utils.benchmarking import record_runtime_ave
+from acetn.ipeps import Ipeps
+from acetn.model.model_factory import model_factory
+from acetn.evolution.full_update import *
+from acetn.evolution.gate import Gate
+from acetn.utils.benchmarking import record_runtime_ave
 from print_device_info import print_device_info
 import sys
 

@@ -1,6 +1,6 @@
 import pytest
 import torch
-from ipeps.site_tensor import SiteTensor
+from acetn.ipeps.site_tensor import SiteTensor
 
 # Sample dimensions for testing
 dims = {

@@ -1,5 +1,5 @@
 from torch import einsum
-from measurement.rdm import RDM
+from .rdm import RDM
 from tqdm import tqdm
 
 def measure(ipeps, model):

@@ -1,7 +1,7 @@
 import torch
 import pytest
-from ipeps.ipeps import Ipeps
-from renormalization.projectors import ProjectorCalculator
+from acetn.ipeps import Ipeps
+from acetn.renormalization.projectors import ProjectorCalculator
 
 @pytest.fixture
 def ipeps_and_projector_calculator():

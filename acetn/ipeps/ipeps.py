@@ -1,13 +1,13 @@
 import torch
 from tqdm import tqdm
-from ipeps.ipeps_config import IpepsConfig
-from ipeps.tensor_network import TensorNetwork
-from renormalization.ctmrg import ctmrg
-from evolution.evolve import evolve
-from measurement.measure import measure
-from model.model_factory import model_factory
-from utils.distributed import *
-from utils.logger import *
+from .ipeps_config import IpepsConfig
+from .tensor_network import TensorNetwork
+from ..renormalization.ctmrg import ctmrg
+from ..evolution.evolve import evolve
+from ..measurement.measure import measure
+from ..model.model_factory import model_factory
+from ..utils.distributed import *
+from ..utils.logger import *
 
 class Ipeps(TensorNetwork):
     """

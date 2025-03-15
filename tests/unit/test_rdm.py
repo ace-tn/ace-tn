@@ -1,7 +1,7 @@
 import pytest
 import torch
-from measurement.rdm import RDM
-from ipeps.site_tensor import SiteTensor
+from acetn.measurement.rdm import RDM
+from acetn.ipeps.site_tensor import SiteTensor
 
 # Mock iPEPS class for testing purposes
 class MockIPEPS:

@@ -1,9 +1,9 @@
 import pytest
 import torch
 from torch import einsum
-from evolution.als_solver import ALSSolver
-from evolution.full_update import *
-from ipeps.ipeps_config import EvolutionConfig
+from acetn.evolution.als_solver import ALSSolver
+from acetn.evolution.full_update import *
+from acetn.ipeps.ipeps_config import EvolutionConfig
 
 @pytest.fixture
 def setup_als_solver():

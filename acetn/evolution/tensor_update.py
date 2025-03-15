@@ -1,4 +1,4 @@
-from utils.benchmarking import record_runtime
+from ..utils.benchmarking import record_runtime
 from abc import ABC, abstractmethod
 
 class TensorUpdater(ABC):

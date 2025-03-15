@@ -1,5 +1,5 @@
 import torch
-from ipeps.site_tensor import SiteTensor
+from .site_tensor import SiteTensor
 
 class TensorNetwork:
     """
@@ -89,7 +89,7 @@ class TensorNetwork:
         Args:
             filename (str): The name of the file to load the tensor network from.
         """
-        state_dict = torch.load(filename)
+        state_dict = torch.load(filename, weights_only=False)
         self._tensor_network = state_dict['tensors']
         self.site_states_initialized = True
 

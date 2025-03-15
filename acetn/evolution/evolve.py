@@ -2,7 +2,7 @@ import time
 from tqdm import tqdm
 from .gate import Gate
 from .fast_full_update import FastFullUpdater
-from utils.logger import logger
+from ..utils.logger import logger
 import logging
 
 def evolve(ipeps, dtau, steps, model, config):

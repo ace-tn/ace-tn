@@ -1,6 +1,6 @@
 from torch import einsum,conj
 from .projectors import ProjectorCalculator
-from utils.distributed import all_gather_tensor
+from ..utils.distributed import all_gather_tensor
 
 class DirectionalMover:
     """

@@ -1,8 +1,8 @@
 import torch
 import torch.distributed as dist
 from .full_update import FullUpdater
-from renormalization.ctmrg import DirectionalMover
-from utils.benchmarking import record_runtime
+from ..renormalization.ctmrg import DirectionalMover
+from ..utils.benchmarking import record_runtime
 
 class FastFullUpdater(FullUpdater):
     """

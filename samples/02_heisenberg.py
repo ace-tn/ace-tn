@@ -1,4 +1,5 @@
-from ipeps import Ipeps
+import acetn
+from acetn.ipeps import Ipeps
 import toml
 
 if __name__=='__main__':

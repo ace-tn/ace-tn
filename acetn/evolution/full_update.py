@@ -1,8 +1,8 @@
 import torch
 from torch import einsum, conj
-from torch.linalg import qr,eigh,svd
-from evolution.tensor_update import TensorUpdater
-from evolution.als_solver import ALSSolver
+from torch.linalg import qr,eigh
+from ..evolution.tensor_update import TensorUpdater
+from ..evolution.als_solver import ALSSolver
 
 class FullUpdater(TensorUpdater):
     """

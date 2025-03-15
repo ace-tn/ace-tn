@@ -1,9 +1,9 @@
 import pytest
 import torch
-from ipeps.ipeps import Ipeps
-from evolution.gate import Gate
-from evolution.full_update import FullUpdater
-from model.model_factory import model_factory
+from acetn.ipeps import Ipeps
+from acetn.evolution.gate import Gate
+from acetn.evolution.full_update import FullUpdater
+from acetn.model.model_factory import model_factory
 
 @pytest.fixture
 def setup_ipeps_and_gate():

@@ -1,7 +1,7 @@
 import torch
-from ipeps.ipeps import Ipeps
-from renormalization.projectors import *
-from utils.benchmarking import record_runtime_ave
+from acetn.ipeps.ipeps import Ipeps
+from acetn.renormalization.projectors import *
+from acetn.utils.benchmarking import record_runtime_ave
 from print_device_info import print_device_info
 import sys
 

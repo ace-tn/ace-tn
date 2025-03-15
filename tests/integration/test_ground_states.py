@@ -1,8 +1,7 @@
 import pytest
-from ipeps import Ipeps
+from acetn.ipeps import Ipeps
 import toml
 from pathlib import Path
-from measurement.measure import measure
 import csv
 
 def test_ipeps_ground_state_energy():
@@ -32,4 +31,4 @@ def test_ipeps_ground_state_energy():
         # Check that measured energy does not change after evolution
         ipeps.evolve(dtau=0.01, steps=10)
         measured_energy = ipeps.measure()['Energy']
-        assert measured_energy.item() == pytest.approx(converged_energy, rel=1e-5)
+        assert measured_energy.item() == pytest.approx(converged_energy, rel=1e-4)

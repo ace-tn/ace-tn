@@ -1,4 +1,4 @@
-from ipeps import Ipeps
+from acetn.ipeps import Ipeps
 
 if __name__=='__main__':
     dims = {}
