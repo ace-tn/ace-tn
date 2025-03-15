@@ -1,0 +1,21 @@
+dtype = "float64"
+device = "cpu"
+
+[TN]
+nx = 2
+ny = 2
+
+[TN.dims]
+phys = 2
+bond = 4
+chi = 24
+
+[ctmrg]
+steps = 10
+projectors = "half-system"
+
+[model]
+name = "heisenberg"
+
+[model.params]
+J = 1.0

@@ -1,0 +1,15 @@
+dtype = "float64"
+device = "cpu"
+
+[tn]
+nx = 2
+ny = 2
+
+[tn.dims]
+phys = 2
+bond = 3
+chi = 30
+
+[ctmrg]
+steps = 40
+projectors = "half-system"
