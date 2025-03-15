@@ -15,6 +15,7 @@ dependencies = [
     "tqdm",
     "toml",
     "scipy",
+    "pytest",
 ]
 
 [tool.setuptools.packages]
