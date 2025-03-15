@@ -1,0 +1,359 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>acetn.evolution package &mdash; Ace-TN 0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=a0da87b8" />
+
+  
+    <link rel="canonical" href="https://ace-tn.github.io/source/acetn.evolution.html" />
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=2709fde1"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="acetn.ipeps package" href="acetn.ipeps.html" />
+    <link rel="prev" title="acetn package" href="acetn.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Ace-TN
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="user_guide.html">User Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="acetn.html">acetn package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="acetn.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">acetn.evolution package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="acetn.ipeps.html">acetn.ipeps package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="acetn.measurement.html">acetn.measurement package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="acetn.model.html">acetn.model package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="acetn.renormalization.html">acetn.renormalization package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="acetn.utils.html">acetn.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="acetn.html#module-acetn">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Ace-TN</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">API Reference</a></li>
+          <li class="breadcrumb-item"><a href="acetn.html">acetn package</a></li>
+      <li class="breadcrumb-item active">acetn.evolution package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/source/acetn.evolution.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="acetn-evolution-package">
+<h1>acetn.evolution package<a class="headerlink" href="#acetn-evolution-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-acetn.evolution.als_solver">
+<span id="acetn-evolution-als-solver-module"></span><h2>acetn.evolution.als_solver module<a class="headerlink" href="#module-acetn.evolution.als_solver" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="acetn.evolution.als_solver.ALSSolver">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">acetn.evolution.als_solver.</span></span><span class="sig-name descname"><span class="pre">ALSSolver</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a12g</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bD</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pD</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nD</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.als_solver.ALSSolver" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A class that implements the Alternating Least Squares (ALS) algorithm to solve for reduced tensors 
+in the context of iPEPS tensor network optimization.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.evolution.als_solver.ALSSolver.calculate_distance">
+<span class="sig-name descname"><span class="pre">calculate_distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a1r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a2r</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.als_solver.ALSSolver.calculate_distance" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.evolution.als_solver.ALSSolver.initialize_reduced_tensors">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">initialize_reduced_tensors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a12g</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bD</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pD</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nD</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.als_solver.ALSSolver.initialize_reduced_tensors" title="Link to this definition"></a></dt>
+<dd><p>Initializes the reduced tensors <cite>a1r</cite> and <cite>a2r</cite> from the gate-contracted tensor <cite>a12g</cite>.</p>
+<p>The method performs a singular value decomposition (SVD) on a reshaped version of the gate-contracted tensor 
+<cite>a12g</cite> and constructs the reduced tensors based on the resulting singular values and vectors.</p>
+<section id="parameters">
+<h3>Parameters:<a class="headerlink" href="#parameters" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>a12g<span class="classifier">Tensor</span></dt><dd><p>The <cite>a1</cite>, <cite>a2</cite>, and gate-contracted tensor to be approximated in the ALS optimization.</p>
+</dd>
+<dt>bD<span class="classifier">int</span></dt><dd><p>The bond dimension of the tensors.</p>
+</dd>
+<dt>pD<span class="classifier">int</span></dt><dd><p>The physical dimension of the tensors.</p>
+</dd>
+</dl>
+</section>
+<section id="returns">
+<h3>Returns:<a class="headerlink" href="#returns" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>tuple</dt><dd><p>A tuple containing the initialized reduced tensors <cite>a1r</cite> and <cite>a2r</cite>.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.evolution.als_solver.ALSSolver.initialize_tensors">
+<span class="sig-name descname"><span class="pre">initialize_tensors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bD</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pD</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nD</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.als_solver.ALSSolver.initialize_tensors" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.evolution.als_solver.ALSSolver.solve">
+<span class="sig-name descname"><span class="pre">solve</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.als_solver.ALSSolver.solve" title="Link to this definition"></a></dt>
+<dd><p>Solves the Alternating Least Squares (ALS) optimization problem by alternating between 
+solving for <cite>a1r</cite> and <cite>a2r</cite> for a fixed number of iterations.</p>
+<p>The method iterates the ALS optimization procedure, solving for one tensor at a time while fixing the other.</p>
+<section id="id1">
+<h3>Returns:<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>tuple</dt><dd><p>A tuple containing the updated reduced tensors (<cite>a1r</cite>, <cite>a2r</cite>).</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.evolution.als_solver.ALSSolver.solve_a1r">
+<span class="sig-name descname"><span class="pre">solve_a1r</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n12g</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a2r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bD</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pD</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nD</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.als_solver.ALSSolver.solve_a1r" title="Link to this definition"></a></dt>
+<dd><p>Solves for the reduced tensor <cite>a1r</cite> in the ALS optimization process.</p>
+<p>This method forms a system of linear equations and solves for <cite>a1r</cite> given the fixed tensor <cite>a2r</cite>.</p>
+<section id="id2">
+<h3>Parameters:<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>n12g<span class="classifier">Tensor</span></dt><dd><p>The modified norm tensor used in the ALS optimization.</p>
+</dd>
+<dt>a2r<span class="classifier">Tensor</span></dt><dd><p>The fixed reduced tensor <cite>a2r</cite>.</p>
+</dd>
+<dt>bD<span class="classifier">int</span></dt><dd><p>The bond dimension of the tensors.</p>
+</dd>
+<dt>pD<span class="classifier">int</span></dt><dd><p>The physical dimension of the tensors.</p>
+</dd>
+</dl>
+</section>
+<section id="id3">
+<h3>Returns:<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>Tensor</dt><dd><p>The solved reduced tensor <cite>a1r</cite>.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.evolution.als_solver.ALSSolver.solve_a2r">
+<span class="sig-name descname"><span class="pre">solve_a2r</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n12g</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a1r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bD</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pD</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nD</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.als_solver.ALSSolver.solve_a2r" title="Link to this definition"></a></dt>
+<dd><p>Solves for the reduced tensor <cite>a2r</cite> in the ALS optimization process.</p>
+<p>This method forms a system of linear equations and solves for <cite>a2r</cite> given the fixed tensor <cite>a1r</cite>.</p>
+<section id="id4">
+<h3>Parameters:<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>n12g<span class="classifier">Tensor</span></dt><dd><p>The modified norm tensor used in the ALS optimization.</p>
+</dd>
+<dt>a1r<span class="classifier">Tensor</span></dt><dd><p>The fixed reduced tensor <cite>a1r</cite>.</p>
+</dd>
+<dt>bD<span class="classifier">int</span></dt><dd><p>The bond dimension of the tensors.</p>
+</dd>
+<dt>pD<span class="classifier">int</span></dt><dd><p>The physical dimension of the tensors.</p>
+</dd>
+</dl>
+</section>
+<section id="id5">
+<h3>Returns:<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>Tensor</dt><dd><p>The solved reduced tensor <cite>a2r</cite>.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.evolution.als_solver.ALSSolver.solve_ar">
+<span class="sig-name descname"><span class="pre">solve_ar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">R</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">S</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bD</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pD</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nD</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.als_solver.ALSSolver.solve_ar" title="Link to this definition"></a></dt>
+<dd><p>Solves the linear system for the reduced tensor using either Cholesky decomposition or pseudoinverse.</p>
+<p>Depending on the chosen method, this function either solves the system using Cholesky decomposition or
+computes the pseudoinverse of the matrix <cite>R</cite> to solve the linear system.</p>
+<section id="id6">
+<h3>Parameters:<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>R<span class="classifier">Tensor</span></dt><dd><p>The matrix representing the linear system to be solved.</p>
+</dd>
+<dt>S<span class="classifier">Tensor</span></dt><dd><p>The right-hand side vector of the linear system.</p>
+</dd>
+<dt>bD<span class="classifier">int</span></dt><dd><p>The bond dimension of the tensors.</p>
+</dd>
+<dt>pD<span class="classifier">int</span></dt><dd><p>The physical dimension of the tensors.</p>
+</dd>
+</dl>
+</section>
+<section id="id7">
+<h3>Returns:<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>Tensor</dt><dd><p>The solved reduced tensor <cite>ar</cite> reshaped to the appropriate dimensions.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="acetn-evolution-evolve-module">
+<h2>acetn.evolution.evolve module<a class="headerlink" href="#acetn-evolution-evolve-module" title="Link to this heading"></a></h2>
+</section>
+<section id="acetn-evolution-fast-full-update-module">
+<h2>acetn.evolution.fast_full_update module<a class="headerlink" href="#acetn-evolution-fast-full-update-module" title="Link to this heading"></a></h2>
+</section>
+<section id="acetn-evolution-full-update-module">
+<h2>acetn.evolution.full_update module<a class="headerlink" href="#acetn-evolution-full-update-module" title="Link to this heading"></a></h2>
+</section>
+<section id="module-acetn.evolution.gate">
+<span id="acetn-evolution-gate-module"></span><h2>acetn.evolution.gate module<a class="headerlink" href="#module-acetn.evolution.gate" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="acetn.evolution.gate.Gate">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">acetn.evolution.gate.</span></span><span class="sig-name descname"><span class="pre">Gate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtau</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bond_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">site_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.gate.Gate" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A class representing quantum gates for one-site and two-site Hamiltonians, 
+used in time evolution algorithms.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.evolution.gate.Gate.build_one_site_gates">
+<span class="sig-name descname"><span class="pre">build_one_site_gates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtau</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">site_list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.gate.Gate.build_one_site_gates" title="Link to this definition"></a></dt>
+<dd><p>Builds the one-site gates for the given list of sites by calculating the exponential of
+the Hamiltonian for each site.</p>
+<section id="id8">
+<h3>Parameters:<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>model<span class="classifier">object</span></dt><dd><p>The model that defines the Hamiltonian for the site.</p>
+</dd>
+<dt>dtau<span class="classifier">float</span></dt><dd><p>The imaginary-time step for the gate calculation.</p>
+</dd>
+<dt>site_list<span class="classifier">list</span></dt><dd><p>A list of sites for which one-site gates will be created.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.evolution.gate.Gate.build_two_site_gates">
+<span class="sig-name descname"><span class="pre">build_two_site_gates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtau</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bond_list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.gate.Gate.build_two_site_gates" title="Link to this definition"></a></dt>
+<dd><p>Builds the two-site gates for the given list of bonds by calculating the exponential of
+the Hamiltonian for each bond and adding contributions from one-site Hamiltonians if necessary.</p>
+<section id="id9">
+<h3>Parameters:<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>model<span class="classifier">object</span></dt><dd><p>The model that defines the Hamiltonians for the bonds and sites.</p>
+</dd>
+<dt>dtau<span class="classifier">float</span></dt><dd><p>The imaginary-time step for the gate calculation.</p>
+</dd>
+<dt>bond_list<span class="classifier">list</span></dt><dd><p>A list of bonds for which two-site gates will be created.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.evolution.gate.Gate.calculate_gate">
+<span class="sig-name descname"><span class="pre">calculate_gate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ham</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtau</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.gate.Gate.calculate_gate" title="Link to this definition"></a></dt>
+<dd><p>Calculates the gate from the Hamiltonian using the matrix exponential and time step.</p>
+<section id="id10">
+<h3>Parameters:<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>ham<span class="classifier">torch.Tensor</span></dt><dd><p>The Hamiltonian matrix for which the gate will be calculated.</p>
+</dd>
+<dt>dtau<span class="classifier">float</span></dt><dd><p>The imaginary-time step for the gate calculation.</p>
+</dd>
+</dl>
+</section>
+<section id="id11">
+<h3>Returns:<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>torch.Tensor</dt><dd><p>The calculated gate for the given Hamiltonian.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="acetn-evolution-tensor-update-module">
+<h2>acetn.evolution.tensor_update module<a class="headerlink" href="#acetn-evolution-tensor-update-module" title="Link to this heading"></a></h2>
+</section>
+<section id="module-acetn.evolution">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-acetn.evolution" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="acetn.html" class="btn btn-neutral float-left" title="acetn package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="acetn.ipeps.html" class="btn btn-neutral float-right" title="acetn.ipeps package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Addison Richards.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

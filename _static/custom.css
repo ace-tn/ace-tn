@@ -1,0 +1,58 @@
+/* Change the color of the links in the navigation bar */
+.wy-nav-top .wy-breadcrumbs a {
+    color: #ffffff;  /* White */
+}
+
+/* Change the color of the headings */
+h1, h2, h3, h4 {
+    color: #333333;  /* Dark blue */
+}
+
+/* Change the color of the active sidebar item */
+.wy-menu-vertical .current {
+    background-color: #111111;  /* Light gray */
+}
+
+.wy-nav-side {
+    background: #333333;  /* Bright red */
+}
+
+.wy-side-nav-search, .wy-nav-top {
+    background: #111111;  /* Bright green */
+}
+
+.caption-text {
+    color: #ffffff;  /* Tomato color for the caption text */
+}
+
+/* a {
+    color: #777777;
+    text-decoration: none;
+}
+
+a:hover {
+    color: inherit;
+}
+
+a:visited {
+    color: inherit;
+}
+*/
+/* Make the main content area wider */
+.wy-nav-content {
+    width: 1100px; /* Adjust percentage as necessary (e.g., 90% for wider) */
+    max-width: none; /* Remove any max-width constraint */
+}
+
+.sphinxsidebar {
+    width: 200px;  /* Adjust the sidebar width */
+}
+
+.sphinxsidebar img {
+    width: 100%;  /* Adjust the image inside the sidebar */
+}
+
+.sphinxsidebar.sidebar {
+    width: auto;  /* Adjust the sidebar width */
+    padding: 0;
+}
