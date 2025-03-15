@@ -1,0 +1,22 @@
+dtype = "float64"
+device = "cpu"
+
+[TN]
+nx = 2
+ny = 2
+
+[TN.dims]
+phys = 2
+bond = 2
+chi = 20
+
+[model]
+name = "ising"
+
+[ctmrg]
+steps = 40
+projectors = "half-system"
+
+[model.params]
+jz = 1.0
+hx = 2.95
