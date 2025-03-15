@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "acetn"
+version = "0.1"
+description = "GPU-accelerated corner-transfer-matrix renormalization of infinite projected entangled-pair states."
+authors = [{ name = "Addison Richards", email = "adsrichards0@gmail.com" }]
+readme = "README.md"
+license = { text = "Apache-2.0" }
+requires-python = ">=3.8"
+dependencies = [
+    "torch",
+    "tqdm",
+    "toml",
+    "scipy",
+]
+
+[tool.setuptools.packages]
+find = { where = ["acetn"] }
+
+[tool.setuptools.package-dir]
+"" = "acetn"
