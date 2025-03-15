@@ -3,7 +3,7 @@ Library for efficient simulation of infinite projected entangled-pair states (iP
 ```bash
 pip install -e .
 ```
-See the examples in the `samples` directory for usage.
+See the project [documentation](https://ace-tn.github.io/ace-tn/) or examples in the `samples` directory for usage.
 
 Run a script `script.py` in multi-GPU mode using `N` processes with
 ```
