@@ -98,43 +98,8 @@
 <section id="acetn-measurement-measure-module">
 <h2>acetn.measurement.measure module<a class="headerlink" href="#acetn-measurement-measure-module" title="Link to this heading"></a></h2>
 </section>
-<section id="module-acetn.measurement.rdm">
-<span id="acetn-measurement-rdm-module"></span><h2>acetn.measurement.rdm module<a class="headerlink" href="#module-acetn.measurement.rdm" title="Link to this heading"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="acetn.measurement.rdm.RDM">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">acetn.measurement.rdm.</span></span><span class="sig-name descname"><span class="pre">RDM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ipeps</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.measurement.rdm.RDM" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>A class that computes the reduced density matrix (RDM) for a given iPEPS tensor network.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="acetn.measurement.rdm.RDM.build_bond_rdm">
-<span class="sig-name descname"><span class="pre">build_bond_rdm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bond</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.measurement.rdm.RDM.build_bond_rdm" title="Link to this definition"></a></dt>
-<dd><p>Builds the reduced density matrix (RDM) for a bond in the iPEPS network.</p>
-<p>This method constructs the bond RDM by contracting tensors from two neighboring sites (bond indices) 
-in the iPEPS network and combining them according to a specific contraction scheme.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>bond (list): A list containing three elements, where the first two are site indices and the third is the bond direction.</p>
-</dd>
-<dt>Returns:</dt><dd><p>torch.Tensor: The reduced density matrix (RDM) for the specified bond.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="acetn.measurement.rdm.RDM.build_site_rdm">
-<span class="sig-name descname"><span class="pre">build_site_rdm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">site</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.measurement.rdm.RDM.build_site_rdm" title="Link to this definition"></a></dt>
-<dd><p>Builds the reduced density matrix (RDM) for a single site in the iPEPS network.</p>
-<p>This method constructs the site RDM by contracting various tensors from the iPEPS object 
-(site tensor ‘A’, corner tensors ‘C’, and edge tensors ‘E’) according to the specified procedure.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>site (tuple): Indices for the site (e.g., a pair of indices in the iPEPS network).</p>
-</dd>
-<dt>Returns:</dt><dd><p>torch.Tensor: The reduced density matrix (RDM) for the specified site.</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
+<section id="acetn-measurement-rdm-module">
+<h2>acetn.measurement.rdm module<a class="headerlink" href="#acetn-measurement-rdm-module" title="Link to this heading"></a></h2>
 </section>
 <section id="module-acetn.measurement">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-acetn.measurement" title="Link to this heading"></a></h2>

@@ -281,53 +281,8 @@ It must be extended by specific models like IsingModel or HeisenbergModel.</p>
 <section id="acetn-model-model-factory-module">
 <h2>acetn.model.model_factory module<a class="headerlink" href="#acetn-model-model-factory-module" title="Link to this heading"></a></h2>
 </section>
-<section id="module-acetn.model.pauli_matrix">
-<span id="acetn-model-pauli-matrix-module"></span><h2>acetn.model.pauli_matrix module<a class="headerlink" href="#module-acetn.model.pauli_matrix" title="Link to this heading"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="acetn.model.pauli_matrix.PauliMatrix">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">acetn.model.pauli_matrix.</span></span><span class="sig-name descname"><span class="pre">PauliMatrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.model.pauli_matrix.PauliMatrix" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>A class that represents a Pauli matrix or identity matrix.</p>
-<p>This class allows operations with Pauli matrices and supports multiplication, addition,
-subtraction, negation, and division. The matrices are represented as tensors, and 
-the operations are performed using PyTorch. The class can handle the four standard 
-Pauli matrices (‘X’, ‘Y’, ‘Z’, ‘I’) and allows scaling and Kronecker product operations.</p>
-<dl class="simple">
-<dt>Attributes:</dt><dd><p>key (str): A key representing the Pauli matrix (‘X’, ‘Y’, ‘Z’, ‘I’).
-dtype (torch.dtype): The data type for the matrix.
-device (torch.device): The device (e.g., CPU or CUDA) on which the matrix resides.
-mat (torch.Tensor): The Pauli matrix or identity matrix represented as a tensor.</p>
-</dd>
-</dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="acetn.model.pauli_matrix.PauliMatrix.mat">
-<span class="sig-name descname"><span class="pre">mat</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#acetn.model.pauli_matrix.PauliMatrix.mat" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="acetn.model.pauli_matrix.pauli_matrices">
-<span class="sig-prename descclassname"><span class="pre">acetn.model.pauli_matrix.</span></span><span class="sig-name descname"><span class="pre">pauli_matrices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dtype</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.model.pauli_matrix.pauli_matrices" title="Link to this definition"></a></dt>
-<dd><p>Creates and returns the four Pauli matrices (X, Y, Z, I) as instances of the PauliMatrix class.</p>
-<section id="id11">
-<h3>Parameters:<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
-<dl class="simple">
-<dt>dtype<span class="classifier">torch.dtype</span></dt><dd><p>The data type of the Pauli matrices (e.g., torch.float32, torch.float64).</p>
-</dd>
-<dt>device<span class="classifier">torch.device</span></dt><dd><p>The device on which the Pauli matrices will be allocated (e.g., CPU or GPU).</p>
-</dd>
-</dl>
-</section>
-<section id="id12">
-<h3>Returns:<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
-<dl class="simple">
-<dt>tuple</dt><dd><p>A tuple containing the four Pauli matrices (X, Y, Z, I) as instances of the PauliMatrix class.</p>
-</dd>
-</dl>
-</section>
-</dd></dl>
-
+<section id="acetn-model-pauli-matrix-module">
+<h2>acetn.model.pauli_matrix module<a class="headerlink" href="#acetn-model-pauli-matrix-module" title="Link to this heading"></a></h2>
 </section>
 <section id="module-acetn.model">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-acetn.model" title="Link to this heading"></a></h2>

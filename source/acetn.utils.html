@@ -94,93 +94,11 @@
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
 </section>
-<section id="module-acetn.utils.benchmarking">
-<span id="acetn-utils-benchmarking-module"></span><h2>acetn.utils.benchmarking module<a class="headerlink" href="#module-acetn.utils.benchmarking" title="Link to this heading"></a></h2>
-<dl class="py function">
-<dt class="sig sig-object py" id="acetn.utils.benchmarking.record_runtime">
-<span class="sig-prename descclassname"><span class="pre">acetn.utils.benchmarking.</span></span><span class="sig-name descname"><span class="pre">record_runtime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.utils.benchmarking.record_runtime" title="Link to this definition"></a></dt>
-<dd><p>A decorator that records the runtime of a function execution.</p>
-<p>This function measures the time taken by the decorated function to execute. 
-If a GPU is available, it uses CUDA events to measure the execution time in seconds.
-If no GPU is available, it falls back to using CPU time with <cite>time.time()</cite>.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>func (function): The function whose runtime needs to be recorded.</p>
-</dd>
-<dt>Returns:</dt><dd><p>A tuple of the function’s output and its runtime in seconds, or just the runtime if the function returns None.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="acetn.utils.benchmarking.record_runtime_ave">
-<span class="sig-prename descclassname"><span class="pre">acetn.utils.benchmarking.</span></span><span class="sig-name descname"><span class="pre">record_runtime_ave</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_record</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_warmup</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.utils.benchmarking.record_runtime_ave" title="Link to this definition"></a></dt>
-<dd><p>A decorator that records the average runtime of a function over multiple executions.</p>
-<p>This function runs the decorated function multiple times, discards the results of
-a warmup phase, and then calculates the average runtime over a specified number
-of executions. If a GPU is available, it uses CUDA events for timing. If profiling 
-is enabled via environment variables, it also supports integration with <cite>nsys</cite> profiling.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>func (function): The function whose average runtime needs to be recorded.
-num_record (int, optional): The number of times to run the function for benchmarking. Default is 20.
-num_warmup (int, optional): The number of warmup iterations to run before benchmarking. Default is 10.</p>
-</dd>
-<dt>Returns:</dt><dd><p>A tuple of the function’s output and its average runtime in seconds, or just the average runtime if the function returns None.</p>
-</dd>
-</dl>
-</dd></dl>
-
+<section id="acetn-utils-benchmarking-module">
+<h2>acetn.utils.benchmarking module<a class="headerlink" href="#acetn-utils-benchmarking-module" title="Link to this heading"></a></h2>
 </section>
-<section id="module-acetn.utils.distributed">
-<span id="acetn-utils-distributed-module"></span><h2>acetn.utils.distributed module<a class="headerlink" href="#module-acetn.utils.distributed" title="Link to this heading"></a></h2>
-<dl class="py function">
-<dt class="sig sig-object py" id="acetn.utils.distributed.all_gather_tensor">
-<span class="sig-prename descclassname"><span class="pre">acetn.utils.distributed.</span></span><span class="sig-name descname"><span class="pre">all_gather_tensor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rank</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ws</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.utils.distributed.all_gather_tensor" title="Link to this definition"></a></dt>
-<dd><p>Gathers tensors from all workers in a distributed setting.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>tensor (Tensor): The tensor to be gathered.
-rank (int): The rank of the current worker.
-ws (int): The total number of workers in the distributed setup.</p>
-</dd>
-<dt>Returns:</dt><dd><p>list: A list of gathered tensors from all workers.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="acetn.utils.distributed.finalize_distributed">
-<span class="sig-prename descclassname"><span class="pre">acetn.utils.distributed.</span></span><span class="sig-name descname"><span class="pre">finalize_distributed</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#acetn.utils.distributed.finalize_distributed" title="Link to this definition"></a></dt>
-<dd><p>Finalizes the distributed environment and cleans up resources.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="acetn.utils.distributed.get_device_count">
-<span class="sig-prename descclassname"><span class="pre">acetn.utils.distributed.</span></span><span class="sig-name descname"><span class="pre">get_device_count</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.utils.distributed.get_device_count" title="Link to this definition"></a></dt>
-<dd><p>Calculate device count for distributed setup on supported devices.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="acetn.utils.distributed.setup_distributed">
-<span class="sig-prename descclassname"><span class="pre">acetn.utils.distributed.</span></span><span class="sig-name descname"><span class="pre">setup_distributed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.utils.distributed.setup_distributed" title="Link to this definition"></a></dt>
-<dd><p>Initializes the distributed environment and device configuration.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>device (torch.device): The device to use (e.g. ‘cpu’ or ‘cuda’).</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="acetn.utils.distributed.setup_distributed_print">
-<span class="sig-prename descclassname"><span class="pre">acetn.utils.distributed.</span></span><span class="sig-name descname"><span class="pre">setup_distributed_print</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rank</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.utils.distributed.setup_distributed_print" title="Link to this definition"></a></dt>
-<dd><p>Redirects print statements to only show from rank 0 in distributed execution.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="acetn.utils.distributed.setup_process_group">
-<span class="sig-prename descclassname"><span class="pre">acetn.utils.distributed.</span></span><span class="sig-name descname"><span class="pre">setup_process_group</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rank</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">world_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.utils.distributed.setup_process_group" title="Link to this definition"></a></dt>
-<dd><p>Initializes the process group for multi-device execution.</p>
-<p>Sets the backend and assigns a device to each rank.</p>
-</dd></dl>
-
+<section id="acetn-utils-distributed-module">
+<h2>acetn.utils.distributed module<a class="headerlink" href="#acetn-utils-distributed-module" title="Link to this heading"></a></h2>
 </section>
 <section id="acetn-utils-logger-module">
 <h2>acetn.utils.logger module<a class="headerlink" href="#acetn-utils-logger-module" title="Link to this heading"></a></h2>
