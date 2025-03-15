@@ -1,5 +1,5 @@
 # Ace-TN
-Corner-transfer matrix renormalizization of infinite projected entangled-pair states with GPU acceleration. To install, use
+Library for efficient simulation of infinite projected entangled-pair states (iPEPS) based on the corner-transfer matrix renormalization group (CTMRG) method with GPU acceleration. To install, use
 ```bash
 pip install -e .
 ```
