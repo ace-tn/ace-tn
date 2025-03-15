@@ -1,11 +1,11 @@
 dtype = "float64"
 device = "cpu"
 
-[tn]
+[TN]
 nx = 2
 ny = 2
 
-[tn.dims]
+[TN.dims]
 phys = 2
 bond = 3
 chi = 30

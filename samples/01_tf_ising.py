@@ -34,24 +34,16 @@ if __name__=='__main__':
 
     ipeps = Ipeps(ipeps_config)
 
-    dtau = 0.1
-    steps = 10
-    ipeps.evolve(dtau, steps=steps)
+    ipeps.evolve(dtau=0.1, steps=10)
     ipeps.measure()
 
-    dtau = 0.01
-    steps = 100
     for _ in range(2):
-        ipeps.evolve(dtau, steps=steps)
+        ipeps.evolve(dtau=0.01, steps=100)
         ipeps.measure()
 
-    dtau = 0.005
-    steps = 50
-    ipeps.evolve(dtau, steps=steps)
+    ipeps.evolve(dtau=0.005, steps=50)
     ipeps.measure()
 
-    dtau = 0.001
-    steps = 50
-    ipeps.evolve(dtau, steps=steps)
+    ipeps.evolve(dtau=0.001, steps=50)
     ipeps.measure()
 

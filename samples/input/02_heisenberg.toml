@@ -8,7 +8,7 @@ ny = 2
 [TN.dims]
 phys = 2
 bond = 4
-chi = 24
+chi = 16
 
 [ctmrg]
 steps = 10
