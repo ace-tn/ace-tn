@@ -1,0 +1,48 @@
+name: Build and Deploy Documentation
+
+on:
+  push:
+    branches:
+      - main  # Trigger on changes to the main branch
+  pull_request:
+    branches:
+      - main  # Trigger on PR to the main branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      # Step 2: Set up Python
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install sphinx sphinx-rtd-theme
+
+      # Step 4: Generate API docs using sphinx-apidoc
+      - name: Generate API documentation
+        run: |
+          sphinx-apidoc -o docs/source/ acetn/
+
+      # Step 5: Build the documentation
+      - name: Build the documentation
+        run: |
+          cd docs
+          make html
+
+      # Step 6: Deploy to GitHub Pages using peaceiris/actions-gh-pages
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: docs/_build/html
