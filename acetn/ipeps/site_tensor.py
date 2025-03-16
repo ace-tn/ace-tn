@@ -32,7 +32,7 @@ class SiteTensor:
         self.initial_condition = None
 
         if site_tensor is None:
-            self.initialize_site_tensor(site_state, noise=1e-1)
+            self.initialize_site_tensor(site_state, noise=1e-2)
             self.initialize_corner_tensors()
             self.initialize_edge_tensors()
         else:
