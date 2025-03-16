@@ -7,12 +7,12 @@ Welcome to the Ace-TN Documentation
 ===================================
 
 
-.. .. sidebar::
-..    :class: sphinxsidebar
+.. sidebar::
+   :class: sphinxsidebar
 
-..    .. image:: source/png/screenshot4.png
-..       :alt: An image in a sidebar
-..       :width: 175px
+   .. image:: source/png/ace_tensors.png
+      :alt: An image in a sidebar
+      :width: 175px
 
 Ace-TN is a framework for simulating infinite projected entangled-pair states (iPEPS) with a focus on
 GPU acceleration. We follow a simple pythonic design philosophy with PyTorch tensors as the primary 
