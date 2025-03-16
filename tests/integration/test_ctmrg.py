@@ -42,4 +42,5 @@ def test_ctmrg(ipeps):
         for site in [(0,0),(1,0),(1,1),(0,1)]:
             for k in range(4):
                 assert isinstance(ipeps, Ipeps)
-                assert not (ipeps[site]['C'][k] == C0_before[site + (k,)]).all()
+                if ipeps[site]['C'][k].shape == C0_before[site + (k,)].shape:
+                    assert not (ipeps[site]['C'][k] == C0_before[site + (k,)]).all()
