@@ -6,13 +6,13 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Transverse-Field Ising Model &mdash; Ace-TN 0.1 documentation</title>
+  <title>Heisenberg Model &mdash; Ace-TN 0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=a0da87b8" />
 
   
-    <link rel="canonical" href="https://ace-tn.github.io/source/example_01_tfim.html" />
+    <link rel="canonical" href="https://ace-tn.github.io/source/example_02_heisenberg.html" />
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../_static/documentation_options.js?v=2709fde1"></script>
@@ -22,8 +22,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Heisenberg Model" href="example_02_heisenberg.html" />
-    <link rel="prev" title="Examples" href="examples.html" /> 
+    <link rel="next" title="Building a Custom Model Hamiltonian" href="example_03_custom_model.html" />
+    <link rel="prev" title="Transverse-Field Ising Model" href="example_01_tfim.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -49,16 +49,15 @@
 <li class="toctree-l1 current"><a class="reference internal" href="user_guide.html">User Guide</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="examples.html">Examples</a><ul class="current">
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Transverse-Field Ising Model</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="example_01_tfim.html">Transverse-Field Ising Model</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Heisenberg Model</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#config-file-setup">Config File Setup</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#initialize-an-ipeps">Initialize an iPEPS</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#evolve-to-the-ground-state">Evolve to the Ground State</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#additional-evolution-steps">Additional Evolution Steps</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#modify-model-parameters">Modify Model Parameters</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#full-code-example">Full Code Example</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="example_02_heisenberg.html">Heisenberg Model</a></li>
 <li class="toctree-l3"><a class="reference internal" href="example_03_custom_model.html">Building a Custom Model Hamiltonian</a></li>
 </ul>
 </li>
@@ -83,9 +82,9 @@
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="user_guide.html">User Guide</a></li>
           <li class="breadcrumb-item"><a href="examples.html">Examples</a></li>
-      <li class="breadcrumb-item active">Transverse-Field Ising Model</li>
+      <li class="breadcrumb-item active">Heisenberg Model</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/source/example_01_tfim.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/source/example_02_heisenberg.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -93,14 +92,15 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="transverse-field-ising-model">
-<h1>Transverse-Field Ising Model<a class="headerlink" href="#transverse-field-ising-model" title="Link to this heading"></a></h1>
-<p>The transverse-field Ising model (TFIM) is a simple model exhibiting a quantum phase transition and a common test subject for iPEPS simulations. The model is defined by the Hamiltonian:</p>
+  <section id="heisenberg-model">
+<h1>Heisenberg Model<a class="headerlink" href="#heisenberg-model" title="Link to this heading"></a></h1>
+<p>The Heisenberg model is a well-known quantum spin model that describes interactions between spins in a lattice. In the case of the Heisenberg spin-1/2 model, the Hamiltonian is given by:</p>
 <div class="math notranslate nohighlight">
-\[H = -J\sum_{\langle i j \rangle} S_i^z S_j^z - h_x \sum_{i} S_i^x\]</div>
+\[H = -J \sum_{\langle i,j \rangle} \mathbf{S}_i \cdot \mathbf{S}_j\]</div>
+<p>The ground-state energy is expected to be -0.669437 from precise quantum Monte Carlo calculations.</p>
 <section id="config-file-setup">
 <h2>Config File Setup<a class="headerlink" href="#config-file-setup" title="Link to this heading"></a></h2>
-<p>To simulate the ground state of this model, first create the config file <cite>input.toml</cite> or any filename that you prefer containing:</p>
+<p>To calculate the ground-state iPEPS, create a config file (<cite>02_heisenberg.toml</cite>) containing:</p>
 <div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="n">dtype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;float64&quot;</span>
 <span class="n">device</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;cpu&quot;</span>
 
@@ -113,15 +113,23 @@
 <span class="n">bond</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span>
 <span class="n">chi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">16</span>
 
+<span class="k">[ctmrg]</span>
+<span class="n">steps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span>
+<span class="n">projectors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;half-system&quot;</span>
+
 <span class="k">[model]</span>
-<span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;ising&quot;</span>
+<span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;heisenberg&quot;</span>
 
 <span class="k">[model.params]</span>
-<span class="n">jz</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0</span>
-<span class="n">hx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.1</span>
+<span class="n">J</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0</span>
 </pre></div>
 </div>
-<p>The first two parameters set the data type and which device to store the tensors. The <cite>TN</cite> entries specify the tensor-network unit cell and dimensions, and the <cite>model</cite> entries specify the name of the predefined model to use. Predefined models such as “ising” and “heisenberg” are supplied mainly for testing and benchmarking purposes.</p>
+<p>The configuration file specifies the data type (<cite>dtype</cite>) and device (<cite>device</cite>), the tensor network (<cite>TN</cite>) properties, and the model parameters.</p>
+<ul class="simple">
+<li><p>The <cite>TN</cite> section specifies the dimensions of the tensor network. The values <cite>nx</cite> and <cite>ny</cite> define the size of the unit cell, and <cite>dims</cite> specifies the physical dimension (<cite>phys</cite>), bond dimension (<cite>bond</cite>), and the maximum corner bond dimension (<cite>chi</cite>).</p></li>
+<li><p>The <cite>ctmrg</cite> section specifies the number of steps for the CTMRG algorithm and the type of projectors used for the algorithm.</p></li>
+<li><p>The <cite>model</cite> section defines the model to be used, in this case, the Heisenberg model, and its corresponding parameter (<cite>J</cite>).</p></li>
+</ul>
 </section>
 <section id="initialize-an-ipeps">
 <h2>Initialize an iPEPS<a class="headerlink" href="#initialize-an-ipeps" title="Link to this heading"></a></h2>
@@ -129,11 +137,11 @@
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">acetn.ipeps</span><span class="w"> </span><span class="kn">import</span> <span class="n">Ipeps</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">toml</span>
 
-<span class="n">config</span> <span class="o">=</span> <span class="n">toml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;input.toml&#39;</span><span class="p">)</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">toml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;./input/02_heisenberg.toml&#39;</span><span class="p">)</span>
 <span class="n">ipeps</span> <span class="o">=</span> <span class="n">Ipeps</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The iPEPS site tensors are initialized in the ferromagnetic configuration for the Ising model with some noise. This is already close to the ground state, but not exactly. The ground state is typically found after a few hundred steps of imaginary-time evolution.</p>
+<p>The iPEPS site tensors are initialized in the Neel-ordered configuration for the Heisenberg model.</p>
 </section>
 <section id="evolve-to-the-ground-state">
 <h2>Evolve to the Ground State<a class="headerlink" href="#evolve-to-the-ground-state" title="Link to this heading"></a></h2>
@@ -142,65 +150,45 @@
 <span class="n">ipeps</span><span class="o">.</span><span class="n">measure</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>The iPEPS should now be close to the ground state.</p>
+<p>Using a large imaginary-time step <cite>dtau=0.1</cite> will bring the system closer to the ground state faster than a smaller step size (e.g. <cite>dtau=0.01</cite>).</p>
 </section>
 <section id="additional-evolution-steps">
 <h2>Additional Evolution Steps<a class="headerlink" href="#additional-evolution-steps" title="Link to this heading"></a></h2>
-<p>For improved accuracy, the iPEPS can be evolved for more steps:</p>
+<p>To refine the approximation, we can continue evolving the system using smaller time steps:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
     <span class="n">ipeps</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="n">dtau</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
     <span class="n">ipeps</span><span class="o">.</span><span class="n">measure</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>The evolution steps here use smaller <cite>dtau</cite> values for finer updates, iterating multiple times to refine the approximation of the ground state.</p>
-</section>
-<section id="modify-model-parameters">
-<h2>Modify Model Parameters<a class="headerlink" href="#modify-model-parameters" title="Link to this heading"></a></h2>
-<p>The iPEPS can be evolved again with different model parameters. For example, to use the converged iPEPS to determine the ground state at a different field value (e.g., <cite>hx=0.2</cite>), this can be done by:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ipeps</span><span class="o">.</span><span class="n">set_model_params</span><span class="p">(</span><span class="n">hx</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
-<span class="n">ipeps</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="n">dtau</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
-</pre></div>
-</div>
+<p>It is a good practice to start with a larger time step at first and then decrease the time step in further iterations to attain better accuracy.</p>
 </section>
 <section id="full-code-example">
 <h2>Full Code Example<a class="headerlink" href="#full-code-example" title="Link to this heading"></a></h2>
-<p>Here is a complete code example that initializes an iPEPS, evolves it to the ground state, and measures the observables using <cite>hx=0.1</cite> and <cite>hx=0.2</cite>:</p>
+<p>Here is a complete Python script that initializes the iPEPS, evolves it to the ground state, and measures the observables:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">acetn.ipeps</span><span class="w"> </span><span class="kn">import</span> <span class="n">Ipeps</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">toml</span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
-    <span class="c1"># Initialize iPEPS</span>
     <span class="n">ipeps</span> <span class="o">=</span> <span class="n">Ipeps</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
 
-    <span class="c1"># Determine ground state for hx=0.1 and measure observables</span>
-    <span class="n">ipeps</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="n">dtau</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
-    <span class="n">measurements</span> <span class="o">=</span> <span class="n">ipeps</span><span class="o">.</span><span class="n">measure</span><span class="p">()</span>
+    <span class="c1"># Initial evolution step</span>
+    <span class="n">ipeps</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="n">dtau</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">ipeps</span><span class="o">.</span><span class="n">measure</span><span class="p">()</span>
 
-    <span class="c1"># Determine ground state for hx=0.2 and measure observables</span>
-    <span class="n">ipeps</span><span class="o">.</span><span class="n">set_model_params</span><span class="p">(</span><span class="n">hx</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
-    <span class="n">ipeps</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="n">dtau</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
-    <span class="n">measurements</span> <span class="o">=</span> <span class="n">ipeps</span><span class="o">.</span><span class="n">measure</span><span class="p">()</span>
+    <span class="c1"># Additional evolution steps</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+        <span class="n">ipeps</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="n">dtau</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+        <span class="n">ipeps</span><span class="o">.</span><span class="n">measure</span><span class="p">()</span>
 
-<span class="k">if</span> <span class="vm">__name__</span><span class="o">==</span><span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
-    <span class="n">config</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s1">&#39;dtype&#39;</span><span class="p">:</span> <span class="s2">&quot;float64&quot;</span><span class="p">,</span>
-        <span class="s1">&#39;device&#39;</span><span class="p">:</span> <span class="s2">&quot;cpu&quot;</span><span class="p">,</span>
-        <span class="s1">&#39;TN&#39;</span><span class="p">:{</span>
-            <span class="s1">&#39;nx&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
-            <span class="s1">&#39;ny&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
-            <span class="s1">&#39;dims&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;phys&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;bond&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;chi&#39;</span><span class="p">:</span><span class="mi">20</span><span class="p">},</span>
-        <span class="p">},</span>
-        <span class="s1">&#39;model&#39;</span><span class="p">:{</span>
-            <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;ising&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;params&#39;</span><span class="p">:{</span>
-                <span class="s1">&#39;jz&#39;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
-                <span class="s1">&#39;hx&#39;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>
-            <span class="p">},</span>
-        <span class="p">},</span>
-    <span class="p">}</span>
-
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="c1"># Set config options in the input file: &quot;02_heisenberg.toml&quot;</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">toml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;./input/02_heisenberg.toml&quot;</span><span class="p">)</span>
     <span class="n">main</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
 </pre></div>
 </div>
+<p>In this script:
+- The <cite>main</cite> function takes the config file as an argument, initializes the iPEPS object, and runs the evolution steps.
+- The initial evolution step uses a larger <cite>dtau</cite> to quickly approach the ground state, followed by finer updates in the loop with smaller <cite>dtau</cite> values.</p>
 </section>
 </section>
 
@@ -208,8 +196,8 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="examples.html" class="btn btn-neutral float-left" title="Examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="example_02_heisenberg.html" class="btn btn-neutral float-right" title="Heisenberg Model" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="example_01_tfim.html" class="btn btn-neutral float-left" title="Transverse-Field Ising Model" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="example_03_custom_model.html" class="btn btn-neutral float-right" title="Building a Custom Model Hamiltonian" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

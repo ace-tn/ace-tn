@@ -1,0 +1,268 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Building a Custom Model Hamiltonian &mdash; Ace-TN 0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=a0da87b8" />
+
+  
+    <link rel="canonical" href="https://ace-tn.github.io/source/example_03_custom_model.html" />
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=2709fde1"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="API Reference" href="modules.html" />
+    <link rel="prev" title="Heisenberg Model" href="example_02_heisenberg.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Ace-TN
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="user_guide.html">User Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="examples.html">Examples</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="example_01_tfim.html">Transverse-Field Ising Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="example_02_heisenberg.html">Heisenberg Model</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Building a Custom Model Hamiltonian</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#define-the-custom-model-class">Define the Custom Model Class</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#define-one-site-observables">Define One-Site Observables</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#define-the-two-site-hamiltonian">Define the Two-Site Hamiltonian</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#define-the-one-site-hamiltonian">Define the One-Site Hamiltonian</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#setting-the-custom-model-class">Setting the Custom Model Class</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#start-imaginary-time-evolution">Start Imaginary-Time Evolution</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sweeping-through-the-phase-transition">Sweeping through the Phase Transition</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#full-code-example">Full Code Example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Ace-TN</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="user_guide.html">User Guide</a></li>
+          <li class="breadcrumb-item"><a href="examples.html">Examples</a></li>
+      <li class="breadcrumb-item active">Building a Custom Model Hamiltonian</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/source/example_03_custom_model.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="building-a-custom-model-hamiltonian">
+<h1>Building a Custom Model Hamiltonian<a class="headerlink" href="#building-a-custom-model-hamiltonian" title="Link to this heading"></a></h1>
+<p>We show how to build a custom Hamiltonian using the Ising model as an example.</p>
+<section id="define-the-custom-model-class">
+<h2>Define the Custom Model Class<a class="headerlink" href="#define-the-custom-model-class" title="Link to this heading"></a></h2>
+<p>To define a custom Hamiltonian model, you need to create a new class that inherits from the <cite>Model</cite> class. This class must implement a method defining the two-site Hamiltonian. Optionally, you can also define a one-site Hamiltonian term, one-site observables, and two-site observables.</p>
+<p>Here is how to define a custom model class:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">CustomModel</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <cite>__init__</cite> method initializes the custom model by calling the constructor of the <cite>Model</cite> class. It takes in the configuration (<cite>config</cite>), which contains the model config.</p>
+</section>
+<section id="define-one-site-observables">
+<h2>Define One-Site Observables<a class="headerlink" href="#define-one-site-observables" title="Link to this heading"></a></h2>
+<p>The <cite>one_site_observables</cite> method defines the observables to be measured at each site. For this example, we define the Pauli matrices X and Z as the observables. We provide the Pauli matrices to help with setting up spin-1/2 models, but it is not required to use them.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">one_site_observables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">site</span><span class="p">):</span>
+    <span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">Z</span><span class="p">,</span><span class="n">I</span> <span class="o">=</span> <span class="n">pauli_matrices</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+    <span class="n">observables</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;sx&quot;</span><span class="p">:</span> <span class="n">X</span><span class="p">,</span> <span class="s2">&quot;sz&quot;</span><span class="p">:</span> <span class="n">Z</span><span class="p">}</span>
+    <span class="k">return</span> <span class="n">observables</span>
+</pre></div>
+</div>
+<p>In this method:</p>
+<ul class="simple">
+<li><p>The <cite>pauli_matrices</cite> function is used to retrieve the Pauli matrices for the given data type (<cite>dtype</cite>) and device (<cite>device</cite>).</p></li>
+<li><p>The <cite>observables</cite> dictionary contains the spin operators used to calculate one-site measurements.</p></li>
+</ul>
+</section>
+<section id="define-the-two-site-hamiltonian">
+<h2>Define the Two-Site Hamiltonian<a class="headerlink" href="#define-the-two-site-hamiltonian" title="Link to this heading"></a></h2>
+<p>The <cite>two_site_hamiltonian</cite> method defines the interaction between two neighboring sites. In this case, we define a ( Z )-type interaction between the sites, with an interaction strength parameter <cite>Jz</cite>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">two_site_hamiltonian</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bond</span><span class="p">):</span>
+    <span class="n">Jz</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Jz&#39;</span><span class="p">)</span>
+    <span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">Z</span><span class="p">,</span><span class="n">I</span> <span class="o">=</span> <span class="n">pauli_matrices</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+    <span class="k">return</span> <span class="o">-</span><span class="n">Jz</span><span class="o">*</span><span class="n">Z</span><span class="o">*</span><span class="n">Z</span>
+</pre></div>
+</div>
+<p>In this method:</p>
+<ul class="simple">
+<li><p>The <cite>bond</cite> parameter contains the sites and bond direction (e.g. [site_1, site_2, k]). Although it is not explicitly used here, the <cite>bond</cite> parameter is useful for defining bond-dependent hamiltonians.</p></li>
+<li><p>The interaction between the two sites is given by -Jz*Z*Z, where Z is the Pauli-Z matrix, and <cite>Jz</cite> is the interaction strength.</p></li>
+</ul>
+</section>
+<section id="define-the-one-site-hamiltonian">
+<h2>Define the One-Site Hamiltonian<a class="headerlink" href="#define-the-one-site-hamiltonian" title="Link to this heading"></a></h2>
+<p>You can define a one-site Hamiltonian term using the <cite>one_site_hamiltonian</cite> method. In this example, we define a term that represents an external magnetic field in the ( x )-direction, controlled by the parameter <cite>hx</cite>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">one_site_hamiltonian</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">site</span><span class="p">):</span>
+    <span class="n">hx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;hx&#39;</span><span class="p">)</span>
+    <span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">Z</span><span class="p">,</span><span class="n">I</span> <span class="o">=</span> <span class="n">pauli_matrices</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+    <span class="k">return</span> <span class="o">-</span><span class="n">hx</span><span class="o">*</span><span class="n">X</span>
+</pre></div>
+</div>
+<p>In this method:</p>
+<ul class="simple">
+<li><p>The <cite>hx</cite> parameter controls the strength of the magnetic field along the x-axis.</p></li>
+<li><p>The term -hx*X represents the interaction of each spin with the external magnetic field along the x-direction.</p></li>
+</ul>
+</section>
+<section id="setting-the-custom-model-class">
+<h2>Setting the Custom Model Class<a class="headerlink" href="#setting-the-custom-model-class" title="Link to this heading"></a></h2>
+<p>To use the custom model in your iPEPS simulation, you need to register the model with the iPEPS instance. This allows iPEPS to use your custom Hamiltonian during the evolution steps.</p>
+<p>Here is how to initialize an iPEPS instance and use the custom model:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ipeps_config</span> <span class="o">=</span> <span class="n">toml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;./input/03_custom_model.toml&quot;</span><span class="p">)</span>
+<span class="n">ipeps</span> <span class="o">=</span> <span class="n">Ipeps</span><span class="p">(</span><span class="n">ipeps_config</span><span class="p">)</span>
+
+<span class="c1"># Set up the custom model and parameters</span>
+<span class="n">ipeps</span><span class="o">.</span><span class="n">set_model</span><span class="p">(</span><span class="n">CustomModel</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;Jz&#39;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span> <span class="s1">&#39;hx&#39;</span><span class="p">:</span> <span class="mf">2.5</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>The <cite>set_model</cite> function registers the custom model, where <cite>CustomModel</cite> is the model class we defined earlier, and the parameters <cite>Jz=1.0</cite> and <cite>hx=2.5</cite> are provided as the initial values for the model parameters.</p>
+</section>
+<section id="start-imaginary-time-evolution">
+<h2>Start Imaginary-Time Evolution<a class="headerlink" href="#start-imaginary-time-evolution" title="Link to this heading"></a></h2>
+<p>Once the model is set up, you can start the imaginary-time evolution to compute the ground state.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ipeps</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="n">dtau</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="sweeping-through-the-phase-transition">
+<h2>Sweeping through the Phase Transition<a class="headerlink" href="#sweeping-through-the-phase-transition" title="Link to this heading"></a></h2>
+<p>The TF-Ising model exhibits a second-order phase transition near <cite>hx=3</cite>. We can calculate the ground state across the transition efficiently by slowly incrementing the field after sufficient imaginary-time evolution steps:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">hx</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">2.5</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">):</span>
+    <span class="n">ipeps</span><span class="o">.</span><span class="n">set_model_params</span><span class="p">(</span><span class="n">hx</span><span class="o">=</span><span class="n">hx</span><span class="p">)</span>
+    <span class="n">ipeps</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="n">dtau</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In this example:</p>
+<ul class="simple">
+<li><p>The time step <cite>dtau</cite> is reduced to <cite>0.01</cite> for finer updates.</p></li>
+<li><p>The number of steps is increased to <cite>500</cite> for more accurate results.</p></li>
+<li><p>The external field parameter <cite>hx</cite> is varied between <cite>2.5</cite> and <cite>3.5</cite> in increments of <cite>0.1</cite>.</p></li>
+</ul>
+</section>
+<section id="full-code-example">
+<h2>Full Code Example<a class="headerlink" href="#full-code-example" title="Link to this heading"></a></h2>
+<p>Here is a complete Python script that demonstrates how to use the custom Hamiltonian model with iPEPS:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">acetn.ipeps</span><span class="w"> </span><span class="kn">import</span> <span class="n">Ipeps</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">acetn.model</span><span class="w"> </span><span class="kn">import</span> <span class="n">Model</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">acetn.model.pauli_matrix</span><span class="w"> </span><span class="kn">import</span> <span class="n">pauli_matrices</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">toml</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">CustomModel</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">one_site_observables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">site</span><span class="p">):</span>
+        <span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">Z</span><span class="p">,</span><span class="n">I</span> <span class="o">=</span> <span class="n">pauli_matrices</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+        <span class="n">observables</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;sx&quot;</span><span class="p">:</span> <span class="n">X</span><span class="p">,</span> <span class="s2">&quot;sz&quot;</span><span class="p">:</span> <span class="n">Z</span><span class="p">}</span>
+        <span class="k">return</span> <span class="n">observables</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">two_site_hamiltonian</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bond</span><span class="p">):</span>
+        <span class="n">Jz</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Jz&#39;</span><span class="p">)</span>
+        <span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">Z</span><span class="p">,</span><span class="n">I</span> <span class="o">=</span> <span class="n">pauli_matrices</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+        <span class="k">return</span> <span class="o">-</span><span class="n">Jz</span><span class="o">*</span><span class="n">Z</span><span class="o">*</span><span class="n">Z</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">one_site_hamiltonian</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">site</span><span class="p">):</span>
+        <span class="n">hx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;hx&#39;</span><span class="p">)</span>
+        <span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">Z</span><span class="p">,</span><span class="n">I</span> <span class="o">=</span> <span class="n">pauli_matrices</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+        <span class="k">return</span> <span class="o">-</span><span class="n">hx</span><span class="o">*</span><span class="n">X</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="c1"># Initialize the iPEPS</span>
+    <span class="n">ipeps_config</span> <span class="o">=</span> <span class="n">toml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;./input/03_custom_model.toml&quot;</span><span class="p">)</span>
+    <span class="n">ipeps</span> <span class="o">=</span> <span class="n">Ipeps</span><span class="p">(</span><span class="n">ipeps_config</span><span class="p">)</span>
+
+    <span class="c1"># Set the custom model</span>
+    <span class="n">ipeps</span><span class="o">.</span><span class="n">set_model</span><span class="p">(</span><span class="n">CustomModel</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;Jz&#39;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span> <span class="s1">&#39;hx&#39;</span><span class="p">:</span> <span class="mf">2.5</span><span class="p">})</span>
+
+    <span class="c1"># Parameter sweep through the 2nd-order transition</span>
+    <span class="n">ipeps</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="n">dtau</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">hx</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">2.5</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">):</span>
+        <span class="n">ipeps</span><span class="o">.</span><span class="n">set_model_params</span><span class="p">(</span><span class="n">hx</span><span class="o">=</span><span class="n">hx</span><span class="p">)</span>
+        <span class="n">ipeps</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="n">dtau</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="example_02_heisenberg.html" class="btn btn-neutral float-left" title="Heisenberg Model" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="modules.html" class="btn btn-neutral float-right" title="API Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Addison Richards.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
