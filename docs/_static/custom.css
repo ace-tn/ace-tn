@@ -55,4 +55,9 @@ a:visited {
 .sphinxsidebar.sidebar {
     width: auto;  /* Adjust the sidebar width */
     padding: 0;
+    pointer-events: none;
+}
+
+.sphinxsidebar.sidebar * {
+    pointer-events: none;
 }
