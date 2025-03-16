@@ -7,9 +7,5 @@ ny = 2
 
 [TN.dims]
 phys = 2
-bond = 3
-chi = 30
-
-[ctmrg]
-steps = 40
-projectors = "half-system"
+bond = 2
+chi = 20

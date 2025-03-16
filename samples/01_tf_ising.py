@@ -1,23 +1,28 @@
 from acetn.ipeps import Ipeps
 
+def main(config):
+    # initialize an iPEPS
+    ipeps = Ipeps(config)
+
+    # Evolve for a few steps at large dtau=0.1
+    ipeps.evolve(dtau=0.1, steps=10)
+    ipeps.measure()
+
+    # Evolve for many more steps at smaller dtau=0.01
+    for _ in range(5):
+        ipeps.evolve(dtau=0.01, steps=100)
+        ipeps.measure()
+
+
 if __name__=='__main__':
-    dims = {}
-    dims['phys'] = 2
-    dims['bond'] = 2
-    dims['chi'] = 20
-
-    ctmrg_steps = 40
-
-    dtype = "float64"
-    device = "cpu"
-
-    ipeps_config = {
-        'dtype': dtype,
-        'device': device,
+    # Basic config for the TFIM with hx=2.95
+    config = {
+        'dtype': "float64",
+        'device': "cpu",
         'TN':{
-            'dims': dims,
             'nx': 2,
             'ny': 2,
+            'dims': {'phys':2, 'bond':2, 'chi':20},
         },
         'model':{
             'name': 'ising',
@@ -26,24 +31,6 @@ if __name__=='__main__':
                 'hx': 2.95,
             },
         },
-        'ctmrg':{
-            'steps': ctmrg_steps,
-            'projectors': 'half-system',
-        },
     }
 
-    ipeps = Ipeps(ipeps_config)
-
-    ipeps.evolve(dtau=0.1, steps=10)
-    ipeps.measure()
-
-    for _ in range(2):
-        ipeps.evolve(dtau=0.01, steps=100)
-        ipeps.measure()
-
-    ipeps.evolve(dtau=0.005, steps=50)
-    ipeps.measure()
-
-    ipeps.evolve(dtau=0.001, steps=50)
-    ipeps.measure()
-
+    main(config)
