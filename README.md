@@ -1,4 +1,4 @@
-# Ace-TN: Simple and Efficient iPEPS Simulation with GPU Support
+# Ace-TN: Simple and Efficient iPEPS Simulation
 ## About
 Ace-TN is a library designed to make the simulation of infinite projected entangled-pair states (iPEPS) more efficient, using the corner-transfer matrix renormalization group (CTMRG) method. It includes basic GPU support to help speed up computations, especially for larger systems.
 
