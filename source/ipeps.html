@@ -100,23 +100,17 @@
 <ul class="simple">
 <li><p><strong>Configuration:</strong> Creating an <code class="docutils literal notranslate"><span class="pre">IpepsConfig</span></code> from a provided configuration dictionary.</p></li>
 <li><p><strong>Distributed Setup:</strong> Initializing and finalizing the distributed computing environment via the <code class="docutils literal notranslate"><span class="pre">setup_distributed()</span></code> and <code class="docutils literal notranslate"><span class="pre">finalize_distributed()</span></code> functions.</p></li>
-<li><p><strong>Logging:</strong> Recording an initial log message using <code class="docutils literal notranslate"><span class="pre">log_initial_message()</span></code>.</p></li>
 <li><p><strong>Inheritance:</strong> Calling the parent TensorNetwork constructor to build the underlying tensor network.</p></li>
 </ul>
 <p>Example:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Example configuration dictionary for iPEPS simulation.</span>
 <span class="n">config</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;nx&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
-    <span class="s1">&#39;ny&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
-    <span class="s1">&#39;dims&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;bond&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;phys&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;chi&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">},</span>
-    <span class="s1">&#39;initial_site_states&#39;</span><span class="p">:</span> <span class="s1">&#39;ferro&#39;</span><span class="p">,</span>
     <span class="s1">&#39;dtype&#39;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span>
     <span class="s1">&#39;device&#39;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s1">&#39;cpu&#39;</span><span class="p">),</span>
     <span class="s1">&#39;TN&#39;</span><span class="p">:</span> <span class="p">{</span>  <span class="c1"># TensorNetwork-specific parameters.</span>
         <span class="s1">&#39;nx&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
         <span class="s1">&#39;ny&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
-        <span class="s1">&#39;dims&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;bond&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;phys&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;chi&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">},</span>
-        <span class="s1">&#39;initial_site_states&#39;</span><span class="p">:</span> <span class="s1">&#39;ferro&#39;</span>
+        <span class="s1">&#39;dims&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;phys&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;bond&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;chi&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">},</span>
     <span class="p">}</span>
 <span class="p">}</span>
 
@@ -137,13 +131,12 @@
 </ul>
 <p>Example:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Example configuration for the TensorNetwork.</span>
-<span class="k">class</span><span class="w"> </span><span class="nc">Config</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">TNConfig</span><span class="p">:</span>
     <span class="n">nx</span> <span class="o">=</span> <span class="mi">4</span>
     <span class="n">ny</span> <span class="o">=</span> <span class="mi">4</span>
-    <span class="n">dims</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;bond&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;phys&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;chi&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}</span>
-    <span class="n">initial_site_states</span> <span class="o">=</span> <span class="s1">&#39;ferro&#39;</span>
+    <span class="n">dims</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;phys&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;bond&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;chi&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}</span>
 
-<span class="n">config</span> <span class="o">=</span> <span class="n">Config</span><span class="p">()</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">TNConfig</span><span class="p">()</span>
 
 <span class="c1"># Create a new TensorNetwork.</span>
 <span class="n">tensor_network</span> <span class="o">=</span> <span class="n">TensorNetwork</span><span class="p">(</span><span class="n">tensor_network</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&quot;cpu&quot;</span><span class="p">))</span>
@@ -163,13 +156,13 @@
 - <strong>C (Corner Tensors):</strong> A list of tensors representing the corners.
 - <strong>E (Edge Tensors):</strong> A list of tensors representing the edges.</p>
 <p>Initialization requires a dimensions dictionary that includes:
-- <strong>bond:</strong> Bond dimension.
 - <strong>phys:</strong> Physical dimension.
+- <strong>bond:</strong> Bond dimension.
 - <strong>chi:</strong> Auxiliary dimension for the corner and edge tensors.</p>
 <p>The constructor can also take an initial state for the site tensor. It is important that the length of the <code class="docutils literal notranslate"><span class="pre">site_state</span></code> list matches the physical dimension (<code class="docutils literal notranslate"><span class="pre">phys</span></code>).</p>
 <p>Example:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define the dimensions for the tensor network.</span>
-<span class="n">dims</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;bond&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;phys&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;chi&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}</span>
+<span class="n">dims</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;phys&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;bond&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;chi&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}</span>
 
 <span class="c1"># Define an initial state for the site tensor (length must equal &#39;phys&#39;).</span>
 <span class="n">site_state</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span>
