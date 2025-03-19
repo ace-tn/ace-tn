@@ -142,6 +142,12 @@ Below is the complete Python script demonstrating the Quantum Compass model with
             elif self.bond_direction(bond) in ["+y", "-y"]:
                 return -0.25 * jz * Z * Z
 
+        def one_site_hamiltonian(self, site):
+            hx = self.params.get('hx')
+            hz = self.params.get('hz')
+            X,Y,Z,I = pauli_matrices(self.dtype, self.device)
+            return -hx*X - hz*Z
+
         def two_site_observables(self, bond):
             observables = {}
             X, Y, Z, I = pauli_matrices(self.dtype, self.device)
