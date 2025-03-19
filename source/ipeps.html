@@ -1,0 +1,233 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>iPEPS: A Tensor Network of Site Tensors &mdash; Ace-TN 0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=0c084379" />
+
+  
+    <link rel="canonical" href="https://ace-tn.github.io/source/ipeps.html" />
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=2709fde1"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Examples" href="examples.html" />
+    <link rel="prev" title="Getting Started" href="getting_started.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Ace-TN
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="user_guide.html">User Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">iPEPS: A Tensor Network of Site Tensors</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#ipeps-class-the-top-level-simulation-object">Ipeps Class: The Top-Level Simulation Object</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tensornetwork-class-managing-the-lattice">TensorNetwork Class: Managing the Lattice</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sitetensor-class-the-building-block">SiteTensor Class: The Building Block</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#conclusion">Conclusion</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples.html">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Ace-TN</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="user_guide.html">User Guide</a></li>
+      <li class="breadcrumb-item active">iPEPS: A Tensor Network of Site Tensors</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/source/ipeps.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="ipeps-a-tensor-network-of-site-tensors">
+<h1>iPEPS: A Tensor Network of Site Tensors<a class="headerlink" href="#ipeps-a-tensor-network-of-site-tensors" title="Link to this heading"></a></h1>
+<p>An iPEPS (infinite projected entangled pair states) is represented as a tensor network. This network is composed of individual site tensors, each representing a physical site in a lattice. The system is organized into three hierarchical layers:</p>
+<ol class="arabic simple">
+<li><p><strong>Ipeps</strong>: The top-level simulation object. It extends TensorNetwork to include simulation-specific procedures (evolution, renormalization, measurement) and distributed computing support.</p></li>
+<li><p><strong>TensorNetwork</strong>: Manages the overall lattice. It is responsible for initializing, saving, loading, and connecting the network by assigning a SiteTensor to every lattice site.</p></li>
+<li><p><strong>SiteTensor</strong>: The basic building block of the network. Each SiteTensor contains a primary tensor (A) along with its associated corner (C) and edge (E) tensors.</p></li>
+</ol>
+<p>In the sections that follow, we describe each layer in detail.</p>
+<section id="ipeps-class-the-top-level-simulation-object">
+<h2>Ipeps Class: The Top-Level Simulation Object<a class="headerlink" href="#ipeps-class-the-top-level-simulation-object" title="Link to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">Ipeps</span></code> class encapsulates the entire iPEPS simulation. It builds upon the TensorNetwork class by incorporating simulation-specific configurations and distributed computing features. Key responsibilities include:</p>
+<ul class="simple">
+<li><p><strong>Configuration:</strong> Creating an <code class="docutils literal notranslate"><span class="pre">IpepsConfig</span></code> from a provided configuration dictionary.</p></li>
+<li><p><strong>Distributed Setup:</strong> Initializing and finalizing the distributed computing environment via the <code class="docutils literal notranslate"><span class="pre">setup_distributed()</span></code> and <code class="docutils literal notranslate"><span class="pre">finalize_distributed()</span></code> functions.</p></li>
+<li><p><strong>Logging:</strong> Recording an initial log message using <code class="docutils literal notranslate"><span class="pre">log_initial_message()</span></code>.</p></li>
+<li><p><strong>Inheritance:</strong> Calling the parent TensorNetwork constructor to build the underlying tensor network.</p></li>
+</ul>
+<p>Example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Example configuration dictionary for iPEPS simulation.</span>
+<span class="n">config</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;nx&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="s1">&#39;ny&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="s1">&#39;dims&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;bond&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;phys&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;chi&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">},</span>
+    <span class="s1">&#39;initial_site_states&#39;</span><span class="p">:</span> <span class="s1">&#39;ferro&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;dtype&#39;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span>
+    <span class="s1">&#39;device&#39;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s1">&#39;cpu&#39;</span><span class="p">),</span>
+    <span class="s1">&#39;TN&#39;</span><span class="p">:</span> <span class="p">{</span>  <span class="c1"># TensorNetwork-specific parameters.</span>
+        <span class="s1">&#39;nx&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="s1">&#39;ny&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="s1">&#39;dims&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;bond&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;phys&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;chi&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">},</span>
+        <span class="s1">&#39;initial_site_states&#39;</span><span class="p">:</span> <span class="s1">&#39;ferro&#39;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1"># Create an iPEPS tensor network.</span>
+<span class="n">ipeps</span> <span class="o">=</span> <span class="n">Ipeps</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The distributed environment is set up within the Ipeps constructor and is finalized automatically when the object is deleted.</p>
+</section>
+<section id="tensornetwork-class-managing-the-lattice">
+<h2>TensorNetwork Class: Managing the Lattice<a class="headerlink" href="#tensornetwork-class-managing-the-lattice" title="Link to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">TensorNetwork</span></code> class constructs and manages the iPEPS tensor network over a lattice. Each lattice site is represented by a <code class="docutils literal notranslate"><span class="pre">SiteTensor</span></code>. This class is responsible for:</p>
+<ul class="simple">
+<li><p><strong>Network Initialization:</strong> Creating a SiteTensor for each site based on the configuration.</p></li>
+<li><p><strong>Lattice Connectivity:</strong> Building site and bond lists that define the network’s structure.</p></li>
+<li><p><strong>Persistence:</strong> Saving and loading the network state.</p></li>
+<li><p><strong>Copying:</strong> Duplicating an existing network.</p></li>
+</ul>
+<p>Example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Example configuration for the TensorNetwork.</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Config</span><span class="p">:</span>
+    <span class="n">nx</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="n">ny</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="n">dims</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;bond&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;phys&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;chi&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}</span>
+    <span class="n">initial_site_states</span> <span class="o">=</span> <span class="s1">&#39;ferro&#39;</span>
+
+<span class="n">config</span> <span class="o">=</span> <span class="n">Config</span><span class="p">()</span>
+
+<span class="c1"># Create a new TensorNetwork.</span>
+<span class="n">tensor_network</span> <span class="o">=</span> <span class="n">TensorNetwork</span><span class="p">(</span><span class="n">tensor_network</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&quot;cpu&quot;</span><span class="p">))</span>
+
+<span class="c1"># Retrieve the tensor at site (0, 0).</span>
+<span class="n">site_tensor</span> <span class="o">=</span> <span class="n">tensor_network</span><span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Site tensor at (0,0):&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">site_tensor</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>The TensorNetwork class also provides methods to copy, save, and load the network state, as well as to build lists of sites and bonds.</p>
+</section>
+<section id="sitetensor-class-the-building-block">
+<h2>SiteTensor Class: The Building Block<a class="headerlink" href="#sitetensor-class-the-building-block" title="Link to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">SiteTensor</span></code> class represents an individual site within the tensor network. It encapsulates:
+- <strong>A (Site Tensor):</strong> The primary tensor holding the site’s data.
+- <strong>C (Corner Tensors):</strong> A list of tensors representing the corners.
+- <strong>E (Edge Tensors):</strong> A list of tensors representing the edges.</p>
+<p>Initialization requires a dimensions dictionary that includes:
+- <strong>bond:</strong> Bond dimension.
+- <strong>phys:</strong> Physical dimension.
+- <strong>chi:</strong> Auxiliary dimension for the corner and edge tensors.</p>
+<p>The constructor can also take an initial state for the site tensor. It is important that the length of the <code class="docutils literal notranslate"><span class="pre">site_state</span></code> list matches the physical dimension (<code class="docutils literal notranslate"><span class="pre">phys</span></code>).</p>
+<p>Example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define the dimensions for the tensor network.</span>
+<span class="n">dims</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;bond&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;phys&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;chi&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}</span>
+
+<span class="c1"># Define an initial state for the site tensor (length must equal &#39;phys&#39;).</span>
+<span class="n">site_state</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span>
+
+<span class="c1"># Create a new SiteTensor object.</span>
+<span class="n">site_tensor</span> <span class="o">=</span> <span class="n">SiteTensor</span><span class="p">(</span><span class="n">dims</span><span class="p">,</span> <span class="n">site_state</span><span class="o">=</span><span class="n">site_state</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&quot;cpu&quot;</span><span class="p">))</span>
+
+<span class="c1"># Display the initialized site tensor.</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Initialized Site Tensor (A):&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">site_tensor</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Additionally, the SiteTensor class overloads indexing to easily access and modify:
+- <strong>‘A’</strong>: The site tensor.
+- <strong>‘C’</strong>: The corner tensors.
+- <strong>‘E’</strong>: The edge tensors.</p>
+</section>
+<section id="conclusion">
+<h2>Conclusion<a class="headerlink" href="#conclusion" title="Link to this heading"></a></h2>
+<p>This top-down overview has demonstrated the hierarchical structure of our iPEPS simulation framework:</p>
+<ul class="simple">
+<li><p><strong>Ipeps:</strong> The top-level simulation object that extends TensorNetwork to incorporate simulation-specific and distributed computing features.</p></li>
+<li><p><strong>TensorNetwork:</strong> The backbone that organizes the lattice by composing individual SiteTensors and managing network state.</p></li>
+<li><p><strong>SiteTensor:</strong> The fundamental unit representing a single lattice site, complete with associated corner and edge tensors.</p></li>
+</ul>
+<p>Together, these classes provide a framework for constructing, simulating, and managing iPEPS tensor networks.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="getting_started.html" class="btn btn-neutral float-left" title="Getting Started" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="examples.html" class="btn btn-neutral float-right" title="Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Addison Richards.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
