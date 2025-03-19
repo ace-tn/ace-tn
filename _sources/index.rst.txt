@@ -18,6 +18,8 @@ Ace-TN is a framework for simulating infinite projected entangled-pair states (i
 GPU acceleration. We follow a simple pythonic design philosophy with PyTorch tensors as the primary 
 tensor-network building blocks, allowing users to quickly setup and manage iPEPS calculations on GPUs.
 
+See our preprint at `https://arxiv.org/abs/2503.13900 <https://arxiv.org/abs/2503.13900>`_.
+
 Features
 --------
 
@@ -41,7 +43,19 @@ Please see the `User Guide <source/user_guide.html>`_ for more info on usage and
 
 Citation
 --------
-If you found Ace-TN useful for your research, please cite this work with
+If you found Ace-TN useful for your research, please cite:
+
+.. code-block::
+
+   @misc{AceTN_2025,
+         title={Ace-TN: GPU-Accelerated Corner-Transfer-Matrix Renormalization of Infinite Projected Entangled-Pair States}, 
+         author={Addison D. S. Richards and Erik S. Sørensen},
+         year={2025},
+         eprint={2503.13900},
+         archivePrefix={arXiv},
+         primaryClass={cond-mat.str-el},
+         url={https://arxiv.org/abs/2503.13900}, 
+   }
 
 .. toctree::
    :maxdepth: 1
