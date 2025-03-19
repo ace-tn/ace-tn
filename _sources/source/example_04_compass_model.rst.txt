@@ -37,13 +37,13 @@ Here is an example of how to define the model:
         def one_site_hamiltonian(self, site):
             hx = self.params.get("hx")
             hz = self.params.get("hz")
-            X, Y, Z, I = pauli_matrices(self.dtype, self.device)
+            X,Y,Z,I = pauli_matrices(self.dtype, self.device)
             return -hx*X - hz*Z
 
 Defining Observables
 --------------------
 
-In addition to the Hamiltonian, we need to define the observables that will be measured during the simulation. For the Quantum Compass model, an important observable is the order parameter that characterizes the spin orientations along the bond directions. The order parameter phi is defined as:
+In addition to the Hamiltonian, we need to define the observables that will be measured during the simulation. For the Quantum Compass model, an important observable is the order parameter that characterizes the spin orientations along the bond directions. The order parameter \phi is defined as:
 
 .. math::
 
@@ -57,7 +57,7 @@ In addition to \phi, we may also want to measure the correlation between the Pau
 
     \chi = \sum_{\langle i j \rangle} \left\langle \sigma^x_{\vec{r}_i} \sigma^z_{\vec{r}_j} - \sigma^z_{\vec{r}_i} \sigma^x_{\vec{r}_j} \right\rangle
 
-This characterizes the ordered state when `Jx = Jz = hx = hz`, which can be derived exactly.
+This characterizes the ordered state when `Jx = Jz = -hx = -hz < 0`, which can be derived exactly.
 
 We can define both \phi and \chi in the `two_site_observables` method as shown below:
 
@@ -92,7 +92,7 @@ Here is an example of how to configure the iPEPS simulation:
         },
     }
     ipeps = Ipeps(config)
-    ipeps.set_model(CompassModel, {"jx": -1.0 / 4., "jz": -1.0 / 4., "hz": 1.0 / 2., "hx": 1.0 / 2.})
+    ipeps.set_model(CompassModel, {"jx": -1.0/4., "jz": -1.0/4., "hz": 1.0/2., "hx": 1.0/2.})
 
 Note: The QCM has subextensive ground-state degeneracy in zero field. You may want to increase the lattice size parameters `nx` and/or `ny` to explore the properties of the ground states.
 
@@ -136,11 +136,11 @@ Below is the complete Python script demonstrating the Quantum Compass model with
         def two_site_hamiltonian(self, bond):
             jx = self.params.get("jx")
             jz = self.params.get("jz")
-            X, Y, Z, I = pauli_matrices(self.dtype, self.device)
+            X,Y,Z,I = pauli_matrices(self.dtype, self.device)
             if self.bond_direction(bond) in ["+x", "-x"]:
-                return -0.25 * jx * X * X
+                return -jx*X*X
             elif self.bond_direction(bond) in ["+y", "-y"]:
-                return -0.25 * jz * Z * Z
+                return -jz*Z*Z
 
         def one_site_hamiltonian(self, site):
             hx = self.params.get('hx')
@@ -150,11 +150,11 @@ Below is the complete Python script demonstrating the Quantum Compass model with
 
         def two_site_observables(self, bond):
             observables = {}
-            X, Y, Z, I = pauli_matrices(self.dtype, self.device)
+            X,Y,Z,I = pauli_matrices(self.dtype, self.device)
             if self.bond_direction(bond) in ["+x", "-x"]:
-                observables["phi"] = X * X
+                observables["phi"] = X*X
             elif self.bond_direction(bond) in ["+y", "-y"]:
-                observables["phi"] = -Z * Z
+                observables["phi"] = -Z*Z
             return observables
 
     if __name__ == "__main__":
@@ -165,14 +165,16 @@ Below is the complete Python script demonstrating the Quantum Compass model with
         }
 
         ipeps = Ipeps(config)
-        ipeps.set_model(CompassModel, {"jx": -1.0 / 4., "jz": -1.0 / 4., "hz": 1.0 / 2., "hx": 1.0 / 2.})
+        ipeps.set_model(CompassModel, {"jx": -1.0/4., "jz": -1.0/4., "hz": 1.0/2., "hx": 1.0/2.})
 
         dtau = 0.1
         steps = 50
         ipeps.evolve(dtau, steps=steps)
+        ipeps.measure()
 
         dtau = 0.01
         steps = 100
         for _ in range(5):
             ipeps.evolve(dtau, steps=steps)
+            ipeps.measure()
 
