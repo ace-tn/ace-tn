@@ -18,7 +18,6 @@ The ``Ipeps`` class encapsulates the entire iPEPS simulation. It builds upon the
 
 - **Configuration:** Creating an ``IpepsConfig`` from a provided configuration dictionary.
 - **Distributed Setup:** Initializing and finalizing the distributed computing environment via the ``setup_distributed()`` and ``finalize_distributed()`` functions.
-- **Logging:** Recording an initial log message using ``log_initial_message()``.
 - **Inheritance:** Calling the parent TensorNetwork constructor to build the underlying tensor network.
 
 Example:
@@ -27,17 +26,12 @@ Example:
 
    # Example configuration dictionary for iPEPS simulation.
    config = {
-       'nx': 4,
-       'ny': 4,
-       'dims': {'bond': 2, 'phys': 3, 'chi': 4},
-       'initial_site_states': 'ferro',
        'dtype': torch.float64,
        'device': torch.device('cpu'),
        'TN': {  # TensorNetwork-specific parameters.
            'nx': 4,
            'ny': 4,
-           'dims': {'bond': 2, 'phys': 3, 'chi': 4},
-           'initial_site_states': 'ferro'
+           'dims': {'phys': 3, 'bond': 2, 'chi': 4},
        }
    }
 
@@ -62,13 +56,12 @@ Example:
 .. code-block:: python
 
    # Example configuration for the TensorNetwork.
-   class Config:
+   class TNConfig:
        nx = 4
        ny = 4
-       dims = {'bond': 2, 'phys': 3, 'chi': 4}
-       initial_site_states = 'ferro'
+       dims = {'phys': 3, 'bond': 2, 'chi': 4}
 
-   config = Config()
+   config = TNConfig()
 
    # Create a new TensorNetwork.
    tensor_network = TensorNetwork(tensor_network=None, config=config, dtype=torch.float64, device=torch.device("cpu"))
@@ -90,8 +83,8 @@ The ``SiteTensor`` class represents an individual site within the tensor network
 - **E (Edge Tensors):** A list of tensors representing the edges.
 
 Initialization requires a dimensions dictionary that includes:
-- **bond:** Bond dimension.
 - **phys:** Physical dimension.
+- **bond:** Bond dimension.
 - **chi:** Auxiliary dimension for the corner and edge tensors.
 
 The constructor can also take an initial state for the site tensor. It is important that the length of the ``site_state`` list matches the physical dimension (``phys``).
@@ -101,7 +94,7 @@ Example:
 .. code-block:: python
 
    # Define the dimensions for the tensor network.
-   dims = {'bond': 2, 'phys': 3, 'chi': 4}
+   dims = {'phys': 3, 'bond': 2, 'chi': 4}
 
    # Define an initial state for the site tensor (length must equal 'phys').
    site_state = [1.0, 0.0, 0.0]
