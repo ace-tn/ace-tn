@@ -6,6 +6,8 @@ Ace-TN is an efficient and easy-to-use library for simulating infinite projected
 - **Multi-GPU Support**: Can utilize multiple GPUs, allowing users to scale calculations to the largest possible system sizes.
 - **Flexible and Easy to Use**: Easy and straightforward API, providing easy management of tensors and flexible model Hamiltonian construction.
 
+See our preprint at [https://arxiv.org/abs/2503.13900](https://arxiv.org/abs/2503.13900).
+
 ## Getting Started
 ### Installation
 To install Ace-TN, use:
@@ -45,6 +47,20 @@ For more details on usage, see the project [documentation](https://ace-tn.github
 Run a script `script.py` in multi-GPU mode using `N` processes and `N` GPUs with
 ```
 torchrun --nproc_per_node=N script.py
+```
+
+## Citing
+If you found Ace-TN useful for your research, please cite:
+```
+@misc{AceTN_2025,
+      title={Ace-TN: GPU-Accelerated Corner-Transfer-Matrix Renormalization of Infinite Projected Entangled-Pair States}, 
+      author={Addison D. S. Richards and Erik S. Sørensen},
+      year={2025},
+      eprint={2503.13900},
+      archivePrefix={arXiv},
+      primaryClass={cond-mat.str-el},
+      url={https://arxiv.org/abs/2503.13900}, 
+}
 ```
 
 ## License
