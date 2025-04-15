@@ -103,7 +103,7 @@ class ProjectorCalculator:
 
         cD = ipeps.dims['chi']
         ur1,sr1,vr1 = self.svd(r1, cD)
-        cD_new = min(cD, sum(abs(sr1/sr1[0]) > self.svd_cutoff))
+        cD_new = min(cD, sum(sr1/sr1[0] > self.svd_cutoff))
 
         ur1 = ur1[:,:cD_new]*(1./torch.sqrt(sr1[:cD_new]))
         vr1 = vr1[:,:cD_new]*(1./torch.sqrt(sr1[:cD_new]))
@@ -155,7 +155,7 @@ class ProjectorCalculator:
 
         cD = ipeps.dims['chi']
         uf0,sf0,vf0 = self.svd(f0, cD)
-        cD_new = min(cD, sum(abs(sf0/sf0[0]) > self.svd_cutoff))
+        cD_new = min(cD, sum(sf0/sf0[0] > self.svd_cutoff))
 
         uf0 = uf0[:,:cD_new]*(1./torch.sqrt(sf0[:cD_new]))
         vf0 = vf0[:,:cD_new]*(1./torch.sqrt(sf0[:cD_new]))
