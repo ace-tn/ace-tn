@@ -1,6 +1,6 @@
 import torch
 from torch import einsum, conj
-from torch.linalg import qr,eigh
+from torch.linalg import qr,eigh,svd
 from ..evolution.tensor_update import TensorUpdater
 from ..evolution.als_solver import ALSSolver
 
@@ -56,12 +56,21 @@ class FullUpdater(TensorUpdater):
         a1q,a1r,a2q,a2r,nD = self.decompose_site_tensors(a1, a2, bD, pD)
         n12 = build_norm_tensor(self.ipeps, bond, a1q, a2q)
 
+        #print(self.condition_number(n12))
+
         gate = self.gate[bond]
         a1r,a2r = self.update_reduced_tensors(a1r, a2r, n12, gate, pD, bD, nD)
 
         a1,a2 = self.recompose_site_tensors(a1q,a1r,a2q,a2r)
 
-        return a1,a2
+        return a1/a1.norm(),a2/a2.norm()
+
+    @staticmethod
+    def condition_number(n12):
+        nD = n12.shape[0]
+        _,S,_ = torch.linalg.svd(n12.reshape(nD**2, nD**2))
+        cond_number = S[0]/S[-1]
+        return cond_number
 
     def update_reduced_tensors(self, a1r, a2r, n12, gate, pD, bD, nD):
         """
@@ -112,7 +121,46 @@ class FullUpdater(TensorUpdater):
             a1r = einsum("yz,zup->yup", nzyr_inv, a1r)
             a2r = einsum("xw,wvq->xvq", nzxr_inv, a2r)
 
+        a1r,a2r = self.finalize_reduced_tensors(a1r, a2r)
+
         return a1r/a1r.norm(), a2r/a2r.norm()
+
+    @staticmethod
+    def finalize_reduced_tensors(a1r, a2r):
+        """
+        Finalizes the tensor update using the method shown in Fig.12(b) 
+        of arxiv.org/abs/1405.3259.
+
+        Parameters:
+        -----------
+        a1r : Tensor
+            The reduced tensor for the first site.
+
+        a2r : Tensor
+            The reduced tensor for the second site.
+
+        Returns:
+        --------
+        a1r, a2r : Tensor
+            The finalized reduced tensors.
+        """
+        nD,bD,pD = a1r.shape
+        q1,r1 = qr(einsum("yup->ypu", a1r).reshape(nD*pD,bD))
+        q2,r2 = qr(einsum("xvq->xqv", a2r).reshape(nD*pD,bD))
+
+        U,s,Vh = svd(einsum("au,bu->ab", r1, r2))
+        s = torch.sqrt(s[:bD] / s.norm())
+
+        r1 = einsum('ab,b->ab', U[:, :bD],  s)
+        r2 = einsum('ba,b->ba', Vh[:bD, :], s)
+
+        q1 = q1.reshape(nD,pD,bD)
+        q2 = q2.reshape(nD,pD,bD)
+
+        a1r = einsum("ypa,au->yup", q1, r1)
+        a2r = einsum("xqb,vb->xvq", q2, r2)
+
+        return a1r,a2r
 
     @staticmethod
     def decompose_site_tensors(a1, a2, bD, pD):
@@ -258,7 +306,7 @@ def build_norm_tensor(ipeps, bond, a1q, a2q):
 def positive_approx(n12, nD, cutoff=1e-12):
     """
     Computes a positive approximation of the norm tensor by adjusting its singular values. This process 
-    helps to ensure that the norm tensor has non-negative eigenvalues while minimizing numerical errors.
+    helps to ensure that the norm tensor has non-negative eigenvalues improving conditioning for ALS.
 
     Parameters:
     -----------
@@ -276,11 +324,22 @@ def positive_approx(n12, nD, cutoff=1e-12):
     nz : Tensor
         The updated norm tensor after applying the positive approximation.
     """
-    n12 = 0.5*(n12 + einsum("yxYX->YXyx", conj(n12)))
-    nw,nz = eigh(n12.reshape(nD**2, nD**2))
-    nw_max = torch.abs(nw[-1])
-    nw = torch.where(nw / nw_max > cutoff, torch.sqrt(nw), 0.)
-    nz = einsum("yxz,z->yxz", nz.reshape(nD, nD, nD**2), nw)
+    N = n12.reshape(nD**2, nD**2)
+    try:
+        nw,nz = torch.linalg.eigh(N)
+    except torch._C._LinAlgError:
+        nz,nw,_ = torch.linalg.svd(N)
+        nw = torch.flip(nw, dims=[-1])
+        nz = torch.flip(nz, dims=[-1])
+    while nw[0] < cutoff:
+        N += 2*max(cutoff, abs(nw[0]))*torch.eye(nD**2, dtype=N.dtype, device=N.device)
+        try:
+            nw,nz = torch.linalg.eigh(N)
+        except torch._C._LinAlgError:
+            nz,nw,_ = torch.linalg.svd(N)
+            nw = torch.flip(nw, dims=[-1])
+            nz = torch.flip(nz, dims=[-1])
+    nz = nz.reshape(nD, nD, nD**2)*torch.sqrt(nw)
     return nz
 
 def gauge_fix(nz, a12g, nD, atol=1e-12):
@@ -333,7 +392,6 @@ def gauge_fix(nz, a12g, nD, atol=1e-12):
     nz = einsum("yxz,xw->yzw", nz, nzxr_inv)
     nz = einsum("yzw,yv->zvw", nz, nzyr_inv)
     n12 = einsum("zvw,zVW->vwVW", nz, conj(nz))
-    n12 = 0.5*(n12 + einsum("vwVW->VWvw", conj(n12)))
 
     a12g = einsum("zx,yxpq->yzpq", nzxr, a12g)
     a12g = einsum("wy,yzpq->wzpq", nzyr, a12g)

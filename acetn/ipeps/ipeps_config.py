@@ -25,10 +25,10 @@ class CTMRGConfig:
 @dataclass
 class EvolutionConfig:
     update_type: str = "full"
-    use_gauge_fix: bool = False
+    use_gauge_fix: bool = True
     gauge_fix_atol: float = 1e-12
     positive_approx_cutoff: float = 1e-12
-    als_niter: int = 50
+    als_niter: int = 100
     als_tol: int = 1e-12
     als_method: Literal["cholesky", "pinv"] = "cholesky"
     als_epsilon: float = 1e-12
