@@ -51,14 +51,16 @@ class ALSSolver:
         bD = self.bD
         nD = self.nD
         a1r,a2r,n12g = self.initialize_tensors(bD, pD, nD)
-        d0 = self.calculate_distance(a1r, a2r)
+        d0 = self.calculate_distance(a1r, a2r).abs()
+        d1 = 0
         for i in range(self.niter):
             a1r = self.solve_a1r(n12g, a2r, bD, pD, nD)
             a2r = self.solve_a2r(n12g, a1r, bD, pD, nD)
-            d1 = self.calculate_distance(a1r, a2r)
-            if i > 1 and abs(d0 - d1) < self.tol:
-                break
-            d0 = d1
+            d2 = self.calculate_distance(a1r, a2r)
+            error = abs(d2 - d1)/d0
+            if error < self.tol and i > 1:
+                return a1r, a2r
+            d1 = d2
         return a1r, a2r
 
     def initialize_tensors(self, bD, pD, nD):
@@ -92,11 +94,12 @@ class ALSSolver:
         """
         a12g_tmp = einsum("yxpq->ypxq", a12g).reshape(nD*pD, nD*pD)
         U,S,Vh = svd(a12g_tmp)
-        S = torch.sqrt(S[:bD]/S[:bD].norm())
-        U  =  U[:,:bD].reshape(nD, pD, bD)
-        Vh = Vh[:bD,:].reshape(bD, nD, pD)
-        a1r = einsum("ypu,u->yup", U,  S)
-        a2r = einsum("vxq,v->xvq", Vh, S)
+        V = Vh.mH
+        S = torch.sqrt(S[:bD]/S[0])
+        U = U[:,:bD].reshape(nD, pD, bD)
+        V = V[:,:bD].reshape(nD, pD, bD)
+        a1r = einsum("ypu,u->yup", U, S)
+        a2r = einsum("xqv,v->xvq", V, S)
         return a1r,a2r
 
     def solve_a1r(self, n12g, a2r, bD, pD, nD):
@@ -192,10 +195,13 @@ class ALSSolver:
         R = 0.5*(R + R.mH)
         match self.method:
             case "cholesky":
-                R += self.epsilon*torch.eye(R.shape[0], dtype=R.dtype, device=R.device)
-                L = cholesky(R)
-                Y = solve_triangular(L, S, upper=False)
-                ar = solve_triangular(L.mH, Y, upper=True)
+                try:
+                    R += self.epsilon*torch.eye(R.shape[0], dtype=R.dtype, device=R.device)
+                    L = cholesky(R)
+                    Y = solve_triangular(L, S, upper=False)
+                    ar = solve_triangular(L.mH, Y, upper=True)
+                except:
+                    ar = torch.linalg.solve(R, S)
             case "pinv":
                 R_inv = pinv(R, hermitian=True, rcond=self.epsilon)
                 ar = R_inv @ S
@@ -210,4 +216,4 @@ class ALSSolver:
         d3 = einsum("yxYX,yxpq->YXpq", self.n12, self.a12g)
         d3 = einsum("YXpq,YXpq->", d3, conj(a12n))
 
-        return d2 - d3 - conj(d3)
+        return d2.real - 2*d3.real
