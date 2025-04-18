@@ -102,8 +102,7 @@ class FullUpdater(TensorUpdater):
             a2r = einsum("xw,wvq->xvq", nzxr_inv, a2r)
 
         a1r,a2r = self.finalize_reduced_tensors(a1r, a2r)
-
-        return a1r/a1r.norm(), a2r/a2r.norm()
+        return a1r,a2r
 
     @staticmethod
     def finalize_reduced_tensors(a1r, a2r):
@@ -287,7 +286,7 @@ def positive_approx(n12, cutoff=1e-12):
         The norm tensor to be approximated.
 
     cutoff : float, optional (default: 1e-12)
-        A threshold value for determining the lowest eigenvalue to retain in the approximation.
+        A threshold value for determining the lowest eigenvalues to retain in the approximation.
 
     Returns:
     --------
