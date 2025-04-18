@@ -50,29 +50,17 @@ class FullUpdater(TensorUpdater):
         a1, a2 : Tensor
             The updated tensors after performing the tensor update operation.
         """
-        pD = self.dims["phys"]
-        bD = self.dims["bond"]
-
-        a1q,a1r,a2q,a2r,nD = self.decompose_site_tensors(a1, a2, bD, pD)
+        a1q,a1r,a2q,a2r = self.decompose_site_tensors(a1, a2)
         n12 = build_norm_tensor(self.ipeps, bond, a1q, a2q)
 
-        #print(self.condition_number(n12))
-
         gate = self.gate[bond]
-        a1r,a2r = self.update_reduced_tensors(a1r, a2r, n12, gate, pD, bD, nD)
+        a1r,a2r = self.update_reduced_tensors(a1r, a2r, n12, gate)
 
         a1,a2 = self.recompose_site_tensors(a1q,a1r,a2q,a2r)
 
         return a1/a1.norm(),a2/a2.norm()
 
-    @staticmethod
-    def condition_number(n12):
-        nD = n12.shape[0]
-        _,S,_ = torch.linalg.svd(n12.reshape(nD**2, nD**2))
-        cond_number = S[0]/S[-1]
-        return cond_number
-
-    def update_reduced_tensors(self, a1r, a2r, n12, gate, pD, bD, nD):
+    def update_reduced_tensors(self, a1r, a2r, n12, gate):
         """
         Updates the reduced tensors by applying the gate operation and norm tensor, 
         and optionally applying gauge fixing.
@@ -91,26 +79,18 @@ class FullUpdater(TensorUpdater):
         gate : Tensor
             The gate operation to be applied during the update.
 
-        pD : int
-            The physical dimension of the tensors.
-
-        bD : int
-            The bond dimension of the tensors.
-
-        nD : int
-            The dimension of the norm tensor.
-
         Returns:
         --------
         a1r, a2r : Tensor
             The updated reduced tensors for the first and second sites.
         """
+        nD,bD,pD = a1r.shape
         a12g = einsum("yup,xuq->ypxq", a1r, a2r)
         a12g = einsum("ypxq,pqrs->yxrs", a12g, gate)
 
-        nz = positive_approx(n12, nD, cutoff=self.positive_approx_cutoff)
+        nz = positive_approx(n12, cutoff=self.positive_approx_cutoff)
         if self.use_gauge_fix:
-            n12, a12g, nzxr_inv, nzyr_inv = gauge_fix(nz, a12g, nD, atol=self.gauge_fix_atol)
+            n12, a12g, nzxr_inv, nzyr_inv = gauge_fix(nz, a12g, atol=self.gauge_fix_atol)
         else:
             n12 = einsum("xyz,XYz->xyXY", nz, conj(nz))
 
@@ -163,7 +143,7 @@ class FullUpdater(TensorUpdater):
         return a1r,a2r
 
     @staticmethod
-    def decompose_site_tensors(a1, a2, bD, pD):
+    def decompose_site_tensors(a1, a2):
         """
         Decomposes the site tensors `a1` and `a2` into their core and reduced parts using QR decomposition.
 
@@ -174,12 +154,6 @@ class FullUpdater(TensorUpdater):
 
         a2 : Tensor
             The second tensor at the site being decomposed.
-
-        bD : int
-            The bond dimension of the tensors.
-
-        pD : int
-            The physical dimension of the tensors.
 
         Returns:
         --------
@@ -194,14 +168,13 @@ class FullUpdater(TensorUpdater):
 
         a2r : Tensor
             The reduced part of the second tensor after decomposition.
-
-        nD : int
-            The dimension of the norm tensor
         """
+        bD,pD = a1.shape[3:]
         nD = min(bD**3, pD*bD)
 
         a1_tmp = einsum("lurdp->rdulp", a1).reshape(bD**3, pD*bD)
         a1q,a1r = qr(a1_tmp)
+
         a1q = a1q.reshape(bD, bD, bD, nD)
         a1r = a1r.reshape(nD, bD, pD)
 
@@ -210,7 +183,7 @@ class FullUpdater(TensorUpdater):
         a2q = a2q.reshape(bD, bD, bD, nD)
         a2r = a2r.reshape(nD, bD, pD)
 
-        return a1q, a1r, a2q, a2r, nD
+        return a1q, a1r, a2q, a2r
 
     @staticmethod
     def recompose_site_tensors(a1q, a1r, a2q, a2r):
@@ -303,27 +276,25 @@ def build_norm_tensor(ipeps, bond, a1q, a2q):
     n12 = einsum("fcYy,fcXx->yxYX", n1_tmp, n2_tmp)
     return n12
 
-def positive_approx(n12, nD, cutoff=1e-12):
+def positive_approx(n12, cutoff=1e-12):
     """
-    Computes a positive approximation of the norm tensor by adjusting its singular values. This process 
-    helps to ensure that the norm tensor has non-negative eigenvalues improving conditioning for ALS.
+    Computes a positive approximation of the norm tensor. Eigenvalues are ensured to be positive
+    by dynamic regularization and the condition number is greatly reduced. 
 
     Parameters:
     -----------
     n12 : Tensor
         The norm tensor to be approximated.
 
-    nD : int
-        The dimension of the norm tensor
-
     cutoff : float, optional (default: 1e-12)
-        A threshold value for determining which singular values to retain in the approximation.
+        A threshold value for determining the lowest eigenvalue to retain in the approximation.
 
     Returns:
     --------
     nz : Tensor
-        The updated norm tensor after applying the positive approximation.
+        Square root of the updated norm tensor after applying the positive approximation.
     """
+    nD = n12.shape[0]
     N = n12.reshape(nD**2, nD**2)
     try:
         nw,nz = torch.linalg.eigh(N)
@@ -342,12 +313,10 @@ def positive_approx(n12, nD, cutoff=1e-12):
     nz = nz.reshape(nD, nD, nD**2)*torch.sqrt(nw)
     return nz
 
-def gauge_fix(nz, a12g, nD, atol=1e-12):
+def gauge_fix(nz, a12g, atol=1e-12):
     """
-    Applies a gauge fixing procedure to the norm tensor and the reduced tensors. This involves 
-    performing a Singular Value Decomposition (SVD) on parts of the norm tensor and its inverse 
-    to correct for gauge freedom in the tensor network. It also updates the gauge tensor `a12g` 
-    accordingly.
+    Applies a gauge fixing procedure to the norm tensor square root and the reduced tensors.
+    See
 
     Parameters:
     -----------
@@ -356,15 +325,6 @@ def gauge_fix(nz, a12g, nD, atol=1e-12):
 
     a12g : Tensor
         The reduced tensor representing the bond interaction that will be updated during the gauge fixing.
-
-    bD : int
-        The bond dimension of the tensors involved.
-
-    pD : int
-        The physical dimension of the tensors involved.
-
-    nD : int
-        The dimension of the norm tensor
 
     cutoff : float, optional (default: 1e-12)
         A threshold value for determining which singular values to retain during the SVD.
@@ -383,6 +343,7 @@ def gauge_fix(nz, a12g, nD, atol=1e-12):
     nzyr_inv : Tensor
         The inverse of the second part of the norm tensor after gauge fixing.
     """
+    nD = a12g.shape[0]
     _,nzyr = qr(einsum("yxz->zxy", nz).reshape(nD**3, nD))
     _,nzxr = qr(einsum("yxz->zyx", nz).reshape(nD**3, nD))
 
