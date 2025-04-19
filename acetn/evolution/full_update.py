@@ -1,6 +1,6 @@
 import torch
 from torch import einsum, conj
-from torch.linalg import qr,eigh,svd
+from torch.linalg import qr,eigh,svd,pinv
 from ..evolution.tensor_update import TensorUpdater
 from ..evolution.als_solver import ALSSolver
 
@@ -88,24 +88,40 @@ class FullUpdater(TensorUpdater):
         a12g = einsum("yup,xuq->ypxq", a1r, a2r)
         a12g = einsum("ypxq,pqrs->yxrs", a12g, gate)
 
-        nz = positive_approx(n12, cutoff=self.positive_approx_cutoff)
-        if self.use_gauge_fix:
-            n12, a12g, nzxr_inv, nzyr_inv = gauge_fix(nz, a12g, atol=self.gauge_fix_atol)
-        else:
-            n12 = einsum("xyz,XYz->xyXY", nz, conj(nz))
-
+        n12, a12g = self.precondition_norm_tensor(n12, a12g)
         als_solver = ALSSolver(n12, a12g, bD, pD, nD, self.config)
         a1r,a2r = als_solver.solve()
-
-        if self.use_gauge_fix:
-            a1r = einsum("yz,zup->yup", nzyr_inv, a1r)
-            a2r = einsum("xw,wvq->xvq", nzxr_inv, a2r)
 
         a1r,a2r = self.finalize_reduced_tensors(a1r, a2r)
         return a1r,a2r
 
-    @staticmethod
-    def finalize_reduced_tensors(a1r, a2r):
+    def precondition_norm_tensor(self, n12, a12g):
+        """
+        Applies positive approximation and (optionally) gauge fixing to the norm tensor,
+        improving conditioning for ALS. The gate-tensor product is also modified when
+        gauge fixing is used
+
+        Parameters:
+        -----------
+        n12 : Tensor
+            The norm tensor.
+
+        a12g : Tensor
+            The contracted a1r-a2r-gate.
+
+        Returns:
+        --------
+        n12, a12g : Tensor
+            The updated tensors.
+        """
+        nz = positive_approx(n12, cutoff=self.positive_approx_cutoff)
+        if self.use_gauge_fix:
+            n12, a12g, self.nzxr_inv, self.nzyr_inv = gauge_fix(nz, a12g, atol=self.gauge_fix_atol)
+        else:
+            n12 = einsum("xyz,XYz->xyXY", nz, conj(nz))
+        return n12, a12g
+
+    def finalize_reduced_tensors(self, a1r, a2r):
         """
         Finalizes the tensor update using the method shown in Fig.12(b) 
         of arxiv.org/abs/1405.3259.
@@ -123,6 +139,10 @@ class FullUpdater(TensorUpdater):
         a1r, a2r : Tensor
             The finalized reduced tensors.
         """
+        if self.use_gauge_fix:
+            a1r = einsum("yz,zup->yup", self.nzyr_inv, a1r)
+            a2r = einsum("xw,wvq->xvq", self.nzxr_inv, a2r)
+
         nD,bD,pD = a1r.shape
         q1,r1 = qr(einsum("yup->ypu", a1r).reshape(nD*pD,bD))
         q2,r2 = qr(einsum("xvq->xqv", a2r).reshape(nD*pD,bD))
@@ -211,8 +231,8 @@ class FullUpdater(TensorUpdater):
         a2 : Tensor
             The reconstructed tensor for the second site.
         """
-        a1 = torch.einsum('rdux,xlp->lurdp', a1q, a1r)
-        a2 = torch.einsum('dlux,xrp->lurdp', a2q, a2r)
+        a1 = einsum('rdux,xlp->lurdp', a1q, a1r)
+        a2 = einsum('dlux,xrp->lurdp', a2q, a2r)
         return a1,a2
 
 def build_norm_tensor(ipeps, bond, a1q, a2q):
@@ -296,17 +316,17 @@ def positive_approx(n12, cutoff=1e-12):
     nD = n12.shape[0]
     N = n12.reshape(nD**2, nD**2)
     try:
-        nw,nz = torch.linalg.eigh(N)
+        nw,nz = eigh(N)
     except torch._C._LinAlgError:
-        nz,nw,_ = torch.linalg.svd(N)
+        nz,nw,_ = svd(N)
         nw = torch.flip(nw, dims=[-1])
         nz = torch.flip(nz, dims=[-1])
     while nw[0] < cutoff:
         N += 2*max(cutoff, abs(nw[0]))*torch.eye(nD**2, dtype=N.dtype, device=N.device)
         try:
-            nw,nz = torch.linalg.eigh(N)
+            nw,nz = eigh(N)
         except torch._C._LinAlgError:
-            nz,nw,_ = torch.linalg.svd(N)
+            nz,nw,_ = svd(N)
             nw = torch.flip(nw, dims=[-1])
             nz = torch.flip(nz, dims=[-1])
     nz = nz.reshape(nD, nD, nD**2)*torch.sqrt(nw)
@@ -346,8 +366,8 @@ def gauge_fix(nz, a12g, atol=1e-12):
     _,nzyr = qr(einsum("yxz->zxy", nz).reshape(nD**3, nD))
     _,nzxr = qr(einsum("yxz->zyx", nz).reshape(nD**3, nD))
 
-    nzyr_inv = torch.linalg.pinv(nzyr, atol=atol)
-    nzxr_inv = torch.linalg.pinv(nzxr, atol=atol)
+    nzyr_inv = pinv(nzyr, atol=atol)
+    nzxr_inv = pinv(nzxr, atol=atol)
 
     nz = einsum("yxz,xw->yzw", nz, nzxr_inv)
     nz = einsum("yzw,yv->zvw", nz, nzyr_inv)
