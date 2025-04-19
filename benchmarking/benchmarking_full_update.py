@@ -13,9 +13,9 @@ def record_full_update(full_updater, a1, a2, bond):
     a1,a2,*_ = full_updater.tensor_update(a1, a2, bond)
 
 @record_runtime_ave
-def record_decompose_site_tensors(full_updater, a1, a2, bD, pD):
-    a1q,a1r,a2q,a2r,nD = full_updater.decompose_site_tensors(a1, a2, bD, pD)
-    return a1q,a1r,a2q,a2r,nD
+def record_decompose_site_tensors(full_updater, a1, a2):
+    a1q,a1r,a2q,a2r = full_updater.decompose_site_tensors(a1, a2)
+    return a1q,a1r,a2q,a2r
 
 @record_runtime_ave
 def record_build_norm_tensor(ipeps, bond, a1q, a2q):
@@ -23,8 +23,8 @@ def record_build_norm_tensor(ipeps, bond, a1q, a2q):
     return n12
 
 @record_runtime_ave
-def record_reduced_full_update(full_updater, a1r, a2r, n12, gate, pD, bD, nD):
-    a1r,a2r,*_ = full_updater.update_reduced_tensors(a1r, a2r, n12, gate, pD, bD, nD)
+def record_reduced_full_update(full_updater, a1r, a2r, n12, gate):
+    a1r,a2r,*_ = full_updater.update_reduced_tensors(a1r, a2r, n12, gate)
 
 @record_runtime_ave
 def record_als(als_solver):
@@ -37,12 +37,12 @@ def benchmark_full_update(full_updater, a1, a2, bond):
     print(f"Average runtime: {runtime_ave:.7f} s")
     return runtime_ave
 
-def benchmark_decompose_site_tensors(full_updater, a1, a2, bD, pD):
+def benchmark_decompose_site_tensors(full_updater, a1, a2):
     print("start benchmarking decompose_site_tensors...")
-    a1q,a1r,a2q,a2r,nD,runtime_ave = record_decompose_site_tensors(full_updater, a1, a2, bD, pD)
+    a1q,a1r,a2q,a2r,runtime_ave = record_decompose_site_tensors(full_updater, a1, a2)
     print("done benchmarking")
     print(f"Average runtime: {runtime_ave:.7f} s")
-    return a1q,a1r,a2q,a2r,nD,runtime_ave
+    return a1q,a1r,a2q,a2r,runtime_ave
 
 def benchmark_build_norm_tensor(ipeps, bond, a1q, a2q):
     print("start benchmarking build_norm_tensor...")
@@ -51,9 +51,9 @@ def benchmark_build_norm_tensor(ipeps, bond, a1q, a2q):
     print(f"Average runtime: {runtime_ave:.7f} s")
     return n12,runtime_ave
 
-def benchmark_reduced_full_update(full_updater, a1r, a2r, n12, gate, pD, bD, nD):
+def benchmark_reduced_full_update(full_updater, a1r, a2r, n12, gate):
     print("start benchmarking reduced_full_update...")
-    runtime_ave = record_reduced_full_update(full_updater, a1r, a2r, n12, gate, pD, bD, nD)
+    runtime_ave = record_reduced_full_update(full_updater, a1r, a2r, n12, gate)
     print("done benchmarking")
     print(f"Average runtime: {runtime_ave:.7f} s")
     return runtime_ave
@@ -83,8 +83,8 @@ def main(ipeps_config):
 
     full_update_runtime_ave = benchmark_full_update(full_updater, a1, a2, bond)
 
-    a1q,a1r,a2q,a2r,nD,decompose_site_tensors_runtime_ave = \
-        benchmark_decompose_site_tensors(full_updater, a1, a2, bD, pD)
+    a1q,a1r,a2q,a2r,decompose_site_tensors_runtime_ave = \
+        benchmark_decompose_site_tensors(full_updater, a1, a2)
     decompose_site_tensors_fraction = decompose_site_tensors_runtime_ave/full_update_runtime_ave
     print(f"Fraction of full update runtime: {decompose_site_tensors_fraction:.7f}")
 
@@ -94,14 +94,15 @@ def main(ipeps_config):
     print(f"Fraction of full update runtime: {norm_build_fraction:.7f}")
 
     reduced_full_update_runtime_ave = \
-        benchmark_reduced_full_update(full_updater, a1r, a2r, n12, gate[bond], pD, bD, nD)
+        benchmark_reduced_full_update(full_updater, a1r, a2r, n12, gate[bond])
     reduced_upd_fraction = reduced_full_update_runtime_ave/full_update_runtime_ave
     print(f"Fraction of full update runtime: {reduced_upd_fraction:.7f}")
 
     a12g = einsum("yup,xuq->ypxq", a1r, a2r)
     a12g = einsum("ypxq,pqrs->yxrs", a12g, gate[bond])
-    nz = positive_approx(n12, nD)
+    nz = positive_approx(n12)
     n12 = einsum("xyz,XYz->xyXY", nz, conj(nz))
+    nD = n12.shape[0]
     als_solver = ALSSolver(n12, a12g, bD, pD, nD, ipeps.config.evolution)
 
     als_cholesky_runtime_ave = benchmark_als(als_solver, "cholesky")
