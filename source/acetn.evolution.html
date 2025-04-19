@@ -351,7 +351,7 @@ operation, and recomposes the tensors.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="acetn.evolution.full_update.FullUpdater.finalize_reduced_tensors">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">finalize_reduced_tensors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a1r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a2r</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.full_update.FullUpdater.finalize_reduced_tensors" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">finalize_reduced_tensors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a1r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a2r</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.full_update.FullUpdater.finalize_reduced_tensors" title="Link to this definition"></a></dt>
 <dd><p>Finalizes the tensor update using the method shown in Fig.12(b) 
 of arxiv.org/abs/1405.3259.</p>
 <section id="id10">
@@ -373,11 +373,35 @@ of arxiv.org/abs/1405.3259.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="acetn.evolution.full_update.FullUpdater.precondition_norm_tensor">
+<span class="sig-name descname"><span class="pre">precondition_norm_tensor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a12g</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.full_update.FullUpdater.precondition_norm_tensor" title="Link to this definition"></a></dt>
+<dd><p>Applies positive approximation and (optionally) gauge fixing to the norm tensor,
+improving conditioning for ALS. The gate-tensor product is also modified when
+gauge fixing is used</p>
+<section id="id12">
+<h3>Parameters:<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>n12<span class="classifier">Tensor</span></dt><dd><p>The norm tensor.</p>
+</dd>
+<dt>a12g<span class="classifier">Tensor</span></dt><dd><p>The contracted a1r-a2r-gate.</p>
+</dd>
+</dl>
+</section>
+<section id="id13">
+<h3>Returns:<a class="headerlink" href="#id13" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>n12, a12g<span class="classifier">Tensor</span></dt><dd><p>The updated tensors.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="acetn.evolution.full_update.FullUpdater.recompose_site_tensors">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">recompose_site_tensors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a1q</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a1r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a2q</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a2r</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.full_update.FullUpdater.recompose_site_tensors" title="Link to this definition"></a></dt>
 <dd><p>Reconstructs the full site tensors from the decomposed core and reduced components.</p>
-<section id="id12">
-<h3>Parameters:<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<section id="id14">
+<h3>Parameters:<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>a1q<span class="classifier">Tensor</span></dt><dd><p>The core part of the first tensor.</p>
 </dd>
@@ -389,8 +413,8 @@ of arxiv.org/abs/1405.3259.</p>
 </dd>
 </dl>
 </section>
-<section id="id13">
-<h3>Returns:<a class="headerlink" href="#id13" title="Link to this heading"></a></h3>
+<section id="id15">
+<h3>Returns:<a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>a1<span class="classifier">Tensor</span></dt><dd><p>The reconstructed tensor for the first site.</p>
 </dd>
@@ -405,8 +429,8 @@ of arxiv.org/abs/1405.3259.</p>
 <span class="sig-name descname"><span class="pre">tensor_update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bond</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.full_update.FullUpdater.tensor_update" title="Link to this definition"></a></dt>
 <dd><p>Performs the full tensor update process for the given bond. This involves tensor 
 decomposition, norm tensor computation, reduced tensor update, and tensor recomposition.</p>
-<section id="id14">
-<h3>Parameters:<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
+<section id="id16">
+<h3>Parameters:<a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>a1<span class="classifier">Tensor</span></dt><dd><p>The first tensor at the site being updated.</p>
 </dd>
@@ -416,8 +440,8 @@ decomposition, norm tensor computation, reduced tensor update, and tensor recomp
 </dd>
 </dl>
 </section>
-<section id="id15">
-<h3>Returns:<a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
+<section id="id17">
+<h3>Returns:<a class="headerlink" href="#id17" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>a1, a2<span class="classifier">Tensor</span></dt><dd><p>The updated tensors after performing the tensor update operation.</p>
 </dd>
@@ -430,8 +454,8 @@ decomposition, norm tensor computation, reduced tensor update, and tensor recomp
 <span class="sig-name descname"><span class="pre">update_reduced_tensors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a1r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a2r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gate</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.full_update.FullUpdater.update_reduced_tensors" title="Link to this definition"></a></dt>
 <dd><p>Updates the reduced tensors by applying the gate operation and norm tensor, 
 and optionally applying gauge fixing.</p>
-<section id="id16">
-<h3>Parameters:<a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
+<section id="id18">
+<h3>Parameters:<a class="headerlink" href="#id18" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>a1r<span class="classifier">Tensor</span></dt><dd><p>The reduced tensor for the first site.</p>
 </dd>
@@ -443,8 +467,8 @@ and optionally applying gauge fixing.</p>
 </dd>
 </dl>
 </section>
-<section id="id17">
-<h3>Returns:<a class="headerlink" href="#id17" title="Link to this heading"></a></h3>
+<section id="id19">
+<h3>Returns:<a class="headerlink" href="#id19" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>a1r, a2r<span class="classifier">Tensor</span></dt><dd><p>The updated reduced tensors for the first and second sites.</p>
 </dd>
@@ -460,8 +484,8 @@ and optionally applying gauge fixing.</p>
 <dd><p>Builds the norm tensor for a given bond in the iPEPS network. The norm tensor is a combination 
 of tensors from the iPEPS network and the decomposed tensors for the two sites. This tensor 
 is used to calculate the bond interactions and tensor updates in the iPEPS algorithm.</p>
-<section id="id18">
-<h3>Parameters:<a class="headerlink" href="#id18" title="Link to this heading"></a></h3>
+<section id="id20">
+<h3>Parameters:<a class="headerlink" href="#id20" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>ipeps<span class="classifier">object</span></dt><dd><p>An instance of the iPEPS tensor network, which contains the tensors that define the network.</p>
 </dd>
@@ -474,8 +498,8 @@ of two site indices and the bond index (s1, s2, k).</p>
 </dd>
 </dl>
 </section>
-<section id="id19">
-<h3>Returns:<a class="headerlink" href="#id19" title="Link to this heading"></a></h3>
+<section id="id21">
+<h3>Returns:<a class="headerlink" href="#id21" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>n12<span class="classifier">Tensor</span></dt><dd><p>The resulting norm tensor, which represents the interaction between the two tensors at the given bond.</p>
 </dd>
@@ -488,8 +512,8 @@ of two site indices and the bond index (s1, s2, k).</p>
 <span class="sig-prename descclassname"><span class="pre">acetn.evolution.full_update.</span></span><span class="sig-name descname"><span class="pre">gauge_fix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nz</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a12g</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-12</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.full_update.gauge_fix" title="Link to this definition"></a></dt>
 <dd><p>Applies a gauge fixing procedure to the norm tensor square root and the reduced tensors.
 See</p>
-<section id="id20">
-<h3>Parameters:<a class="headerlink" href="#id20" title="Link to this heading"></a></h3>
+<section id="id22">
+<h3>Parameters:<a class="headerlink" href="#id22" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>nz<span class="classifier">Tensor</span></dt><dd><p>The positive-approximation norm tensor used to adjust the values during gauge fixing.</p>
 </dd>
@@ -499,8 +523,8 @@ See</p>
 </dd>
 </dl>
 </section>
-<section id="id21">
-<h3>Returns:<a class="headerlink" href="#id21" title="Link to this heading"></a></h3>
+<section id="id23">
+<h3>Returns:<a class="headerlink" href="#id23" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>n12<span class="classifier">Tensor</span></dt><dd><p>The updated norm tensor after applying gauge fixing.</p>
 </dd>
@@ -519,8 +543,8 @@ See</p>
 <span class="sig-prename descclassname"><span class="pre">acetn.evolution.full_update.</span></span><span class="sig-name descname"><span class="pre">positive_approx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cutoff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-12</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.full_update.positive_approx" title="Link to this definition"></a></dt>
 <dd><p>Computes a positive approximation of the norm tensor. Eigenvalues are ensured to be positive
 by dynamic regularization and the condition number is greatly reduced.</p>
-<section id="id22">
-<h3>Parameters:<a class="headerlink" href="#id22" title="Link to this heading"></a></h3>
+<section id="id24">
+<h3>Parameters:<a class="headerlink" href="#id24" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>n12<span class="classifier">Tensor</span></dt><dd><p>The norm tensor to be approximated.</p>
 </dd>
@@ -528,8 +552,8 @@ by dynamic regularization and the condition number is greatly reduced.</p>
 </dd>
 </dl>
 </section>
-<section id="id23">
-<h3>Returns:<a class="headerlink" href="#id23" title="Link to this heading"></a></h3>
+<section id="id25">
+<h3>Returns:<a class="headerlink" href="#id25" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>nz<span class="classifier">Tensor</span></dt><dd><p>Square root of the updated norm tensor after applying the positive approximation.</p>
 </dd>
@@ -551,8 +575,8 @@ used in time evolution algorithms.</p>
 <span class="sig-name descname"><span class="pre">build_one_site_gates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtau</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">site_list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.gate.Gate.build_one_site_gates" title="Link to this definition"></a></dt>
 <dd><p>Builds the one-site gates for the given list of sites by calculating the exponential of
 the Hamiltonian for each site.</p>
-<section id="id24">
-<h3>Parameters:<a class="headerlink" href="#id24" title="Link to this heading"></a></h3>
+<section id="id26">
+<h3>Parameters:<a class="headerlink" href="#id26" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>model<span class="classifier">object</span></dt><dd><p>The model that defines the Hamiltonian for the site.</p>
 </dd>
@@ -569,8 +593,8 @@ the Hamiltonian for each site.</p>
 <span class="sig-name descname"><span class="pre">build_two_site_gates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtau</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bond_list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.gate.Gate.build_two_site_gates" title="Link to this definition"></a></dt>
 <dd><p>Builds the two-site gates for the given list of bonds by calculating the exponential of
 the Hamiltonian for each bond and adding contributions from one-site Hamiltonians if necessary.</p>
-<section id="id25">
-<h3>Parameters:<a class="headerlink" href="#id25" title="Link to this heading"></a></h3>
+<section id="id27">
+<h3>Parameters:<a class="headerlink" href="#id27" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>model<span class="classifier">object</span></dt><dd><p>The model that defines the Hamiltonians for the bonds and sites.</p>
 </dd>
@@ -586,8 +610,8 @@ the Hamiltonian for each bond and adding contributions from one-site Hamiltonian
 <dt class="sig sig-object py" id="acetn.evolution.gate.Gate.calculate_gate">
 <span class="sig-name descname"><span class="pre">calculate_gate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ham</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtau</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.gate.Gate.calculate_gate" title="Link to this definition"></a></dt>
 <dd><p>Calculates the gate from the Hamiltonian using the matrix exponential and time step.</p>
-<section id="id26">
-<h3>Parameters:<a class="headerlink" href="#id26" title="Link to this heading"></a></h3>
+<section id="id28">
+<h3>Parameters:<a class="headerlink" href="#id28" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>ham<span class="classifier">torch.Tensor</span></dt><dd><p>The Hamiltonian matrix for which the gate will be calculated.</p>
 </dd>
@@ -595,8 +619,8 @@ the Hamiltonian for each bond and adding contributions from one-site Hamiltonian
 </dd>
 </dl>
 </section>
-<section id="id27">
-<h3>Returns:<a class="headerlink" href="#id27" title="Link to this heading"></a></h3>
+<section id="id29">
+<h3>Returns:<a class="headerlink" href="#id29" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>torch.Tensor</dt><dd><p>The calculated gate for the given Hamiltonian.</p>
 </dd>
@@ -620,15 +644,15 @@ the Hamiltonian for each bond and adding contributions from one-site Hamiltonian
 <dd><p>Generates a permutation pattern for tensor indices based on the bond direction <cite>k</cite>.</p>
 <p>The permutation is calculated by shifting the tensor indices in a circular fashion,
 and it determines how the tensor’s dimensions will be permuted during the update process.</p>
-<section id="id28">
-<h3>Parameters:<a class="headerlink" href="#id28" title="Link to this heading"></a></h3>
+<section id="id30">
+<h3>Parameters:<a class="headerlink" href="#id30" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>k<span class="classifier">int</span></dt><dd><p>The bond index used to generate the permutation pattern.</p>
 </dd>
 </dl>
 </section>
-<section id="id29">
-<h3>Returns:<a class="headerlink" href="#id29" title="Link to this heading"></a></h3>
+<section id="id31">
+<h3>Returns:<a class="headerlink" href="#id31" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>list</dt><dd><p>A list representing the permutation pattern of the tensor indices.</p>
 </dd>
@@ -642,8 +666,8 @@ and it determines how the tensor’s dimensions will be permuted during the upda
 <dd><p>Permutes the input tensors <cite>a1</cite> and <cite>a2</cite> based on the bond index <cite>k</cite>.</p>
 <p>This method rearranges the dimensions of the tensors according to a permutation pattern
 determined by the bond direction <cite>k</cite>, which is typically used in the iPEPS update procedure.</p>
-<section id="id30">
-<h3>Parameters:<a class="headerlink" href="#id30" title="Link to this heading"></a></h3>
+<section id="id32">
+<h3>Parameters:<a class="headerlink" href="#id32" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>a1<span class="classifier">Tensor</span></dt><dd><p>The first input tensor to be permuted.</p>
 </dd>
@@ -653,8 +677,8 @@ determined by the bond direction <cite>k</cite>, which is typically used in the 
 </dd>
 </dl>
 </section>
-<section id="id31">
-<h3>Returns:<a class="headerlink" href="#id31" title="Link to this heading"></a></h3>
+<section id="id33">
+<h3>Returns:<a class="headerlink" href="#id33" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>tuple</dt><dd><p>A tuple containing the permuted tensors (a1, a2).</p>
 </dd>
@@ -669,8 +693,8 @@ determined by the bond direction <cite>k</cite>, which is typically used in the 
 for updating the tensors in the iPEPS network.</p>
 <p>This method must be overridden by a subclass to provide the specific update operation 
 for the tensors based on the network’s requirements.</p>
-<section id="id32">
-<h3>Returns:<a class="headerlink" href="#id32" title="Link to this heading"></a></h3>
+<section id="id34">
+<h3>Returns:<a class="headerlink" href="#id34" title="Link to this heading"></a></h3>
 <p>None</p>
 </section>
 </dd></dl>
