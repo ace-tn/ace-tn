@@ -46,13 +46,13 @@ def test_getitem_setitem(setup_tensor_network):
     assert tensor_network[site] == new_site_tensor
 
 
-def test_copy(setup_tensor_network):
-    # Test the copy method
+def test_copy_from(setup_tensor_network):
+    # Test the copy_from method
     tensor_network, config = setup_tensor_network
     new_tensor_network = TensorNetwork(None, config, tensor_network.dtype, tensor_network.device)
     
     # Copy the tensor network from the original one
-    new_tensor_network.copy(tensor_network)
+    new_tensor_network.copy_from(tensor_network)
     
     # Check if the site tensors have been copied correctly
     for site in tensor_network.site_list:

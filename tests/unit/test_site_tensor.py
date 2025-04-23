@@ -29,10 +29,10 @@ def test_initialization(site_tensor):
 def test_tensor_copy(site_tensor):
     """
     Test the copying of a SiteTensor.
-    Ensures that the `copy` method correctly copies the tensors with optional noise.
+    Ensures that the `copy` method correctly copies the tensors.
     """
     site_tensor_copy = SiteTensor(dims=dims, site_tensor=site_tensor)
-    
+
     assert torch.allclose(site_tensor_copy['A'], site_tensor['A'], atol=1e-3)
     assert torch.allclose(site_tensor_copy['C'][0], site_tensor['C'][0], atol=1e-3)
     assert torch.allclose(site_tensor_copy['E'][0], site_tensor['E'][0], atol=1e-3)
@@ -93,13 +93,3 @@ def test_initialize_site_tensor_with_noise(site_tensor):
     site_tensor.initialize_site_tensor(site_state=[1., 0.], noise=0.1)
     
     assert not torch.equal(site_tensor._site_tensor, initial_tensor)  # Check if noise was added
-
-def test_tensor_copy_with_noise(site_tensor):
-    """
-    Test the copy method with noise added.
-    """
-    site_tensor_copy = SiteTensor(dims=dims, site_tensor=site_tensor)
-    original_tensor = site_tensor_copy._site_tensor.clone()
-
-    site_tensor_copy.copy(site_tensor, noise=0.1)
-    assert not torch.equal(site_tensor_copy._site_tensor, original_tensor)  # Ensure noise was added

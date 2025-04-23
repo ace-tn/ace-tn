@@ -36,7 +36,7 @@ class SiteTensor:
             self.initialize_corner_tensors()
             self.initialize_edge_tensors()
         else:
-            self.copy(site_tensor, noise=0.0)
+            self.copy_from(site_tensor)
 
     def __getitem__(self, key):
         """
@@ -82,21 +82,40 @@ class SiteTensor:
         else:
             raise ValueError(f"Invalid key: '{key}' provided.")
 
-    def copy(self, site_tensor, noise=0.0):
+    def copy_from(self, site_tensor):
         """
-        Copies the tensors from another `SiteTensor` and adds optional noise to the site tensor.
+        Copies from the tensors from another `SiteTensor`.
 
         Args:
             site_tensor (SiteTensor): The `SiteTensor` to copy from.
-            noise (float, optional): The amount of noise to add to the site tensor (default is 0.0).
         """
-        dims = site_tensor.dims
-        bD = dims['bond']
-        pD = dims['phys']
         self['A'] = site_tensor['A']
-        self['A'] += noise*torch.rand(bD,bD,bD,bD,pD, dtype=self.dtype, device=self.device)
         self['C'] = site_tensor['C']
         self['E'] = site_tensor['E']
+
+    def copy(self):
+        """
+        Returns a deep copy of the current `SiteTensor` instance.
+
+        Returns:
+            SiteTensor: A new `SiteTensor` with identical contents and metadata.
+        """
+        return SiteTensor(dims=self.dims, site_tensor=self, dtype=self.dtype, device=self.device)
+
+    def to(self, dtype=None, device=None):
+        """
+        Sends the tensors to a device and/or changes the data type.
+
+        Args:
+            dtype (torch.dtype, optional): The data type of the tensors.
+            device (torch.device, optional): The device where the tensors are placed.
+
+        Returns:
+            SiteTensor: The site tensor with updated device and/or dtype.
+        """
+        device = device or self.device
+        dtype = dtype or self.dtype
+        return SiteTensor(dims=self.dims, site_tensor=self, dtype=dtype, device=device)
 
     def initialize_site_tensor(self, site_state=[1.,], noise=0.0):
         """

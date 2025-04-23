@@ -22,6 +22,7 @@ def test_ipeps_ground_state_energy():
         ipeps_config = toml.load(file_path + "/input/" + input_case + ".toml")
         ipeps = Ipeps(ipeps_config)
         ipeps.load(file_path + "/ipeps_gs/" + input_case + ".pt")
+        assert ipeps.site_states_initialized, "site_states_initialized not true after loading tensors"
 
         # Check that measured energy matches
         measured_energy = ipeps.measure()['Energy']

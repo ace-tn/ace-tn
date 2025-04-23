@@ -19,6 +19,7 @@ class TensorNetwork:
             dtype (torch.dtype): The data type for the tensors (e.g., torch.float32).
             device (torch.device): The device on which the tensors will be allocated (e.g., 'cpu' or 'cuda').
         """
+        self.tn_config = config
         self.nx = config.nx
         self.ny = config.ny
         self.dims = config.dims
@@ -54,7 +55,7 @@ class TensorNetwork:
         """
         self._tensor_network[site] = site_tensor
 
-    def copy(self, tensor_network):
+    def copy_from(self, tensor_network):
         """
         Copies the tensor network from another instance.
 
@@ -66,6 +67,30 @@ class TensorNetwork:
         for site in self.site_list:
             self[site] = SiteTensor(self.dims, tensor_network[site], dtype=self.dtype, device=self.device)
 
+    def copy(self):
+        """
+        Returns a deep copy of the current `TensorNetwork` instance.
+
+        Returns:
+            TensorNetwork: A new `TensorNetwork` with identical contents and metadata.
+        """
+        return TensorNetwork(tensor_network=self, config=self.tn_config, dtype=self.dtype, device=self.device)
+
+    def to(self, dtype=None, device=None):
+        """
+        Sends the tensor network to a device and/or changes the data type.
+
+        Args:
+            dtype (torch.dtype, optional): The data type of the tensors.
+            device (torch.device, optional): The device where the tensors are placed.
+
+        Returns:
+            TensorNetwork: The tensor network with updated device and/or dtype.
+        """
+        device = device or self.device
+        dtype = dtype or self.dtype
+        return TensorNetwork(tensor_network=self, config=self.tn_config, dtype=dtype, device=device)
+
     def save(self, prefix='ipeps'):
         """
         Saves the current tensor network to a file.
@@ -75,12 +100,12 @@ class TensorNetwork:
 
         Saves the tensor network and its tensors to a PyTorch .pt file.
         """
+        tn_cpu = self.to(device="cpu")
         state_dict = {
-            "tensor_network": self,
-            "tensors": self._tensor_network,
+            "tensor_network": tn_cpu,
+            "tensors": tn_cpu._tensor_network,
         }
         torch.save(state_dict, prefix + ".pt")
-        self.load(prefix + ".pt")
 
     def load(self, filename):
         """
@@ -92,6 +117,7 @@ class TensorNetwork:
         state_dict = torch.load(filename, weights_only=False)
         self._tensor_network = state_dict['tensors']
         self.site_states_initialized = True
+        self = self.to(dtype=self.dtype, device=self.device)
 
     def setup_tensor_network(self, tensor_network):
         """
@@ -105,7 +131,7 @@ class TensorNetwork:
         if tensor_network is None:
             self.initialize_site_tensors(self.initial_site_state_map)
         else:
-            self.copy(tensor_network)
+            self.copy_from(tensor_network)
 
     def initial_site_state_map(self, site):
         """
