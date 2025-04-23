@@ -414,11 +414,20 @@ corner tensors, and edge tensors. These tensors are used to form the iPEPS tenso
 
 <dl class="py method">
 <dt class="sig sig-object py" id="acetn.ipeps.site_tensor.SiteTensor.copy">
-<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">site_tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noise</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.ipeps.site_tensor.SiteTensor.copy" title="Link to this definition"></a></dt>
-<dd><p>Copies the tensors from another <cite>SiteTensor</cite> and adds optional noise to the site tensor.</p>
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#acetn.ipeps.site_tensor.SiteTensor.copy" title="Link to this definition"></a></dt>
+<dd><p>Returns a deep copy of the current <cite>SiteTensor</cite> instance.</p>
 <dl class="simple">
-<dt>Args:</dt><dd><p>site_tensor (SiteTensor): The <cite>SiteTensor</cite> to copy from.
-noise (float, optional): The amount of noise to add to the site tensor (default is 0.0).</p>
+<dt>Returns:</dt><dd><p>SiteTensor: A new <cite>SiteTensor</cite> with identical contents and metadata.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.ipeps.site_tensor.SiteTensor.copy_from">
+<span class="sig-name descname"><span class="pre">copy_from</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">site_tensor</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.ipeps.site_tensor.SiteTensor.copy_from" title="Link to this definition"></a></dt>
+<dd><p>Copies from the tensors from another <cite>SiteTensor</cite>.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>site_tensor (SiteTensor): The <cite>SiteTensor</cite> to copy from.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -462,6 +471,19 @@ noise (float, optional): The amount of noise to add to the site tensor (default 
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.ipeps.site_tensor.SiteTensor.to">
+<span class="sig-name descname"><span class="pre">to</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.ipeps.site_tensor.SiteTensor.to" title="Link to this definition"></a></dt>
+<dd><p>Sends the tensors to a device and/or changes the data type.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>dtype (torch.dtype, optional): The data type of the tensors.
+device (torch.device, optional): The device where the tensors are placed.</p>
+</dd>
+<dt>Returns:</dt><dd><p>SiteTensor: The site tensor with updated device and/or dtype.</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 </section>
@@ -498,7 +520,17 @@ It supports operations such as saving, loading, and setting up tensor networks, 
 
 <dl class="py method">
 <dt class="sig sig-object py" id="acetn.ipeps.tensor_network.TensorNetwork.copy">
-<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tensor_network</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.ipeps.tensor_network.TensorNetwork.copy" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#acetn.ipeps.tensor_network.TensorNetwork.copy" title="Link to this definition"></a></dt>
+<dd><p>Returns a deep copy of the current <cite>TensorNetwork</cite> instance.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>TensorNetwork: A new <cite>TensorNetwork</cite> with identical contents and metadata.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.ipeps.tensor_network.TensorNetwork.copy_from">
+<span class="sig-name descname"><span class="pre">copy_from</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tensor_network</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.ipeps.tensor_network.TensorNetwork.copy_from" title="Link to this definition"></a></dt>
 <dd><p>Copies the tensor network from another instance.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>tensor_network (TensorNetwork): Another instance of TensorNetwork to copy tensors from.</p>
@@ -553,6 +585,19 @@ It supports operations such as saving, loading, and setting up tensor networks, 
 <p>If no tensor network is provided, it initializes a new one. Otherwise, it copies from the provided network.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>tensor_network (TensorNetwork, optional): Another tensor network to copy from. If None, a new network is created.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.ipeps.tensor_network.TensorNetwork.to">
+<span class="sig-name descname"><span class="pre">to</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.ipeps.tensor_network.TensorNetwork.to" title="Link to this definition"></a></dt>
+<dd><p>Sends the tensor network to a device and/or changes the data type.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>dtype (torch.dtype, optional): The data type of the tensors.
+device (torch.device, optional): The device where the tensors are placed.</p>
+</dd>
+<dt>Returns:</dt><dd><p>TensorNetwork: The tensor network with updated device and/or dtype.</p>
 </dd>
 </dl>
 </dd></dl>
