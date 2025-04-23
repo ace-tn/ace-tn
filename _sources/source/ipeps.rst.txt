@@ -1,6 +1,6 @@
-=======================================
-iPEPS: A Tensor Network of Site Tensors
-=======================================
+================
+The ipeps Module
+================
 
 An iPEPS (infinite projected entangled pair states) is represented as a tensor network. This network is composed of individual site tensors, each representing a physical site in a lattice. The system is organized into three hierarchical layers:
 

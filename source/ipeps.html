@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>iPEPS: A Tensor Network of Site Tensors &mdash; Ace-TN 0.1 documentation</title>
+  <title>The ipeps Module &mdash; Ace-TN 0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=0c084379" />
@@ -47,7 +47,7 @@
               <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="user_guide.html">User Guide</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">iPEPS: A Tensor Network of Site Tensors</a><ul>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">The ipeps Module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#ipeps-class-the-top-level-simulation-object">Ipeps Class: The Top-Level Simulation Object</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#tensornetwork-class-managing-the-lattice">TensorNetwork Class: Managing the Lattice</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#sitetensor-class-the-building-block">SiteTensor Class: The Building Block</a></li>
@@ -75,7 +75,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="user_guide.html">User Guide</a></li>
-      <li class="breadcrumb-item active">iPEPS: A Tensor Network of Site Tensors</li>
+      <li class="breadcrumb-item active">The ipeps Module</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/source/ipeps.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -85,8 +85,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="ipeps-a-tensor-network-of-site-tensors">
-<h1>iPEPS: A Tensor Network of Site Tensors<a class="headerlink" href="#ipeps-a-tensor-network-of-site-tensors" title="Link to this heading"></a></h1>
+  <section id="the-ipeps-module">
+<h1>The ipeps Module<a class="headerlink" href="#the-ipeps-module" title="Link to this heading"></a></h1>
 <p>An iPEPS (infinite projected entangled pair states) is represented as a tensor network. This network is composed of individual site tensors, each representing a physical site in a lattice. The system is organized into three hierarchical layers:</p>
 <ol class="arabic simple">
 <li><p><strong>Ipeps</strong>: The top-level simulation object. It extends TensorNetwork to include simulation-specific procedures (evolution, renormalization, measurement) and distributed computing support.</p></li>
