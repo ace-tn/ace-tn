@@ -51,13 +51,12 @@ class ALSSolver:
         bD = self.bD
         nD = self.nD
         a1r,a2r,n12g = self.initialize_tensors(bD, pD, nD)
-        d0 = self.calculate_distance(a1r, a2r).abs()
-        d1 = 0
+        d1 = self.calculate_distance(a1r, a2r).abs()
         for i in range(self.niter):
             a1r = self.solve_a1r(n12g, a2r, bD, pD, nD)
             a2r = self.solve_a2r(n12g, a1r, bD, pD, nD)
             d2 = self.calculate_distance(a1r, a2r)
-            error = abs(d2 - d1)/d0
+            error = abs(d2 - d1)/d1.abs()
             if error < self.tol and i > 1:
                 return a1r, a2r
             d1 = d2
