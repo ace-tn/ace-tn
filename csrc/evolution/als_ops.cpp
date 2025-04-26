@@ -99,12 +99,11 @@ torch::Tensor cutensor_build_s1(torch::Tensor A, torch::Tensor B) {
     static int64_t bD = B.size(1);
     static int64_t pD = B.size(2);
 
-    static CutensorContraction s1(
-        std::vector<int32_t>{'Y','X','p','Q'},
-        std::vector<int32_t>{'X','U','Q'},
-        std::vector<int32_t>{'Y','U','p'},
-        nD, bD, pD
-    );
+    static const std::vector<int32_t> modeA_s1 = {'Y','X','p','Q'};
+    static const std::vector<int32_t> modeB_s1 = {'X','U','Q'};
+    static const std::vector<int32_t> modeC_s1 = {'Y','U','p'};
+
+    static CutensorContraction s1(modeA_s1, modeB_s1, modeC_s1, nD, bD, pD);
 
     s1.build(A, B);
     return s1.tensor();
@@ -115,12 +114,11 @@ torch::Tensor cutensor_build_s2(torch::Tensor A, torch::Tensor B) {
     static int64_t bD = B.size(1);
     static int64_t pD = B.size(2);
 
-    static CutensorContraction s2(
-        std::vector<int32_t>{'Y','X','P','q'},
-        std::vector<int32_t>{'Y','V','P'},
-        std::vector<int32_t>{'X','V','q'},
-        nD, bD, pD
-    );
+    static const std::vector<int32_t> modeA_s2 = {'Y','X','P','q'};
+    static const std::vector<int32_t> modeB_s2 = {'Y','V','P'};
+    static const std::vector<int32_t> modeC_s2 = {'X','V','q'};
+
+    static CutensorContraction s2(modeA_s2, modeB_s2, modeC_s2, nD, bD, pD);
 
     s2.build(A, B);
     return s2.tensor();
