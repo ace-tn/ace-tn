@@ -1,9 +1,8 @@
 #include <torch/extension.h>
-#define CUTENSOR_VERSION_MAJOR 2
 #include <cutensor.h>
 #include <cuda_runtime.h>
-#include <vector>
 #include <ATen/cuda/CUDAContext.h>
+#include <vector>
 #include <stdexcept>
 
 #define CUTENSOR_CHECK(call) { cutensorStatus_t err = call; \
@@ -21,20 +20,21 @@ inline cutensorHandle_t GetCuTensorHandle() {
     return handle;
 }
 
-class CutensorS1 {
+class CutensorContraction {
 public:
-    CutensorS1(int64_t nD, int64_t bD, int64_t pD) {
+    CutensorContraction(const std::vector<int32_t>& modeA,
+                        const std::vector<int32_t>& modeB,
+                        const std::vector<int32_t>& modeC,
+                        int64_t nD, int64_t bD, int64_t pD)
+        : workspace_(nullptr)
+    {
         handle_ = GetCuTensorHandle();
 
-        std::vector<int32_t> modeA = {'Y','X','p','Q'};
-        std::vector<int32_t> modeB = {'X','U','Q'};
-        std::vector<int32_t> modeC = {'Y','U','p'};
-
+        const uint32_t alignment = 128;
         std::vector<int64_t> extentA = {nD, nD, pD, pD};
         std::vector<int64_t> extentB = {nD, bD, pD};
         std::vector<int64_t> extentC = {nD, bD, pD};
 
-        const uint32_t alignment = 128;
         CUTENSOR_CHECK(cutensorCreateTensorDescriptor(handle_, &descA_, 4, extentA.data(), nullptr, CUTENSOR_R_64F, alignment));
         CUTENSOR_CHECK(cutensorCreateTensorDescriptor(handle_, &descB_, 3, extentB.data(), nullptr, CUTENSOR_R_64F, alignment));
         CUTENSOR_CHECK(cutensorCreateTensorDescriptor(handle_, &descC_, 3, extentC.data(), nullptr, CUTENSOR_R_64F, alignment));
@@ -50,20 +50,16 @@ public:
 
         uint64_t workspaceEstimate = 0;
         CUTENSOR_CHECK(cutensorEstimateWorkspaceSize(handle_, opDesc_, pref, CUTENSOR_WORKSPACE_DEFAULT, &workspaceEstimate));
-
         CUTENSOR_CHECK(cutensorCreatePlan(handle_, &plan_, opDesc_, pref, workspaceEstimate));
-
         CUTENSOR_CHECK(cutensorPlanGetAttribute(handle_, plan_, CUTENSOR_PLAN_REQUIRED_WORKSPACE,
                                                 &workspaceSize_, sizeof(workspaceSize_)));
 
-        if (workspaceSize_ > 0) {
-            cudaMalloc(&workspace_, workspaceSize_);
-        }
+        if (workspaceSize_ > 0) { cudaMalloc(&workspace_, workspaceSize_); }
 
         S_ = torch::empty({nD, bD, pD}, torch::TensorOptions().dtype(torch::kFloat64).device(torch::kCUDA));
     }
 
-    ~CutensorS1() {
+    ~CutensorContraction() {
         if (workspace_) cudaFree(workspace_);
         cutensorDestroyPlan(plan_);
         cutensorDestroyOperationDescriptor(opDesc_);
@@ -78,13 +74,11 @@ public:
         S_ = torch::empty({B.size(0), B.size(1), B.size(2)}, A.options());
         void* S_raw = S_.data_ptr<double>();
 
-        double alpha = 1.0;
-        double beta = 0.0;
-
+        double alpha = 1.0, beta = 0.0;
         cudaStream_t stream = at::cuda::getCurrentCUDAStream();
         CUTENSOR_CHECK(cutensorContract(handle_, plan_,
-            (void*)&alpha, A_raw, B_raw,
-            (void*)&beta,  S_raw, S_raw,
+            &alpha, A_raw, B_raw,
+            &beta,  S_raw, S_raw,
             workspace_, workspaceSize_, stream));
     }
 
@@ -96,17 +90,43 @@ private:
     cutensorOperationDescriptor_t opDesc_;
     cutensorTensorDescriptor_t descA_, descB_, descC_;
     uint64_t workspaceSize_;
-    void* workspace_ = nullptr;
+    void* workspace_;
     torch::Tensor S_;
 };
 
-torch::Tensor cutensor_build_s1(torch::Tensor n12g, torch::Tensor a2r) {
-    int64_t nD = a2r.size(0); 
-    int64_t bD = a2r.size(1);
-    int64_t pD = a2r.size(2);
-    static CutensorS1 s1(nD, bD, pD);
-    s1.build(n12g, a2r);
+torch::Tensor cutensor_build_s1(torch::Tensor A, torch::Tensor B) {
+    static int64_t nD = B.size(0);
+    static int64_t bD = B.size(1);
+    static int64_t pD = B.size(2);
+
+    static CutensorContraction s1(
+        std::vector<int32_t>{'Y','X','p','Q'},
+        std::vector<int32_t>{'X','U','Q'},
+        std::vector<int32_t>{'Y','U','p'},
+        nD, bD, pD
+    );
+
+    s1.build(A, B);
     return s1.tensor();
 }
 
-static auto registry = torch::RegisterOperators("cutensor_ext::build_s1", &cutensor_build_s1);
+torch::Tensor cutensor_build_s2(torch::Tensor A, torch::Tensor B) {
+    static int64_t nD = B.size(0);
+    static int64_t bD = B.size(1);
+    static int64_t pD = B.size(2);
+
+    static CutensorContraction s2(
+        std::vector<int32_t>{'Y','X','P','q'},
+        std::vector<int32_t>{'Y','V','P'},
+        std::vector<int32_t>{'X','V','q'},
+        nD, bD, pD
+    );
+
+    s2.build(A, B);
+    return s2.tensor();
+}
+
+TORCH_LIBRARY(cutensor_ext, m) {
+    m.def("build_s1", &cutensor_build_s1);
+    m.def("build_s2", &cutensor_build_s2);
+}
