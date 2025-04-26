@@ -71,7 +71,6 @@ public:
     void build(const torch::Tensor& A, const torch::Tensor& B) {
         const void* A_raw = A.data_ptr<double>();
         const void* B_raw = B.data_ptr<double>();
-        S_ = torch::empty({B.size(0), B.size(1), B.size(2)}, A.options());
         void* S_raw = S_.data_ptr<double>();
 
         double alpha = 1.0, beta = 0.0;
