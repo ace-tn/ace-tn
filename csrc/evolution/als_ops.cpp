@@ -33,9 +33,9 @@ public:
         handle_ = GetCuTensorHandle();
 
         const uint32_t alignment = 128;
-        CUTENSOR_CHECK(cutensorCreateTensorDescriptor(handle_, &descA_, 4, extentA.data(), nullptr, CUTENSOR_R_64F, alignment));
-        CUTENSOR_CHECK(cutensorCreateTensorDescriptor(handle_, &descB_, 3, extentB.data(), nullptr, CUTENSOR_R_64F, alignment));
-        CUTENSOR_CHECK(cutensorCreateTensorDescriptor(handle_, &descC_, 3, extentC.data(), nullptr, CUTENSOR_R_64F, alignment));
+        CUTENSOR_CHECK(cutensorCreateTensorDescriptor(handle_, &descA_, extentA.size(), extentA.data(), nullptr, CUTENSOR_R_64F, alignment));
+        CUTENSOR_CHECK(cutensorCreateTensorDescriptor(handle_, &descB_, extentB.size(), extentB.data(), nullptr, CUTENSOR_R_64F, alignment));
+        CUTENSOR_CHECK(cutensorCreateTensorDescriptor(handle_, &descC_, extentC.size(), extentC.data(), nullptr, CUTENSOR_R_64F, alignment));
 
         CUTENSOR_CHECK(cutensorCreateContraction(handle_, &opDesc_,
             descA_, modeA.data(), CUTENSOR_OP_IDENTITY,
