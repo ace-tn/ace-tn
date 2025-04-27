@@ -25,16 +25,14 @@ public:
     CutensorContraction(const std::vector<int32_t>& modeA,
                         const std::vector<int32_t>& modeB,
                         const std::vector<int32_t>& modeC,
-                        int64_t nD, int64_t bD, int64_t pD)
+                        const std::vector<int64_t>& extentA,
+                        const std::vector<int64_t>& extentB,
+                        const std::vector<int64_t>& extentC)
         : workspace_(nullptr)
     {
         handle_ = GetCuTensorHandle();
 
         const uint32_t alignment = 128;
-        std::vector<int64_t> extentA = {nD, nD, pD, pD};
-        std::vector<int64_t> extentB = {nD, bD, pD};
-        std::vector<int64_t> extentC = {nD, bD, pD};
-
         CUTENSOR_CHECK(cutensorCreateTensorDescriptor(handle_, &descA_, 4, extentA.data(), nullptr, CUTENSOR_R_64F, alignment));
         CUTENSOR_CHECK(cutensorCreateTensorDescriptor(handle_, &descB_, 3, extentB.data(), nullptr, CUTENSOR_R_64F, alignment));
         CUTENSOR_CHECK(cutensorCreateTensorDescriptor(handle_, &descC_, 3, extentC.data(), nullptr, CUTENSOR_R_64F, alignment));
@@ -56,7 +54,7 @@ public:
 
         if (workspaceSize_ > 0) { cudaMalloc(&workspace_, workspaceSize_); }
 
-        S_ = torch::empty({nD, bD, pD}, torch::TensorOptions().dtype(torch::kFloat64).device(torch::kCUDA));
+        C_ = torch::empty(extentC, torch::TensorOptions().dtype(torch::kFloat64).device(torch::kCUDA));
     }
 
     ~CutensorContraction() {
@@ -71,17 +69,17 @@ public:
     void build(const torch::Tensor& A, const torch::Tensor& B) {
         const void* A_raw = A.data_ptr<double>();
         const void* B_raw = B.data_ptr<double>();
-        void* S_raw = S_.data_ptr<double>();
+        void* C_raw = C_.data_ptr<double>();
 
         double alpha = 1.0, beta = 0.0;
         cudaStream_t stream = at::cuda::getCurrentCUDAStream();
         CUTENSOR_CHECK(cutensorContract(handle_, plan_,
             &alpha, A_raw, B_raw,
-            &beta,  S_raw, S_raw,
+            &beta,  C_raw, C_raw,
             workspace_, workspaceSize_, stream));
     }
 
-    torch::Tensor tensor() const { return S_; }
+    torch::Tensor tensor() const { return C_; }
 
 private:
     cutensorHandle_t handle_;
@@ -90,7 +88,7 @@ private:
     cutensorTensorDescriptor_t descA_, descB_, descC_;
     uint64_t workspaceSize_;
     void* workspace_;
-    torch::Tensor S_;
+    torch::Tensor C_;
 };
 
 torch::Tensor cutensor_build_s1(torch::Tensor A, torch::Tensor B) {
@@ -98,12 +96,16 @@ torch::Tensor cutensor_build_s1(torch::Tensor A, torch::Tensor B) {
     static int64_t bD = B.size(1);
     static int64_t pD = B.size(2);
 
+    static const std::vector<int64_t> extentA_s1 = {nD, nD, pD, pD};
+    static const std::vector<int64_t> extentB_s1 = {nD, bD, pD};
+    static const std::vector<int64_t> extentC_s1 = {nD, bD, pD};
+
     static const std::vector<int32_t> modeA_s1 = {'Y','X','p','Q'};
     static const std::vector<int32_t> modeB_s1 = {'X','U','Q'};
     static const std::vector<int32_t> modeC_s1 = {'Y','U','p'};
 
-    static CutensorContraction s1(modeA_s1, modeB_s1, modeC_s1, nD, bD, pD);
-
+    static CutensorContraction s1(modeA_s1, modeB_s1, modeC_s1, 
+                                  extentA_s1, extentB_s1, extentC_s1);
     s1.build(A, B);
     return s1.tensor();
 }
@@ -113,12 +115,16 @@ torch::Tensor cutensor_build_s2(torch::Tensor A, torch::Tensor B) {
     static int64_t bD = B.size(1);
     static int64_t pD = B.size(2);
 
+    static const std::vector<int64_t> extentA_s2 = {nD, nD, pD, pD};
+    static const std::vector<int64_t> extentB_s2 = {nD, bD, pD};
+    static const std::vector<int64_t> extentC_s2 = {nD, bD, pD};
+
     static const std::vector<int32_t> modeA_s2 = {'Y','X','P','q'};
     static const std::vector<int32_t> modeB_s2 = {'Y','V','P'};
     static const std::vector<int32_t> modeC_s2 = {'X','V','q'};
 
-    static CutensorContraction s2(modeA_s2, modeB_s2, modeC_s2, nD, bD, pD);
-
+    static CutensorContraction s2(modeA_s2, modeB_s2, modeC_s2, 
+                                  extentA_s2, extentB_s2, extentC_s2);
     s2.build(A, B);
     return s2.tensor();
 }
