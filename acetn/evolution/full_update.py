@@ -2,7 +2,7 @@ import torch
 from torch import einsum, conj
 from torch.linalg import qr,eigh,svd,pinv
 from ..evolution.tensor_update import TensorUpdater
-from ..evolution.als_solver import ALSSolver
+from ..evolution.als_solver import ALSSolver as TorchALSSolver
 
 class FullUpdater(TensorUpdater):
     """
@@ -29,6 +29,15 @@ class FullUpdater(TensorUpdater):
         self.gauge_fix_atol         = config.gauge_fix_atol
         self.positive_approx_cutoff = config.positive_approx_cutoff
 
+        self.setup_backend(self.config.backend)
+
+    def setup_backend(self, backend):
+        if backend == "torch":
+            self.ALSSolver = TorchALSSolver
+            self.build_norm_tensor = torch_build_norm_tensor
+        elif backend == "cutensor":
+            raise NotImplementedError(f"Backend {backend} not supported.")
+
     def tensor_update(self, a1, a2, bond):
         """
         Performs the full tensor update process for the given bond. This involves tensor 
@@ -51,7 +60,7 @@ class FullUpdater(TensorUpdater):
             The updated tensors after performing the tensor update operation.
         """
         a1q,a1r,a2q,a2r = self.decompose_site_tensors(a1, a2)
-        n12 = build_norm_tensor(self.ipeps, bond, a1q, a2q)
+        n12 = self.build_norm_tensor(self.ipeps, bond, a1q, a2q)
 
         gate = self.gate[bond]
         a1r,a2r = self.update_reduced_tensors(a1r, a2r, n12, gate)
@@ -89,9 +98,7 @@ class FullUpdater(TensorUpdater):
         a12g = einsum("ypxq,pqrs->yxrs", a12g, gate)
 
         n12, a12g = self.precondition_norm_tensor(n12, a12g)
-        als_solver = ALSSolver(n12, a12g, bD, pD, nD, self.config)
-        a1r,a2r = als_solver.solve()
-
+        a1r,a2r = self.ALSSolver(n12, a12g, bD, pD, nD, self.config).solve()
         a1r,a2r = self.finalize_reduced_tensors(a1r, a2r)
         return a1r,a2r
 
@@ -99,7 +106,7 @@ class FullUpdater(TensorUpdater):
         """
         Applies positive approximation and (optionally) gauge fixing to the norm tensor,
         improving conditioning for ALS. The gate-tensor product is also modified when
-        gauge fixing is used
+        gauge fixing is used.
 
         Parameters:
         -----------
@@ -235,7 +242,7 @@ class FullUpdater(TensorUpdater):
         a2 = einsum('dlux,xrp->lurdp', a2q, a2r)
         return a1,a2
 
-def build_norm_tensor(ipeps, bond, a1q, a2q):
+def torch_build_norm_tensor(ipeps, bond, a1q, a2q):
     """
     Builds the norm tensor for a given bond in the iPEPS network. The norm tensor is a combination 
     of tensors from the iPEPS network and the decomposed tensors for the two sites. This tensor 
@@ -261,15 +268,29 @@ def build_norm_tensor(ipeps, bond, a1q, a2q):
     n12 : Tensor
         The resulting norm tensor, which represents the interaction between the two tensors at the given bond.
     """
-    s1,s2,k = bond
+    s1, s2, k = bond
 
-    # build right half
+    # right half
     c12 = ipeps[s1]['C'][(k+1)%4]
     e12 = ipeps[s1]['E'][(k+1)%4]
     e11 = ipeps[s1]['E'][(k+0)%4]
     c13 = ipeps[s1]['C'][(k+2)%4]
     e13 = ipeps[s1]['E'][(k+2)%4]
 
+    # left half
+    c21 = ipeps[s2]['C'][(k+0)%4]
+    e21 = ipeps[s2]['E'][(k+0)%4]
+    e24 = ipeps[s2]['E'][(k+3)%4]
+    c24 = ipeps[s2]['C'][(k+3)%4]
+    e23 = ipeps[s2]['E'][(k+2)%4]
+
+    return build_norm_tensor_core(c12, e12, e11, c13, e13, a1q,
+                                  c21, e21, e24, c24, e23, a2q)
+
+
+def build_norm_tensor_core(c12, e12, e11, c13, e13, a1q,
+                           c21, e21, e24, c24, e23, a2q):
+    # build right half
     tmp = einsum("ab,bcrR->acrR", c12, e12)
     tmp = einsum("acrR,eauU->crReuU", tmp, e11)
     tmp = einsum("crReuU,RDUY->creuDY", tmp, conj(a1q))
@@ -278,12 +299,6 @@ def build_norm_tensor(ipeps, bond, a1q, a2q):
     n1_tmp = einsum("afdD,aeDYdy->feYy", n1_tmp, tmp)
 
     # build left half
-    c21 = ipeps[s2]['C'][(k+0)%4]
-    e21 = ipeps[s2]['E'][(k+0)%4]
-    e24 = ipeps[s2]['E'][(k+3)%4]
-    c24 = ipeps[s2]['C'][(k+3)%4]
-    e23 = ipeps[s2]['E'][(k+2)%4]
-
     tmp = einsum("ab,bcuU->acuU", c21, e21)
     tmp = einsum("acuU,ealL->cuUelL", tmp, e24)
     tmp = einsum("cuUelL,DLUX->cuelXD", tmp, conj(a2q))
@@ -291,9 +306,8 @@ def build_norm_tensor(ipeps, bond, a1q, a2q):
     n2_tmp = einsum("ab,fadD->bfdD", c24, e23)
     n2_tmp = einsum("bfdD,cbXDxd->fcXx", n2_tmp, tmp)
 
-    # contract right-left
-    n12 = einsum("fcYy,fcXx->yxYX", n1_tmp, n2_tmp)
-    return n12
+    return einsum("fcYy,fcXx->yxYX", n1_tmp, n2_tmp)
+
 
 def positive_approx(n12, cutoff=1e-12):
     """
@@ -335,12 +349,11 @@ def positive_approx(n12, cutoff=1e-12):
 def gauge_fix(nz, a12g, atol=1e-12):
     """
     Applies a gauge fixing procedure to the norm tensor square root and the reduced tensors.
-    See
 
     Parameters:
     -----------
     nz : Tensor
-        The positive-approximation norm tensor used to adjust the values during gauge fixing.
+        The norm tensor square root used to adjust the values during gauge fixing.
 
     a12g : Tensor
         The reduced tensor representing the bond interaction that will be updated during the gauge fixing.
