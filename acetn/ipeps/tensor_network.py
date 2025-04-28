@@ -115,9 +115,10 @@ class TensorNetwork:
             filename (str): The name of the file to load the tensor network from.
         """
         state_dict = torch.load(filename, weights_only=False)
-        self._tensor_network = state_dict['tensors']
+        tn_cpu = state_dict['tensors']
+        for site, site_tensor in tn_cpu.items():
+            self[site] = site_tensor.to(self.dtype, self.device)
         self.site_states_initialized = True
-        self = self.to(dtype=self.dtype, device=self.device)
 
     def setup_tensor_network(self, tensor_network):
         """
