@@ -147,7 +147,7 @@ torch::Tensor cutensor_build_r1(torch::Tensor n12, torch::Tensor a2r) {
     static const std::vector<int64_t> extentB = {nD, bD, pD};
     static const std::vector<int64_t> extentC = {nD, bD, nD, bD};
 
-    static const std::vector<int32_t> modeA = {'y','Y','X','u','q'};
+    static const std::vector<int32_t> modeA = {'y','Y','X','u','Q'};
     static const std::vector<int32_t> modeB = {'X','U','Q'};
     static const std::vector<int32_t> modeC = {'Y','U','y','u'};
 

@@ -79,7 +79,7 @@ def s2_reference(A, B):
 
 def r1_reference(A, B):
     R = torch.einsum('yxYX,xuq->yYXuq', A, B)
-    return torch.einsum('yYXuq,XUQ->YUyu', R, B)
+    return torch.einsum('yYXuQ,XUQ->YUyu', R, B)
 
 def r2_reference(A, B):
     R = torch.einsum('yxYX,yvp->xYXvp', A, B)
