@@ -49,8 +49,7 @@ public:
         uint64_t workspaceEstimate = 0;
         CUTENSOR_CHECK(cutensorEstimateWorkspaceSize(handle_, opDesc_, pref, CUTENSOR_WORKSPACE_DEFAULT, &workspaceEstimate));
         CUTENSOR_CHECK(cutensorCreatePlan(handle_, &plan_, opDesc_, pref, workspaceEstimate));
-        CUTENSOR_CHECK(cutensorPlanGetAttribute(handle_, plan_, CUTENSOR_PLAN_REQUIRED_WORKSPACE,
-                                                &workspaceSize_, sizeof(workspaceSize_)));
+        CUTENSOR_CHECK(cutensorPlanGetAttribute(handle_, plan_, CUTENSOR_PLAN_REQUIRED_WORKSPACE, &workspaceSize_, sizeof(workspaceSize_)));
 
         if (workspaceSize_ > 0) { cudaMalloc(&workspace_, workspaceSize_); }
 

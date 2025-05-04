@@ -1,6 +1,6 @@
 import torch
 
-torch.ops.load_library("./_C.so")
+torch.ops.load_library("./als_ops.so")
 
 def make_inputs(nD, bD, pD):
     n12g = torch.randn(nD, nD, pD, pD, device='cuda', dtype=torch.float64)
@@ -86,7 +86,7 @@ def r2_reference(A, B):
     return torch.einsum('xYXvP,YVP->XVxv', R, B)
 
 def main():
-    nD, bD, pD = 16, 8, 2
+    nD, bD, pD = 64, 8, 8
     benchmark_build_s1(nD, bD, pD)
     benchmark_build_s2(nD, bD, pD)
     benchmark_build_r1(nD, bD, pD)
