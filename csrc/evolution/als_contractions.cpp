@@ -184,9 +184,51 @@ torch::Tensor cutensor_build_r2(torch::Tensor n12, torch::Tensor a1r) {
     return r2.build(r2_intm.build(n12, a1r), a1r);
 }
 
+torch::Tensor cutensor_calculate_cost(torch::Tensor a1r,
+                                      torch::Tensor a2r,
+                                      torch::Tensor a12g,
+                                      torch::Tensor n12)
+{
+    static int64_t nD = a1r.size(0);
+    static int64_t bD = a1r.size(1);
+    static int64_t pD = a1r.size(2);
+
+    static const std::vector<int64_t> extent_a1r = {nD, bD, pD};
+    static const std::vector<int64_t> extent_a2r = {nD, bD, pD};
+    static const std::vector<int64_t> extent_a12 = {nD, nD, pD, pD};
+
+    static const std::vector<int32_t> mode_a1r = {'y','u','p'};
+    static const std::vector<int32_t> mode_a2r = {'x','u','q'};
+    static const std::vector<int32_t> mode_a12 = {'y','x','p','q'};
+
+    static CutensorContraction a12(mode_a1r, mode_a2r, mode_a12, 
+                                   extent_a1r, extent_a2r, extent_a12);
+
+    static const std::vector<int64_t> extent_n12  = {nD, nD, nD, nD};
+    static const std::vector<int64_t> extent_intm = {nD, nD, pD, pD};
+
+    static const std::vector<int32_t> mode_n12  = {'y','x','Y','X'};
+    static const std::vector<int32_t> mode_intm = {'Y','X','p','q'};
+
+    static CutensorContraction d_intm(mode_n12, mode_a12, mode_intm, 
+                                      extent_n12, extent_a12, extent_intm);
+
+    static const std::vector<int64_t> extent_d = {};
+    static const std::vector<int32_t> mode_d   = {};
+
+    static CutensorContraction d(mode_intm, mode_intm, mode_d, 
+                                 extent_intm, extent_a12, extent_d);
+
+    torch::Tensor a12n = a12.build(a1r, a2r);
+    torch::Tensor d2 = d.build(d_intm.build(n12, a12n), a12n);
+    torch::Tensor d3 = d.build(d_intm.build(n12, a12g), a12n);
+    return d2 - 2*d3;
+}
+
 TORCH_LIBRARY(cutensor_ext, m) {
     m.def("build_s1", &cutensor_build_s1);
     m.def("build_s2", &cutensor_build_s2);
     m.def("build_r1", &cutensor_build_r1);
     m.def("build_r2", &cutensor_build_r2);
+    m.def("calculate_cost", &cutensor_calculate_cost);
 }
