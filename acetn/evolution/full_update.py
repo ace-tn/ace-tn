@@ -36,6 +36,9 @@ class FullUpdater(TensorUpdater):
             self.ALSSolver = TorchALSSolver
             self.build_norm_tensor = torch_build_norm_tensor
         elif backend == "cutensor":
+            self.ALSSolver = TorchALSSolver
+            self.build_norm_tensor = torch_build_norm_tensor
+        else:
             raise NotImplementedError(f"Backend {backend} not supported.")
 
     def tensor_update(self, a1, a2, bond):
@@ -93,12 +96,11 @@ class FullUpdater(TensorUpdater):
         a1r, a2r : Tensor
             The updated reduced tensors for the first and second sites.
         """
-        nD,bD,pD = a1r.shape
         a12g = einsum("yup,xuq->ypxq", a1r, a2r)
         a12g = einsum("ypxq,pqrs->yxrs", a12g, gate)
 
         n12, a12g = self.precondition_norm_tensor(n12, a12g)
-        a1r,a2r = self.ALSSolver(n12, a12g, bD, pD, nD, self.config).solve()
+        a1r,a2r = self.ALSSolver(n12, a12g, a1r.shape, self.config).solve()
         a1r,a2r = self.finalize_reduced_tensors(a1r, a2r)
         return a1r,a2r
 
@@ -286,7 +288,6 @@ def torch_build_norm_tensor(ipeps, bond, a1q, a2q):
 
     return build_norm_tensor_core(c12, e12, e11, c13, e13, a1q,
                                   c21, e21, e24, c24, e23, a2q)
-
 
 def build_norm_tensor_core(c12, e12, e11, c13, e13, a1q,
                            c21, e21, e24, c24, e23, a2q):
