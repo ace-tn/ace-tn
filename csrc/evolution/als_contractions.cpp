@@ -95,16 +95,8 @@ torch::Tensor cutensor_build_s1(torch::Tensor n12g, torch::Tensor a2r) {
     static int64_t bD = a2r.size(1);
     static int64_t pD = a2r.size(2);
 
-    static const std::vector<int64_t> extentA = {nD, nD, pD, pD};
-    static const std::vector<int64_t> extentB = {nD, bD, pD};
-    static const std::vector<int64_t> extentC = {nD, bD, pD};
-
-    static const std::vector<int32_t> modeA = {'Y','X','p','Q'};
-    static const std::vector<int32_t> modeB = {'X','U','Q'};
-    static const std::vector<int32_t> modeC = {'Y','U','p'};
-
-    static CutensorContraction s1(modeA, modeB, modeC, 
-                                  extentA, extentB, extentC);
+    static CutensorContraction s1({'Y','X','p','Q'}, {'X','U','Q'}, {'Y','U','p'}, 
+                                  {nD, nD, pD, pD},  {nD, bD, pD},  {nD, bD, pD});
     return s1.build(n12g, a2r);
 }
 
@@ -113,16 +105,8 @@ torch::Tensor cutensor_build_s2(torch::Tensor n12g, torch::Tensor a1r) {
     static int64_t bD = a1r.size(1);
     static int64_t pD = a1r.size(2);
 
-    static const std::vector<int64_t> extentA = {nD, nD, pD, pD};
-    static const std::vector<int64_t> extentB = {nD, bD, pD};
-    static const std::vector<int64_t> extentC = {nD, bD, pD};
-
-    static const std::vector<int32_t> modeA = {'Y','X','P','q'};
-    static const std::vector<int32_t> modeB = {'Y','V','P'};
-    static const std::vector<int32_t> modeC = {'X','V','q'};
-
-    static CutensorContraction s2(modeA, modeB, modeC,
-                                  extentA, extentB, extentC);
+    static CutensorContraction s2({'Y','X','P','q'}, {'Y','V','P'}, {'X','V','q'},
+                                  {nD, nD, pD, pD},  {nD, bD, pD},  {nD, bD, pD});
     return s2.build(n12g, a1r);
 }
 
@@ -131,27 +115,12 @@ torch::Tensor cutensor_build_r1(torch::Tensor n12, torch::Tensor a2r) {
     static int64_t bD = a2r.size(1);
     static int64_t pD = a2r.size(2);
 
-    static const std::vector<int64_t> extentA_intm = {nD, nD, nD, nD};
-    static const std::vector<int64_t> extentB_intm = {nD, bD, pD};
-    static const std::vector<int64_t> extentC_intm = {nD, nD, nD, bD, pD};
+    static CutensorContraction r1_intm({'y','x','Y','X'}, {'x','u','q'}, {'y','Y','X','u','q'}, 
+                                       {nD, nD, nD, nD},  {nD, bD, pD},  {nD, nD, nD, bD, pD});
 
-    static const std::vector<int32_t> modeA_intm = {'y','x','Y','X'};
-    static const std::vector<int32_t> modeB_intm = {'x','u','q'};
-    static const std::vector<int32_t> modeC_intm = {'y','Y','X','u','q'};
+    static CutensorContraction r1({'y','Y','X','u','Q'}, {'X','U','Q'}, {'Y','U','y','u'}, 
+                                  {nD, nD, nD, bD, pD},  {nD, bD, pD},  {nD, bD, nD, bD});
 
-    static CutensorContraction r1_intm(modeA_intm, modeB_intm, modeC_intm, 
-                                       extentA_intm, extentB_intm, extentC_intm);
-
-    static const std::vector<int64_t> extentA = {nD, nD, nD, bD, pD};
-    static const std::vector<int64_t> extentB = {nD, bD, pD};
-    static const std::vector<int64_t> extentC = {nD, bD, nD, bD};
-
-    static const std::vector<int32_t> modeA = {'y','Y','X','u','Q'};
-    static const std::vector<int32_t> modeB = {'X','U','Q'};
-    static const std::vector<int32_t> modeC = {'Y','U','y','u'};
-
-    static CutensorContraction r1(modeA, modeB, modeC, 
-                                  extentA, extentB, extentC);
     return r1.build(r1_intm.build(n12, a2r), a2r);
 }
 
@@ -160,27 +129,12 @@ torch::Tensor cutensor_build_r2(torch::Tensor n12, torch::Tensor a1r) {
     static int64_t bD = a1r.size(1);
     static int64_t pD = a1r.size(2);
 
-    static const std::vector<int64_t> extentA_intm = {nD, nD, nD, nD};
-    static const std::vector<int64_t> extentB_intm = {nD, bD, pD};
-    static const std::vector<int64_t> extentC_intm = {nD, nD, nD, bD, pD};
+    static CutensorContraction r2_intm({'y','x','Y','X'}, {'y','v','p'}, {'x','Y','X','v','p'}, 
+                                       {nD, nD, nD, nD},  {nD, bD, pD},  {nD, nD, nD, bD, pD});
 
-    static const std::vector<int32_t> modeA_intm = {'y','x','Y','X'};
-    static const std::vector<int32_t> modeB_intm = {'y','v','p'};
-    static const std::vector<int32_t> modeC_intm = {'x','Y','X','v','p'};
+    static CutensorContraction r2({'x','Y','X','v','P'}, {'Y','V','P'}, {'X','V','x','v'}, 
+                                  {nD, nD, nD, bD, pD},  {nD, bD, pD},  {nD, bD, nD, bD});
 
-    static CutensorContraction r2_intm(modeA_intm, modeB_intm, modeC_intm, 
-                                       extentA_intm, extentB_intm, extentC_intm);
-
-    static const std::vector<int64_t> extentA = {nD, nD, nD, bD, pD};
-    static const std::vector<int64_t> extentB = {nD, bD, pD};
-    static const std::vector<int64_t> extentC = {nD, bD, nD, bD};
-
-    static const std::vector<int32_t> modeA = {'x','Y','X','v','P'};
-    static const std::vector<int32_t> modeB = {'Y','V','P'};
-    static const std::vector<int32_t> modeC = {'X','V','x','v'};
-
-    static CutensorContraction r2(modeA, modeB, modeC, 
-                                  extentA, extentB, extentC);
     return r2.build(r2_intm.build(n12, a1r), a1r);
 }
 
@@ -193,36 +147,84 @@ torch::Tensor cutensor_calculate_cost(torch::Tensor a1r,
     static int64_t bD = a1r.size(1);
     static int64_t pD = a1r.size(2);
 
-    static const std::vector<int64_t> extent_a1r = {nD, bD, pD};
-    static const std::vector<int64_t> extent_a2r = {nD, bD, pD};
-    static const std::vector<int64_t> extent_a12 = {nD, nD, pD, pD};
+    static CutensorContraction a12({'y','u','p'}, {'x','u','q'}, {'y','x','p','q'}, 
+                                   {nD, bD, pD},  {nD, bD, pD},  {nD, nD, pD, pD});
 
-    static const std::vector<int32_t> mode_a1r = {'y','u','p'};
-    static const std::vector<int32_t> mode_a2r = {'x','u','q'};
-    static const std::vector<int32_t> mode_a12 = {'y','x','p','q'};
+    static CutensorContraction d_intm({'y','x','Y','X'}, {'y','x','p','q'}, {'Y','X','p','q'}, 
+                                      {nD, nD, nD, nD},  {nD, nD, pD, pD},  {nD, nD, pD, pD});
 
-    static CutensorContraction a12(mode_a1r, mode_a2r, mode_a12, 
-                                   extent_a1r, extent_a2r, extent_a12);
-
-    static const std::vector<int64_t> extent_n12  = {nD, nD, nD, nD};
-    static const std::vector<int64_t> extent_intm = {nD, nD, pD, pD};
-
-    static const std::vector<int32_t> mode_n12  = {'y','x','Y','X'};
-    static const std::vector<int32_t> mode_intm = {'Y','X','p','q'};
-
-    static CutensorContraction d_intm(mode_n12, mode_a12, mode_intm, 
-                                      extent_n12, extent_a12, extent_intm);
-
-    static const std::vector<int64_t> extent_d = {};
-    static const std::vector<int32_t> mode_d   = {};
-
-    static CutensorContraction d(mode_intm, mode_intm, mode_d, 
-                                 extent_intm, extent_a12, extent_d);
+    static CutensorContraction d({'Y','X','p','q'}, {'Y','X','p','q'}, {}, 
+                                 {nD, nD, pD, pD},  {nD, nD, pD, pD},  {});
 
     torch::Tensor a12n = a12.build(a1r, a2r);
     torch::Tensor d2 = d.build(d_intm.build(n12, a12n), a12n);
     torch::Tensor d3 = d.build(d_intm.build(n12, a12g), a12n);
     return d2 - 2*d3;
+}
+
+torch::Tensor cutensor_build_norm_tensor(
+    torch::Tensor c12, torch::Tensor e12, torch::Tensor e11,
+    torch::Tensor c13, torch::Tensor e13, torch::Tensor a1q,
+    torch::Tensor c21, torch::Tensor e21, torch::Tensor e24,
+    torch::Tensor c24, torch::Tensor e23, torch::Tensor a2q) {
+
+    static int64_t nD = a1q.size(3);
+    static int64_t bD = a1q.size(0);
+    static int64_t cD = c12.size(0);
+
+    static CutensorContraction tmp1({'a','b'}, {'b','c','r','R'}, {'a','c','r','R'},
+                                     {cD, cD}, {cD, cD, bD, bD},  {cD, cD, bD, bD});
+
+    static CutensorContraction tmp2({'a','c','r','R'}, {'e','a','u','U'}, {'c','r','R','e','u','U'},
+                                     {cD, cD, bD, bD}, {cD, cD, bD, bD},  {cD, bD, bD, cD, bD, bD});
+
+    static CutensorContraction tmp3({'c','r','R','e','u','U'}, {'R','D','U','Y'}, {'c','r','e','u','D','Y'},
+                                    {cD, bD, bD, cD, bD, bD},  {bD, bD, bD, nD},  {cD, bD, cD, bD, bD, nD});
+
+    static CutensorContraction tmp4({'c','r','e','u','D','Y'}, {'r','d','u','y'}, {'c','e','D','Y','d','y'},
+                                    {cD, bD, cD, bD, bD, nD},  {bD, bD, bD, nD},  {cD, cD, bD, nD, bD, nD});
+
+    static CutensorContraction tmp5({'a','b'}, {'b','f','d','D'}, {'a','f','d','D'},
+                                    {cD, cD},  {cD, cD, bD, bD},  {cD, cD, bD, bD});
+
+    static CutensorContraction tmp6({'a','f','d','D'}, {'a','e','D','Y','d','y'}, {'f','e','Y','y'},
+                                    {cD, cD, bD, bD},  {cD, cD, bD, nD, bD, nD},  {cD, cD, nD, nD});
+
+    static CutensorContraction tmp7({'a','b'}, {'b','c','u','U'}, {'a','c','u','U'},
+                                    {cD, cD},  {cD, cD, bD, bD},  {cD, cD, bD, bD});
+
+    static CutensorContraction tmp8({'a','c','u','U'}, {'e','a','l','L'}, {'c','u','U','e','l','L'},
+                                    {cD, cD, bD, bD},  {cD, cD, bD, bD},  {cD, bD, bD, cD, bD, bD});
+
+    static CutensorContraction tmp9({'c','u','U','e','l','L'}, {'D','L','U','X'}, {'c','u','e','l','X','D'},
+                                    {cD, bD, bD, cD, bD, bD},  {bD, bD, bD, nD},  {cD, bD, cD, bD, nD, bD});
+
+    static CutensorContraction tmp10({'c','u','e','l','X','D'}, {'d','l','u','x'}, {'c','e','X','D','x','d'},
+                                     {cD, bD, cD, bD, nD, bD},  {bD, bD, bD, nD},  {cD, cD, nD, bD, nD, bD});
+
+    static CutensorContraction tmp11({'a','b'}, {'f','a','d','D'}, {'b','f','d','D'},
+                                     {cD, cD},  {cD, cD, bD, bD},  {cD, cD, bD, bD});
+
+    static CutensorContraction tmp12({'b','f','d','D'}, {'c','b','X','D','x','d'}, {'f','c','X','x'},
+                                     {cD, cD, bD, bD},  {cD, cD, nD, bD, nD, bD},  {cD, cD, nD, nD});
+
+    static CutensorContraction finalC({'f','c','Y','y'}, {'f','c','X','x'}, {'y','x','Y','X'},
+                                      {cD, cD, nD, nD},  {cD, cD, nD, nD},  {nD, nD, nD, nD});
+
+    torch::Tensor t1  = tmp1.build(c12, e12);
+    torch::Tensor t2  = tmp2.build(t1, e11);   t1.reset();
+    torch::Tensor t3  = tmp3.build(t2, a1q);   t2.reset();
+    torch::Tensor t4  = tmp4.build(t3, a1q);   t3.reset();
+    torch::Tensor t5  = tmp5.build(c13, e13);
+    torch::Tensor t6  = tmp6.build(t5, t4);    t4.reset(); t5.reset();
+    torch::Tensor t7  = tmp7.build(c21, e21);
+    torch::Tensor t8  = tmp8.build(t7, e24);   t7.reset();
+    torch::Tensor t9  = tmp9.build(t8, a2q);   t8.reset();
+    torch::Tensor t10 = tmp10.build(t9, a2q);  t9.reset();
+    torch::Tensor t11 = tmp11.build(c24, e23);
+    torch::Tensor t12 = tmp12.build(t11, t10); t10.reset(); t11.reset();
+
+    return finalC.build(t6, t12);
 }
 
 TORCH_LIBRARY(cutensor_ext, m) {
@@ -231,4 +233,5 @@ TORCH_LIBRARY(cutensor_ext, m) {
     m.def("build_r1", &cutensor_build_r1);
     m.def("build_r2", &cutensor_build_r2);
     m.def("calculate_cost", &cutensor_calculate_cost);
+    m.def("build_norm_tensor", &cutensor_build_norm_tensor);
 }
