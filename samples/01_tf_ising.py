@@ -13,7 +13,6 @@ def main(config):
         ipeps.evolve(dtau=0.01, steps=100)
         ipeps.measure()
 
-
 if __name__=='__main__':
     # Basic config for the TFIM with hx=2.95
     config = {
