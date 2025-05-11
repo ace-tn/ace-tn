@@ -1,21 +1,13 @@
 import torch
-from torch import einsum,conj
+from torch import einsum, conj, sqrt
 
 class ProjectorCalculator:
-    """
-    A class to compute projectors for the iPEPS tensor network.
-
-    This class provides methods for calculating half-system and full-system projectors
-    based on the given tensor network configuration.
-    """
+    """Computes projectors for iPEPS tensor networks using full or half-system contractions."""
+    
     def __init__(self, config):
         """
-        Initializes the ProjectorCalculator with the given configuration.
-
-        Parameters:
-        -----------
-        config : dict
-            A dictionary containing the configuration for the projector calculation.
+        Args:
+            config (object): Configuration object with projector and SVD settings.
         """
         self.projectors        = config.projectors
         self.svd_type          = config.svd_type
@@ -26,10 +18,10 @@ class ProjectorCalculator:
 
     def set_calculate(self):
         """
-        Sets the appropriate method for projector calculation based on the value of the `projectors` attribute.
+        Sets the `calculate` method based on the projector type.
         
-        The method is set to either `calculate_full_system` or `calculate_half_system`, or raises an error 
-        if an invalid projector type is provided.
+        Raises:
+            ValueError: If projector type is invalid.
         """
         if self.projectors is None or self.projectors == "full-system":
             self.calculate = self.calculate_full_system
@@ -41,22 +33,14 @@ class ProjectorCalculator:
     @staticmethod
     def make_quarter_tensor(site_tensor, k):
         """
-        Constructs a "quarter" tensor from the site tensor, applying bond permutations and contractions.
+        Builds a quarter tensor from site tensors and environments.
 
-        This function creates a tensor that represents a quarter of the full tensor network by contracting
-        the corresponding tensors from the iPEPS network.
-
-        Parameters:
-        -----------
-        site_tensor : Tensor
-            The site tensor from the iPEPS network.
-        k : int
-            The bond index to be permuted and contracted.
+        Args:
+            site_tensor (object): iPEPS site tensor with bonds and environments.
+            k (int): Bond direction index.
 
         Returns:
-        --------
-        Tensor
-            The quarter tensor obtained after applying the bond permutations and contractions.
+            tuple[Tensor, tuple]: Reshaped quarter tensor and its original shape.
         """
         ak  = site_tensor.bond_permute(k)
         ck  = site_tensor['C'][(0+k)%4]
@@ -66,132 +50,134 @@ class ProjectorCalculator:
         qk = einsum("ab,bcuU->acuU", ck, ek2)
         qk = einsum("acuU,ealL->cuUelL", qk, ek1)
         qk = einsum("cuUelL,LURDP->cuelRDP", qk, conj(ak))
-        qk = einsum("lurdp,cuelRDp->rRcdDe", ak, qk)
-        return qk/qk.norm()
+        qk = einsum("lurdp,cuelRDp->crRedD", ak, qk)
+
+        qD = qk.shape
+        qk = qk.reshape(qD[0]*qD[1]*qD[2], qD[3]*qD[4]*qD[5])
+        qk/qk.abs().max()
+        return qk, qD
+
+    def contract_half_system(self, ipeps, sites, k):
+        """
+        Contracts four sites to form half-system intermediate tensors.
+
+        Args:
+            ipeps (object): iPEPS tensor network.
+            sites (list[int]): Four site indices.
+            k (int): Bond direction index.
+
+        Returns:
+            tuple[Tensor, Tensor, Tensor]: Q1, Q4, and the half contraction result.
+        """
+        s1, s4 = sites[0], sites[3]
+        Q1, q1D = self.make_quarter_tensor(ipeps[s1], k)
+        Q4, q4D = self.make_quarter_tensor(ipeps[s4], k+3)
+        R = Q1 @ Q4
+
+        Q1 = Q1.view(Q1.shape[0], *q1D[3:])
+        Q4 = Q4.view(*q4D[:3], Q4.shape[1])
+        R = R / R.abs().max()
+        return Q1, Q4, R
+
+    def contract_full_system(self, ipeps, sites, k):
+        """
+        Contracts four sites to form full-system intermediate tensors.
+
+        Args:
+            ipeps (object): iPEPS tensor network.
+            sites (list[int]): Four site indices.
+            k (int): Bond direction index.
+
+        Returns:
+            tuple[Tensor, Tensor, Tensor]: Half-system contractions R1, R2, and their product F.
+        """
+        s1, s2, s3, s4 = sites
+        Q1, q1D = self.make_quarter_tensor(ipeps[s1], k)
+        Q2, _   = self.make_quarter_tensor(ipeps[s2], k+1)
+        R1 = Q2 @ Q1
+
+        Q3, _   = self.make_quarter_tensor(ipeps[s3], k+2)
+        Q4, q4D = self.make_quarter_tensor(ipeps[s4], k+3)
+        R2 = Q4 @ Q3
+
+        R1 = R1 / R1.abs().max()
+        R2 = R2 / R2.abs().max()
+        F = R1 @ R2
+
+        R1 = R1.view(R1.shape[0], *q1D[3:])
+        R2 = R2.view(*q4D[:3], R2.shape[1])
+        F = F / F.abs().max()
+        return R1, R2, F
+
+    def calculate_projectors(self, R1, R2, F, chi):
+        """
+        Computes projectors via SVD of the intermediate contraction.
+
+        Args:
+            R1 (Tensor): Half-system contraction part 1.
+            R2 (Tensor): Half-system contraction part 2.
+            F (Tensor): Full-system contraction.
+            chi (int): Max bond dimension.
+
+        Returns:
+            tuple[Tensor, Tensor]: Left and right projectors.
+        """
+        U, s, V = self.svd(F, chi)
+        s = s / s[0]
+        cD_new = min(chi, (s > self.svd_cutoff).sum())
+
+        U = U[:, :cD_new] * (1. / sqrt(s[:cD_new]))
+        V = V[:, :cD_new] * (1. / sqrt(s[:cD_new]))
+
+        proj1 = einsum("xedD,xz->edDz", R1, conj(U))
+        proj2 = einsum("cuUy,yz->cuUz", R2, V)
+        return proj1, proj2
 
     def calculate_half_system(self, ipeps, sites, k):
         """
-        Calculates the half-system projectors for the iPEPS tensor network.
+        Computes projectors using half-system contraction.
 
-        This method computes the projectors for the half-system by contracting tensors from two sites 
-        and performing a singular value decomposition (SVD) to obtain the projector.
-
-        Parameters:
-        -----------
-        ipeps : object
-            The iPEPS tensor network.
-        sites : list
-            A list of two site indices in the iPEPS network for the half-system.
-        k : int
-            The bond index around which the contraction is performed.
+        Args:
+            ipeps (object): iPEPS tensor network.
+            sites (list[int]): Four site indices.
+            k (int): Bond direction index.
 
         Returns:
-        --------
-        tuple
-            A tuple containing the two projectors for the half-system.
+            tuple[Tensor, Tensor]: Left and right projectors.
         """
-        s1 = sites[0]
-        s4 = sites[3]
-
-        q1 = self.make_quarter_tensor(ipeps[s1], k)
-        q4 = self.make_quarter_tensor(ipeps[s4], k+3)
-        r1 = einsum("rRcdDf,dDfsSe->rRcsSe", q1, q4)
-        r1 = r1/r1.norm()
-
-        rD = r1.shape
-        r1 = r1.reshape(rD[0]*rD[1]*rD[2], rD[3]*rD[4]*rD[5])
-
-        cD = ipeps.dims['chi']
-        ur1,sr1,vr1 = self.svd(r1, cD)
-        cD_new = min(cD, sum(sr1/sr1[0] > self.svd_cutoff))
-
-        ur1 = ur1[:,:cD_new]*(1./torch.sqrt(sr1[:cD_new]))
-        vr1 = vr1[:,:cD_new]*(1./torch.sqrt(sr1[:cD_new]))
-
-        ur1 = ur1.reshape(rD[0],rD[1],rD[2],cD_new)
-        vr1 = vr1.reshape(rD[3],rD[4],rD[5],cD_new)
-
-        proj1_i = einsum("rRcdDe,rRcx->edDx", q1, conj(ur1))
-        proj2_i = einsum("uUcrRe,rRex->cuUx", q4, vr1)
-
-        return proj1_i, proj2_i
+        Q1, Q4, R = self.contract_half_system(ipeps, sites, k)
+        return self.calculate_projectors(Q1, Q4, R, ipeps.dims["chi"])
 
     def calculate_full_system(self, ipeps, sites, k):
         """
-        Calculates the full-system projectors for the iPEPS tensor network.
+        Computes projectors using full-system contraction.
 
-        This method computes the projectors for the full-system by contracting tensors from four sites 
-        and performing a singular value decomposition (SVD) to obtain the projectors.
-
-        Parameters:
-        -----------
-        ipeps : object
-            The iPEPS tensor network.
-        sites : list
-            A list of four site indices in the iPEPS network for the full-system.
-        k : int
-            The bond index around which the contraction is performed.
+        Args:
+            ipeps (object): iPEPS tensor network.
+            sites (list[int]): Four site indices.
+            k (int): Bond direction index.
 
         Returns:
-        --------
-        tuple
-            A tuple containing the two projectors for the full-system.
+            tuple[Tensor, Tensor]: Left and right projectors.
         """
-        s1,s2,s3,s4 = sites
-
-        q1 = self.make_quarter_tensor(ipeps[s1], k)
-        q2 = self.make_quarter_tensor(ipeps[s2], k+1)
-        r1 = einsum("xXclLf,lLfdDe->xXcdDe", q2, q1)
-
-        q3 = self.make_quarter_tensor(ipeps[s3], k+2)
-        q4 = self.make_quarter_tensor(ipeps[s4], k+3)
-        r2 = einsum("uUclLf,lLfyYe->uUcyYe", q4, q3)
-
-        f0 = einsum("xXcdDf,dDfyYe->xXcyYe", r1, r2)
-        f0 = f0/f0.norm()
-
-        fD = f0.shape
-        f0 = f0.reshape(fD[0]*fD[1]*fD[2], fD[3]*fD[4]*fD[5])
-
-        cD = ipeps.dims['chi']
-        uf0,sf0,vf0 = self.svd(f0, cD)
-        cD_new = min(cD, sum(sf0/sf0[0] > self.svd_cutoff))
-
-        uf0 = uf0[:,:cD_new]*(1./torch.sqrt(sf0[:cD_new]))
-        vf0 = vf0[:,:cD_new]*(1./torch.sqrt(sf0[:cD_new]))
-
-        uf0 = uf0.reshape(fD[0],fD[1],fD[2],cD_new)
-        vf0 = vf0.reshape(fD[3],fD[4],fD[5],cD_new)
-
-        proj1_i = einsum("xXcdDe,xXcz->edDz", r1, conj(uf0))
-        proj2_i = einsum("uUcyYe,yYez->cuUz", r2, vf0)
-
-        return proj1_i, proj2_i
+        R1, R2, F = self.contract_full_system(ipeps, sites, k)
+        return self.calculate_projectors(R1, R2, F, ipeps.dims["chi"])
 
     def svd(self, A, cD):
         """
-        Performs Singular Value Decomposition (SVD) on the given matrix `A`.
+        Performs singular value decomposition (SVD), full-rank or RSVD on matrix A.
 
-        This method supports both full-rank SVD and randomized SVD (rSVD), depending on the `svd_type`.
-
-        Parameters:
-        -----------
-        A : Tensor
-            The matrix to be decomposed.
-        cD : int
-            The dimension parameter used for the randomized SVD.
+        Args:
+            A (Tensor): Input matrix.
+            cD (int): Target dimension (used for RSVD).
 
         Returns:
-        --------
-        tuple
-            A tuple containing the left singular vectors (`u`), singular values (`s`), 
-            and right singular vectors (`v`) from the decomposition.
+            tuple[Tensor, Tensor, Tensor]: SVD result (U, S, V).
         """
         if self.svd_type == "full-rank":
-            u,s,v = torch.linalg.svd(A)
-            v = v.mH
+            U,s,Vh = torch.linalg.svd(A)
+            V = Vh.mH
         elif self.svd_type == "rsvd":
-            niter = self.rsvd_niter
             q = cD + self.rsvd_oversampling
-            u,s,v = torch.svd_lowrank(A, q=q, niter=niter)
-        return u,s,v
+            U,s,V = torch.svd_lowrank(A, q=q, niter=self.rsvd_niter)
+        return U,s,V
