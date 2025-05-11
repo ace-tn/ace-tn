@@ -27,20 +27,25 @@ class CustomModel(Model):
         X,Y,Z,I = pauli_matrices(self.dtype, self.device)
         return -hx*X
 
-
-if __name__=='__main__':
+def main(config):
     # initialize an ipeps instance
-    ipeps_config = toml.load("./input/03_custom_model.toml")
-    ipeps = Ipeps(ipeps_config)
+    ipeps = Ipeps(config)
 
     # allow the ipeps to access the custom model implementation by registering the model
     ipeps.set_model(CustomModel, {'Jz':1.0,'hx':2.5})
 
     # start imaginary-time evolution with a few large time steps
     ipeps.evolve(dtau=0.1, steps=10)
+    ipeps.measure()
 
     # reduce the time step and increase steps for more accurate results
     for hx in np.arange(2.5, 3.5, 0.1):
         # model params can be updated before the next evolution
         ipeps.set_model_params(hx=hx)
         ipeps.evolve(dtau=0.01, steps=500)
+        ipeps.measure()
+
+if __name__=='__main__':
+    # load config from toml file
+    config = toml.load("./input/03_custom_model.toml")
+    main(config)

@@ -10,10 +10,6 @@ phys = 2
 bond = 4
 chi = 16
 
-[ctmrg]
-steps = 10
-projectors = "half-system"
-
 [model]
 name = "heisenberg"
 
