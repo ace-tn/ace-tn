@@ -1,4 +1,5 @@
 import torch
+from math import ceil
 from torch import einsum, conj
 from torch.linalg import qr,eigh,svd,pinv
 from ..evolution.tensor_update import TensorUpdater
@@ -309,6 +310,35 @@ def build_norm_tensor_core(c12, e12, e11, c13, e13, a1q,
 
     return einsum("fcYy,fcXx->yxYX", n1_tmp, n2_tmp)
 
+def build_norm_tensor_core_blocked(c12, e12, e11, c13, e13, a1q,
+                                   c21, e21, e24, c24, e23, a2q):
+    nD = a1q.shape[-1]
+    BC = max(8, ceil(nD/4))
+    block_indices = [(b00, b10, min(nD, b00+BC), min(nD, b10+BC))
+                     for b00 in range(0, nD, BC) for b10 in range(0, nD, BC)]
+
+    tmp_r1 = einsum("ab,bcrR->acrR", c12, e12)
+    tmp_r1 = einsum("acrR,eauU->crReuU", tmp_r1, e11)
+    tmp_r2 = einsum("ab,bfdD->afdD", c13, e13)
+
+    tmp_l1 = einsum("ab,bcuU->acuU", c21, e21)
+    tmp_l1 = einsum("acuU,ealL->cuUelL", tmp_l1, e24)
+    tmp_l2 = einsum("ab,fadD->bfdD", c24, e23)
+
+    n12 = torch.empty(nD,nD,nD,nD, dtype=a1q.dtype, device=a1q.device)
+    for b00,b10,b01,b11 in block_indices:
+        # build right half
+        tmp_r3 = einsum("crReuU,RDUY->creuDY", tmp_r1, conj(a1q[:,:,:,b00:b01]))
+        tmp_r3 = einsum("creuDY,rduy->ceDYdy", tmp_r3, a1q)
+        n1_tmp = einsum("afdD,aeDYdy->feYy", tmp_r2, tmp_r3)
+
+        # build left half
+        tmp_l3 = einsum("cuUelL,DLUX->cuelXD", tmp_l1, conj(a2q[:,:,:,b10:b11]))
+        tmp_l3 = einsum("cuelXD,dlux->ceXDxd", tmp_l3, a2q)
+        n2_tmp = einsum("bfdD,cbXDxd->fcXx", tmp_l2, tmp_l3)
+
+        n12[:,:,b00:b01,b10:b11] = einsum("fcYy,fcXx->yxYX", n1_tmp, n2_tmp)
+    return n12
 
 def positive_approx(n12, cutoff=1e-12):
     """
