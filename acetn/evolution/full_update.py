@@ -298,6 +298,7 @@ def torch_build_norm_tensor(ipeps, bond, a1q, a2q):
     return build_norm_tensor_core(c12, e12, e11, c13, e13, a1q,
                                   c21, e21, e24, c24, e23, a2q)
 
+
 def build_norm_tensor_core(c12, e12, e11, c13, e13, a1q,
                            c21, e21, e24, c24, e23, a2q):
     # build right half
