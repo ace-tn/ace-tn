@@ -3,7 +3,7 @@ from math import ceil
 from torch import einsum, conj
 from torch.linalg import qr,eigh,svd,pinv
 from ..evolution.tensor_update import TensorUpdater
-from ..evolution.als_solver import ALSSolver as TorchALSSolver
+from ..evolution.als_solver import ALSSolver
 
 class FullUpdater(TensorUpdater):
     """
@@ -29,18 +29,27 @@ class FullUpdater(TensorUpdater):
         self.use_gauge_fix          = config.use_gauge_fix
         self.gauge_fix_atol         = config.gauge_fix_atol
         self.positive_approx_cutoff = config.positive_approx_cutoff
+        self.backend                = config.backend
+        self.setup_backend()
 
-        self.setup_backend(self.config.backend)
+    def setup_backend(self):
+        if self.backend == "cutensor":
+            self.load_cutensor_library()
+        elif self.backend != "torch":
+            raise NotImplementedError(f"Backend {self.backend} not supported.")
+        self.build_norm_tensor = torch_build_norm_tensor
 
-    def setup_backend(self, backend):
-        if backend == "torch":
-            self.ALSSolver = TorchALSSolver
-            self.build_norm_tensor = torch_build_norm_tensor
-        elif backend == "cutensor":
-            self.ALSSolver = TorchALSSolver
-            self.build_norm_tensor = torch_build_norm_tensor
-        else:
-            raise NotImplementedError(f"Backend {backend} not supported.")
+    def load_cutensor_library(self):
+        try:
+            from pathlib import Path
+            cutensor_lib_path = Path(__file__).resolve().parent / "../../csrc/evolution/als_contractions.so"
+            cutensor_lib_path = cutensor_lib_path.resolve(strict=True)
+            torch.ops.load_library(cutensor_lib_path)
+            cusolver_lib_path = Path(__file__).resolve().parent / "../../csrc/evolution/cholesky_solve.so"
+            cusolver_lib_path = cusolver_lib_path.resolve(strict=True)
+            torch.ops.load_library(cusolver_lib_path)
+        except:
+            self.backend = "torch"
 
     def tensor_update(self, a1, a2, bond):
         """
@@ -97,11 +106,11 @@ class FullUpdater(TensorUpdater):
         a1r, a2r : Tensor
             The updated reduced tensors for the first and second sites.
         """
-        a12g = einsum("yup,xuq->ypxq", a1r, a2r)
-        a12g = einsum("ypxq,pqrs->yxrs", a12g, gate)
+        a12g = einsum("yup,xuq->yxpq", a1r, a2r)
+        a12g = einsum("yxpq,pqrs->yxrs", a12g, gate)
 
         n12, a12g = self.precondition_norm_tensor(n12, a12g)
-        a1r,a2r = self.ALSSolver(n12, a12g, a1r.shape, self.config).solve()
+        a1r,a2r = ALSSolver(n12, a12g, a1r.shape, self.config).solve()
         a1r,a2r = self.finalize_reduced_tensors(a1r, a2r)
         return a1r,a2r
 
@@ -203,7 +212,6 @@ class FullUpdater(TensorUpdater):
 
         a1_tmp = einsum("lurdp->rdulp", a1).reshape(bD**3, pD*bD)
         a1q,a1r = qr(a1_tmp)
-
         a1q = a1q.reshape(bD, bD, bD, nD)
         a1r = a1r.reshape(nD, bD, pD)
 
@@ -290,6 +298,7 @@ def torch_build_norm_tensor(ipeps, bond, a1q, a2q):
     return build_norm_tensor_core(c12, e12, e11, c13, e13, a1q,
                                   c21, e21, e24, c24, e23, a2q)
 
+
 def build_norm_tensor_core(c12, e12, e11, c13, e13, a1q,
                            c21, e21, e24, c24, e23, a2q):
     # build right half
@@ -310,12 +319,14 @@ def build_norm_tensor_core(c12, e12, e11, c13, e13, a1q,
 
     return einsum("fcYy,fcXx->yxYX", n1_tmp, n2_tmp)
 
+
 def build_norm_tensor_core_blocked(c12, e12, e11, c13, e13, a1q,
                                    c21, e21, e24, c24, e23, a2q):
     nD = a1q.shape[-1]
     BC = max(8, ceil(nD/4))
+    block_range = range(0, nD, BC)
     block_indices = [(b00, b10, min(nD, b00+BC), min(nD, b10+BC))
-                     for b00 in range(0, nD, BC) for b10 in range(0, nD, BC)]
+                     for b00 in block_range for b10 in block_range]
 
     tmp_r1 = einsum("ab,bcrR->acrR", c12, e12)
     tmp_r1 = einsum("acrR,eauU->crReuU", tmp_r1, e11)
@@ -339,6 +350,7 @@ def build_norm_tensor_core_blocked(c12, e12, e11, c13, e13, a1q,
 
         n12[:,:,b00:b01,b10:b11] = einsum("fcYy,fcXx->yxYX", n1_tmp, n2_tmp)
     return n12
+
 
 def positive_approx(n12, cutoff=1e-12):
     """
@@ -376,6 +388,7 @@ def positive_approx(n12, cutoff=1e-12):
             nz = torch.flip(nz, dims=[-1])
     nz = nz.reshape(nD, nD, nD**2)*torch.sqrt(nw)
     return nz
+
 
 def gauge_fix(nz, a12g, atol=1e-12):
     """

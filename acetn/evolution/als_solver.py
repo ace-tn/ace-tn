@@ -21,46 +21,41 @@ class ALSSolver:
         ar_shape : tuple
             The shape of the reduced tensors.
         """
-        self.niter = config.als_niter
-        self.tol = config.als_tol
-        self.method = config.als_method
+        self.niter   = config.als_niter
+        self.tol     = config.als_tol
+        self.method  = config.als_method
         self.epsilon = config.als_epsilon
-        self.backend = "cutensor" #config.backend
-        self.ar_shape = ar_shape
+        self.backend = config.backend
         self.n12 = n12
         self.a12g = a12g
+        self.ar_shape = ar_shape
         self.setup_backend()
 
     def setup_backend(self):
-        if self.backend == "cutensor":
-            try:
-                from pathlib import Path
-                cutensor_lib_path = Path(__file__).resolve().parent / "../../csrc/evolution/als_contractions.so"
-                cutensor_lib_path = cutensor_lib_path.resolve(strict=True)
-                torch.ops.load_library(cutensor_lib_path)
-                cusolver_lib_path = Path(__file__).resolve().parent / "../../csrc/evolution/cholesky_solve.so"
-                cusolver_lib_path = cusolver_lib_path.resolve(strict=True)
-                torch.ops.load_library(cusolver_lib_path)
-            except:
-                self.backend = "torch"
         if self.backend == "torch":
-            self.build_s1 = self.torch_build_s1
-            self.build_s2 = self.torch_build_s2
-            self.build_r1 = self.torch_build_r1
-            self.build_r2 = self.torch_build_r2
-            self.calculate_cost = self.torch_calculate_cost
-            self.cholesky_solve = self.torch_cholesky_solve
+            self.set_torch_ops()
         elif self.backend == "cutensor":
-            self.build_s1 = torch.ops.cutensor_ext.build_s1
-            self.build_s2 = torch.ops.cutensor_ext.build_s2
-            self.build_r1 = torch.ops.cutensor_ext.build_r1
-            self.build_r2 = torch.ops.cutensor_ext.build_r2
-            self.calculate_cost = torch.ops.cutensor_ext.calculate_cost
-            self.cholesky_solve = torch.ops.cusolver_ext.cholesky_solve 
-            self.n12 = self.n12.permute(3, 2, 1, 0).contiguous().permute(3, 2, 1, 0)
-            self.a12g = self.a12g.permute(3, 2, 1, 0).contiguous().permute(3, 2, 1, 0)
+            self.set_cutensor_ops()
+            self.n12 = self.column_major_contiguous(self.n12)
+            self.a12g = self.column_major_contiguous(self.a12g)
         else:
             raise NotImplementedError(f"Backend {self.backend} is not supported.")
+
+    def set_torch_ops(self):
+        self.build_s1 = self.torch_build_s1
+        self.build_s2 = self.torch_build_s2
+        self.build_r1 = self.torch_build_r1
+        self.build_r2 = self.torch_build_r2
+        self.calculate_cost = self.torch_calculate_cost
+        self.cholesky_solve = self.torch_cholesky_solve
+
+    def set_cutensor_ops(self):
+        self.build_s1 = torch.ops.cutensor_ext.build_s1
+        self.build_s2 = torch.ops.cutensor_ext.build_s2
+        self.build_r1 = torch.ops.cutensor_ext.build_r1
+        self.build_r2 = torch.ops.cutensor_ext.build_r2
+        self.calculate_cost = torch.ops.cutensor_ext.calculate_cost
+        self.cholesky_solve = torch.ops.cusolver_ext.cholesky_solve 
 
     def solve(self):
         """
@@ -74,8 +69,8 @@ class ALSSolver:
         a1r,a2r,n12g = self.initialize_tensors()
         d1 = self.calculate_cost(a1r, a2r, self.a12g, self.n12).abs()
         for i in range(self.niter):
-            a1r = self.solve_a1r(n12g, a2r).permute(2, 1, 0).contiguous().permute(2, 1, 0)
-            a2r = self.solve_a2r(n12g, a1r).permute(2, 1, 0).contiguous().permute(2, 1, 0)
+            a1r = self.column_major_contiguous(self.solve_a1r(n12g, a2r))
+            a2r = self.column_major_contiguous(self.solve_a2r(n12g, a1r))
             d2 = self.calculate_cost(a1r, a2r, self.a12g, self.n12)
             error = abs(d2 - d1)/d1.abs()
             if error < self.tol and i > 1:
@@ -87,9 +82,9 @@ class ALSSolver:
         a1r,a2r = self.initialize_reduced_tensors(self.a12g, self.ar_shape)
         n12g = einsum("yxYX,yxpq->YXpq", self.n12, self.a12g)
         if self.backend == "cutensor":
-            a1r = a1r.permute(2, 1, 0).contiguous().permute(2, 1, 0)
-            a2r = a2r.permute(2, 1, 0).contiguous().permute(2, 1, 0)
-            n12g = n12g.permute(3, 2, 1, 0).contiguous().permute(3, 2, 1, 0)
+            a1r = self.column_major_contiguous(a1r)
+            a2r = self.column_major_contiguous(a2r)
+            n12g = self.column_major_contiguous(n12g)
         return a1r,a2r,n12g
 
     @staticmethod
@@ -208,7 +203,7 @@ class ALSSolver:
         match self.method:
             case "cholesky":
                 R += self.epsilon*torch.eye(R.shape[0], dtype=R.dtype, device=R.device)
-                ar = self.cholesky_solve(R.clone(), S.clone())
+                ar = self.cholesky_solve(R, S)
             case "pinv":
                 R_inv = pinv(R, hermitian=True, rcond=self.epsilon)
                 ar = R_inv @ S
@@ -253,3 +248,8 @@ class ALSSolver:
         except:
             ar = torch.linalg.solve(R, S)
         return ar
+
+    @staticmethod
+    def column_major_contiguous(tensor):
+        reversed_modes = range(tensor.ndim-1,-1,-1)
+        return tensor.permute(*reversed_modes).contiguous().permute(*reversed_modes)
