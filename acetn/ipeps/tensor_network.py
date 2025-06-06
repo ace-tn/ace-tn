@@ -23,7 +23,6 @@ class TensorNetwork:
         self.nx = config.nx
         self.ny = config.ny
         self.dims = config.dims
-        self.initial_site_states = config.initial_site_states
 
         self.dtype = dtype
         self.device = device
@@ -125,32 +124,17 @@ class TensorNetwork:
         """
         Initializes or copies the tensor network based on the input.
 
-        If no tensor network is provided, it initializes a new one. Otherwise, it copies from the provided network.
+        If no tensor network is provided, it initializes a new one in a uniform polarized product state. Otherwise, it 
+        copies from the provided network.
 
         Args:
             tensor_network (TensorNetwork, optional): Another tensor network to copy from. If None, a new network is created.
         """
         if tensor_network is None:
-            self.initialize_site_tensors(self.initial_site_state_map)
+            uniform_site_state_map = lambda site: [1.,] + [0,]*(self.dims['phys']-1)
+            self.initialize_site_tensors(uniform_site_state_map)
         else:
             self.copy_from(tensor_network)
-
-    def initial_site_state_map(self, site):
-        """
-        Determines the initial state for a site based on the configuration.
-
-        Args:
-            site (tuple): Tuple containing the (x,y) coordinates of the site.
-
-        Returns:
-            list: The initial state for the site as a list of values.
-        """
-        xi,yi = site
-        init_state = self.initial_site_states
-        if init_state is None or init_state == 'ferro':
-            return [1.,] + [0,]*(self.dims['phys']-1)
-        elif init_state == 'neel':
-            return [1.,0.] if (xi+yi)%2==0 else [0.,1.]
 
     def initialize_site_tensors(self, site_state_map):
         """
