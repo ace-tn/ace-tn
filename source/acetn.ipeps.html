@@ -365,16 +365,11 @@ name (str, optional): Name for the custom model.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="acetn.ipeps.ipeps_config.TNConfig">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">acetn.ipeps.ipeps_config.</span></span><span class="sig-name descname"><span class="pre">TNConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nx:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ny:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dims:</span> <span class="pre">Dict[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">int]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_site_states:</span> <span class="pre">Literal['ferro'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'neel']</span> <span class="pre">=</span> <span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.ipeps.ipeps_config.TNConfig" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">acetn.ipeps.ipeps_config.</span></span><span class="sig-name descname"><span class="pre">TNConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nx:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ny:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dims:</span> <span class="pre">Dict[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">int]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.ipeps.ipeps_config.TNConfig" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="acetn.ipeps.ipeps_config.TNConfig.dims">
 <span class="sig-name descname"><span class="pre">dims</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#acetn.ipeps.ipeps_config.TNConfig.dims" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="acetn.ipeps.ipeps_config.TNConfig.initial_site_states">
-<span class="sig-name descname"><span class="pre">initial_site_states</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'ferro'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'neel'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#acetn.ipeps.ipeps_config.TNConfig.initial_site_states" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -539,18 +534,6 @@ It supports operations such as saving, loading, and setting up tensor networks, 
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="acetn.ipeps.tensor_network.TensorNetwork.initial_site_state_map">
-<span class="sig-name descname"><span class="pre">initial_site_state_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">site</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.ipeps.tensor_network.TensorNetwork.initial_site_state_map" title="Link to this definition"></a></dt>
-<dd><p>Determines the initial state for a site based on the configuration.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>site (tuple): Tuple containing the (x,y) coordinates of the site.</p>
-</dd>
-<dt>Returns:</dt><dd><p>list: The initial state for the site as a list of values.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="acetn.ipeps.tensor_network.TensorNetwork.initialize_site_tensors">
 <span class="sig-name descname"><span class="pre">initialize_site_tensors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">site_state_map</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.ipeps.tensor_network.TensorNetwork.initialize_site_tensors" title="Link to this definition"></a></dt>
 <dd><p>Initializes the tensors for the entire tensor network.</p>
@@ -582,7 +565,8 @@ It supports operations such as saving, loading, and setting up tensor networks, 
 <dt class="sig sig-object py" id="acetn.ipeps.tensor_network.TensorNetwork.setup_tensor_network">
 <span class="sig-name descname"><span class="pre">setup_tensor_network</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tensor_network</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.ipeps.tensor_network.TensorNetwork.setup_tensor_network" title="Link to this definition"></a></dt>
 <dd><p>Initializes or copies the tensor network based on the input.</p>
-<p>If no tensor network is provided, it initializes a new one. Otherwise, it copies from the provided network.</p>
+<p>If no tensor network is provided, it initializes a new one in a uniform polarized product state. Otherwise, it 
+copies from the provided network.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>tensor_network (TensorNetwork, optional): Another tensor network to copy from. If None, a new network is created.</p>
 </dd>
