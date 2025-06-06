@@ -10,7 +10,6 @@ class TNConfig:
     ny: int = 2
     dims: Dict[str, int] = field(
         default_factory=lambda: {'phys': 2, 'bond': 2, 'chi': 20})
-    initial_site_states: Literal["ferro", "neel"] = None
 
 @dataclass
 class CTMRGConfig:

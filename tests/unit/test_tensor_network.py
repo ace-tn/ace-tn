@@ -79,20 +79,6 @@ def test_save_load(setup_tensor_network, tmp_path):
         assert torch.equal(tensor_network[site]['A'], loaded_tensor_network[site]['A'])
 
 
-def test_initialize_tensors(setup_tensor_network):
-    # Test the tensor initialization
-    tensor_network, _ = setup_tensor_network
-    tensor_network.initialize_site_tensors(tensor_network.initial_site_state_map)
-
-    # Ensure that the site list has been populated correctly
-    assert len(tensor_network.site_list) == 4  # 2x2 grid of sites
-
-    # Check that tensors have been initialized
-    for site in tensor_network.site_list:
-        assert isinstance(tensor_network[site], SiteTensor)
-        assert tensor_network[site]['A'].shape == (3, 3, 3, 3, 2)
-
-
 def test_build_bond_list(setup_tensor_network):
     # Test building the bond list
     tensor_network, _ = setup_tensor_network
