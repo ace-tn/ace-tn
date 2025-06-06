@@ -72,7 +72,7 @@ def test_save_load(setup_tensor_network, tmp_path):
     
     # Create a new TensorNetwork instance and load from the saved file
     loaded_tensor_network = TensorNetwork(None, config, tensor_network.dtype, tensor_network.device)
-    loaded_tensor_network.load(str(save_path) + ".pt")
+    loaded_tensor_network.load(str(save_path))
     
     # Check if the loaded tensor network has the same tensors
     for site in tensor_network.site_list:

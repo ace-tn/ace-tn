@@ -91,21 +91,22 @@ class TensorNetwork:
         dtype = dtype or self.dtype
         return TensorNetwork(tensor_network=self, config=self.tn_config, dtype=dtype, device=device)
 
-    def save(self, prefix='ipeps'):
+    def save(self, filename='ipeps.pt'):
         """
         Saves the current tensor network to a file.
 
         Args:
-            prefix (str): The prefix for the saved file. The file will be saved as "<prefix>.pt".
+            filename (str): The file name for the saved file.
 
-        Saves the tensor network and its tensors to a PyTorch .pt file.
+        Saves the tensor network and its tensors to a PyTorch binary file.
         """
         tn_cpu = self.to(device="cpu")
         state_dict = {
             "tensor_network": tn_cpu,
             "tensors": tn_cpu._tensor_network,
         }
-        torch.save(state_dict, prefix + ".pt")
+        torch.save(state_dict, filename)
+        self.load(filename)
 
     def load(self, filename):
         """
