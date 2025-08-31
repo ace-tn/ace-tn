@@ -32,6 +32,7 @@ def evolve(ipeps, dtau, steps, model, config):
             runtimes = tensor_updater.bond_update(bond)
             upd_time += runtimes[0]
             ctm_time += runtimes[1]
+        ipeps.bond_list.reverse()
         if is_debug_mode and i % 10 == 0:
             iter_end = time.time()
             ctm_time /= len(ipeps.bond_list)

@@ -202,8 +202,13 @@ class ALSSolver:
         R = 0.5*(R + R.mH)
         match self.method:
             case "cholesky":
-                R += self.epsilon*torch.eye(R.shape[0], dtype=R.dtype, device=R.device)
-                ar = self.cholesky_solve(R, S)
+                try:
+                    R += self.epsilon*R.abs().max()*torch.eye(R.shape[0], dtype=R.dtype, device=R.device)
+                    L = cholesky(R)
+                    Y = solve_triangular(L, S, upper=False)
+                    ar = solve_triangular(L.mH, Y, upper=True)
+                except:
+                    ar = torch.linalg.solve(R, S)
             case "pinv":
                 R_inv = pinv(R, hermitian=True, rcond=self.epsilon)
                 ar = R_inv @ S
