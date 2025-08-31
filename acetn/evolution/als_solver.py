@@ -195,7 +195,7 @@ class ALSSolver:
         match self.method:
             case "cholesky":
                 try:
-                    R += self.epsilon*torch.eye(R.shape[0], dtype=R.dtype, device=R.device)
+                    R += self.epsilon*R.abs().max()*torch.eye(R.shape[0], dtype=R.dtype, device=R.device)
                     L = cholesky(R)
                     Y = solve_triangular(L, S, upper=False)
                     ar = solve_triangular(L.mH, Y, upper=True)
