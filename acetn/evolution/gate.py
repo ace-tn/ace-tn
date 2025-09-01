@@ -79,10 +79,10 @@ class Gate:
             A list of sites for which one-site gates will be created.
         """
         for site in site_list:
-            site_ham = model.one_site_hamiltonian(site).mat
+            site_ham = model.one_site_hamiltonian(site)
             if site_ham is not None:
                 scale = 1. if self.wrap_one_site else 0.25
-                self[site] = self.calculate_gate(site_ham, scale*dtau)
+                self[site] = self.calculate_gate(site_ham.mat, scale*dtau)
 
     def build_two_site_gates(self, model, dtau, bond_list):
         """
