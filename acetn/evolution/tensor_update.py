@@ -1,5 +1,6 @@
 from ..utils.benchmarking import record_runtime
 from abc import ABC, abstractmethod
+from torch import einsum
 
 class TensorUpdater(ABC):
     """
@@ -61,6 +62,9 @@ class TensorUpdater(ABC):
         a1,a2 = self.permute_bond_tensors(a1, a2, k)
         a1,a2 = self.tensor_update(a1, a2, bond)
         a1,a2 = self.permute_bond_tensors(a1, a2, 4-k)
+        if not self.gate.wrap_one_site:
+            a1 = einsum("pq,lurdp->lurdq", self.gate[bond[0]], a1)
+            a2 = einsum("pq,lurdp->lurdq", self.gate[bond[1]], a2)
         return a1,a2
 
     def permute_bond_tensors(self, a1, a2, k):

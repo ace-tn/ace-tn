@@ -23,6 +23,7 @@ class Gate:
         """
         self.dtype = model.dtype
         self.device = model.device
+        self.wrap_one_site = True
         if site_list is not None:
             self.build_one_site_gates(model, dtau, site_list)
         if bond_list is not None:
@@ -78,9 +79,10 @@ class Gate:
             A list of sites for which one-site gates will be created.
         """
         for site in site_list:
-            site_ham = model.one_site_hamiltonian(site)
+            site_ham = model.one_site_hamiltonian(site).mat
             if site_ham is not None:
-                self[site] = self.calculate_gate(site_ham.mat, dtau)
+                scale = 1. if self.wrap_one_site else 0.25
+                self[site] = self.calculate_gate(site_ham, scale*dtau)
 
     def build_two_site_gates(self, model, dtau, bond_list):
         """
@@ -99,8 +101,7 @@ class Gate:
         for bond in bond_list:
             pD = model.dim
             bond_ham = model.two_site_hamiltonian(bond).mat
-            include_one_site = True
-            if include_one_site:
+            if self.wrap_one_site:
                 id_mat = torch.eye(pD, dtype=self.dtype, device=self.device)
                 site_ham_1 = model.one_site_hamiltonian(bond[0])
                 site_ham_2 = model.one_site_hamiltonian(bond[1])
