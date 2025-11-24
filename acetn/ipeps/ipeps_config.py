@@ -23,7 +23,7 @@ class CTMRGConfig:
 
 @dataclass
 class EvolutionConfig:
-    backend = "torch"
+    backend: Literal["torch", "cutensor"] = "torch"
     update_type: str = "full"
     use_gauge_fix: bool = True
     gauge_fix_atol: float = 1e-12

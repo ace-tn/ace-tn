@@ -29,62 +29,98 @@ class ALSSolver:
         self.n12 = n12
         self.a12g = a12g
         self.ar_shape = ar_shape
-        self.setup_backend()
-
-    def setup_backend(self):
-        if self.backend == "torch":
-            self.set_torch_ops()
-        elif self.backend == "cutensor":
-            self.set_cutensor_ops()
-            self.n12 = self.column_major_contiguous(self.n12)
-            self.a12g = self.column_major_contiguous(self.a12g)
-        else:
-            raise NotImplementedError(f"Backend {self.backend} is not supported.")
-
-    def set_torch_ops(self):
-        self.build_s1 = self.torch_build_s1
-        self.build_s2 = self.torch_build_s2
-        self.build_r1 = self.torch_build_r1
-        self.build_r2 = self.torch_build_r2
-        self.calculate_cost = self.torch_calculate_cost
-        self.cholesky_solve = self.torch_cholesky_solve
-
-    def set_cutensor_ops(self):
-        self.build_s1 = torch.ops.cutensor_ext.build_s1
-        self.build_s2 = torch.ops.cutensor_ext.build_s2
-        self.build_r1 = torch.ops.cutensor_ext.build_r1
-        self.build_r2 = torch.ops.cutensor_ext.build_r2
-        self.calculate_cost = torch.ops.cutensor_ext.calculate_cost
-        self.cholesky_solve = torch.ops.cusolver_ext.cholesky_solve 
 
     def solve(self):
         """
         Solves for the updated tensors by alternating between solving for `a1r` and `a2r`.
+        
+        Initialization is always done in PyTorch, then the iteration loop is handled
+        by the backend-specific implementation.
 
         Returns:
         --------
         tuple
             A tuple containing the updated reduced tensors (`a1r`, `a2r`).
         """
-        a1r,a2r,n12g = self.initialize_tensors()
+        # Shared initialization (always PyTorch)
+        a1r, a2r, n12g = self.initialize_tensors()
+
+        # Backend-specific iteration
+        if self.backend == "cutensor":
+            a1r, a2r = self.solve_cutensor(a1r, a2r, n12g)
+        else:
+            a1r, a2r = self.solve_torch(a1r, a2r, n12g)
+        
+        return a1r, a2r
+
+    def solve_torch(self, a1r, a2r, n12g):
+        """
+        Python implementation of the ALS iteration loop.
+        
+        Parameters:
+        -----------
+        a1r : Tensor
+            Initial reduced tensor for first site.
+        a2r : Tensor
+            Initial reduced tensor for second site.
+        n12g : Tensor
+            Modified norm tensor.
+            
+        Returns:
+        --------
+        tuple
+            Updated tensors (a1r, a2r).
+        """
         d1 = self.calculate_cost(a1r, a2r, self.a12g, self.n12).abs()
         for i in range(self.niter):
-            a1r = self.column_major_contiguous(self.solve_a1r(n12g, a2r))
-            a2r = self.column_major_contiguous(self.solve_a2r(n12g, a1r))
+            a1r = self.solve_a1r(n12g, a2r)
+            a2r = self.solve_a2r(n12g, a1r)
             d2 = self.calculate_cost(a1r, a2r, self.a12g, self.n12)
-            error = abs(d2 - d1)/d1.abs()
+            error = abs(d2 - d1) / d1.abs()
             if error < self.tol and i > 1:
                 return a1r, a2r
             d1 = d2
         return a1r, a2r
 
+    def solve_cutensor(self, a1r, a2r, n12g):
+        """
+        C++ implementation of the ALS iteration loop.
+        
+        This calls the compiled C++ function that performs the entire iteration
+        loop using cuTensor operations for maximum performance.
+        
+        Parameters:
+        -----------
+        a1r : Tensor
+            Initial reduced tensor for first site.
+        a2r : Tensor
+            Initial reduced tensor for second site.
+        n12g : Tensor
+            Modified norm tensor.
+            
+        Returns:
+        --------
+        tuple
+            Updated tensors (a1r, a2r).
+        """
+        # Ensure tensors are contiguous (row-major is default in PyTorch)
+        self.n12 = self.n12.contiguous()
+        self.a12g = self.a12g.contiguous()
+        a1r = a1r.contiguous()
+        a2r = a2r.contiguous()
+        n12g = n12g.contiguous()
+        
+        # Call C++ implementation of the full iteration loop
+        a1r, a2r = torch.ops.cutensor_ext.als_solve(
+            a1r, a2r, n12g, self.n12, self.a12g,
+            self.niter, self.tol, self.method, self.epsilon
+        )
+        
+        return a1r, a2r
+
     def initialize_tensors(self):
         a1r,a2r = self.initialize_reduced_tensors(self.a12g, self.ar_shape)
         n12g = einsum("yxYX,yxpq->YXpq", self.n12, self.a12g)
-        if self.backend == "cutensor":
-            a1r = self.column_major_contiguous(a1r)
-            a2r = self.column_major_contiguous(a2r)
-            n12g = self.column_major_contiguous(n12g)
         return a1r,a2r,n12g
 
     @staticmethod
@@ -137,13 +173,8 @@ class ALSSolver:
         Tensor
             The solved reduced tensor `a1r`.
         """
-        nD,bD,pD = a2r.shape
-        if self.backend == "cutensor":
-            S = self.build_s1(n12g, a2r).reshape(pD,bD,nD).permute(2,1,0)
-            R = self.build_r1(self.n12, a2r).reshape(bD,nD,bD,nD).permute(3,2,1,0)
-        elif self.backend == "torch":
-            S = self.build_s1(n12g, a2r)
-            R = self.build_r1(self.n12, a2r)
+        S = self.build_s1(n12g, a2r)
+        R = self.build_r1(self.n12, a2r)
         return self.solve_ar(R, S)
 
     def solve_a2r(self, n12g, a1r):
@@ -165,13 +196,8 @@ class ALSSolver:
         Tensor
             The solved reduced tensor `a2r`.
         """
-        nD,bD,pD = a1r.shape
-        if self.backend == "cutensor":
-            S = self.build_s2(n12g, a1r).reshape(pD,bD,nD).permute(2,1,0)
-            R = self.build_r2(self.n12, a1r).reshape(bD,nD,bD,nD).permute(3,2,1,0)
-        elif self.backend == "torch":
-            S = self.build_s2(n12g, a1r)
-            R = self.build_r2(self.n12, a1r)
+        S = self.build_s2(n12g, a1r)
+        R = self.build_r2(self.n12, a1r)
         return self.solve_ar(R, S)
 
     def solve_ar(self, R, S):
@@ -194,16 +220,14 @@ class ALSSolver:
         Tensor
             The solved reduced tensor `ar` reshaped to the appropriate dimensions.
         """
-        nD,bD,pD = S.shape
-        S = S.reshape(nD*bD,pD)
-        if self.backend == "cutensor":
-            S = S.t().contiguous().t()
-        R = R.reshape(nD*bD,nD*bD)
-        R = 0.5*(R + R.mH)
+        nD, bD, pD = S.shape
+        S = S.reshape(nD * bD, pD)
+        R = R.reshape(nD * bD, nD * bD)
+        R = 0.5 * (R + R.mH)
         match self.method:
             case "cholesky":
                 try:
-                    R += self.epsilon*R.abs().max()*torch.eye(R.shape[0], dtype=R.dtype, device=R.device)
+                    R += self.epsilon * R.abs().max() * torch.eye(R.shape[0], dtype=R.dtype, device=R.device)
                     L = cholesky(R)
                     Y = solve_triangular(L, S, upper=False)
                     ar = solve_triangular(L.mH, Y, upper=True)
@@ -212,28 +236,28 @@ class ALSSolver:
             case "pinv":
                 R_inv = pinv(R, hermitian=True, rcond=self.epsilon)
                 ar = R_inv @ S
-        return ar.reshape(nD,bD,pD)
+        return ar.reshape(nD, bD, pD)
 
     @staticmethod
-    def torch_build_s1(n12g, a2r):
+    def build_s1(n12g, a2r):
         return torch.einsum('YXpQ,XUQ->YUp', n12g, a2r)
 
     @staticmethod
-    def torch_build_s2(n12g, a1r):
+    def build_s2(n12g, a1r):
         return torch.einsum('YXPq,YVP->XVq', n12g, a1r)
 
     @staticmethod
-    def torch_build_r1(n12, a2r):
+    def build_r1(n12, a2r):
         R = torch.einsum('yxYX,xuq->yYXuq', n12, a2r)
         return torch.einsum('yYXuQ,XUQ->YUyu', R, a2r)
 
     @staticmethod
-    def torch_build_r2(n12, a1r):
+    def build_r2(n12, a1r):
         R = torch.einsum('yxYX,yvp->xYXvp', n12, a1r)
         return torch.einsum('xYXvP,YVP->XVxv', R, a1r)
 
     @staticmethod
-    def torch_calculate_cost(a1r, a2r, a12g, n12):
+    def calculate_cost(a1r, a2r, a12g, n12):
         a12n = einsum("yup,xuq->yxpq", a1r, a2r)
 
         d2 = einsum("yxYX,yxpq->YXpq", n12, a12n)
@@ -245,7 +269,7 @@ class ALSSolver:
         return d2.real - 2*d3.real
 
     @staticmethod
-    def torch_cholesky_solve(R, S):
+    def cholesky_solve(R, S):
         try:
             L = cholesky(R)
             Y = solve_triangular(L, S, upper=False)

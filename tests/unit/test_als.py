@@ -28,7 +28,9 @@ def setup_als_solver():
     n12, a12g, *_ = gauge_fix(nz, a12g, nD)
 
     # Create ALSSolver instance with EvolutionConfig
-    als_solver = ALSSolver(n12, a12g, bD, pD, nD, config=EvolutionConfig(als_niter=20, als_tol=1e-15))
+    ar_shape = (nD, bD, pD)
+    config = EvolutionConfig(als_niter=20, als_tol=1e-15, backend="torch")
+    als_solver = ALSSolver(n12, a12g, ar_shape, config)
     
     return als_solver
 
@@ -52,10 +54,10 @@ def test_als_solver_convergence(setup_als_solver):
 
     als_solver.niter=99
     a1r, a2r = als_solver.solve()
-    prev_distance = als_solver.calculate_distance(a1r, a2r)
+    prev_distance = als_solver.calculate_cost(a1r, a2r, als_solver.a12g, als_solver.n12)
 
     als_solver.niter=100
     a1r, a2r = als_solver.solve()
-    next_distance = als_solver.calculate_distance(a1r, a2r)
+    next_distance = als_solver.calculate_cost(a1r, a2r, als_solver.a12g, als_solver.n12)
 
     assert abs(next_distance - prev_distance) < als_solver.tol, f"Convergence failed"

@@ -1,4 +1,3 @@
-#include <torch/extension.h>
 #include <cusolverDn.h>
 #include <cuda_runtime.h>
 #include <ATen/cuda/CUDAContext.h>
@@ -20,7 +19,8 @@ inline cusolverDnHandle_t GetCusolverHandle() {
     return handle;
 }
 
-torch::Tensor cusolver_cholesky_solve(torch::Tensor A, torch::Tensor B) {
+namespace cusolver_ext {
+torch::Tensor cholesky_solve(torch::Tensor A, torch::Tensor B) {
     int64_t n = A.size(0);
     int64_t nrhs = B.size(1);
 
@@ -37,6 +37,7 @@ torch::Tensor cusolver_cholesky_solve(torch::Tensor A, torch::Tensor B) {
 
     double* workspace = nullptr;
     cudaMalloc(&workspace, sizeof(double) * lwork);
+
     int* devInfo = nullptr;
     cudaMalloc(&devInfo, sizeof(int));
 
@@ -46,10 +47,13 @@ torch::Tensor cusolver_cholesky_solve(torch::Tensor A, torch::Tensor B) {
     CUSOLVER_CHECK(cusolverDnDpotrs(handle, CUBLAS_FILL_MODE_LOWER, n, nrhs, A_ptr, n, B_ptr, n, devInfo));
 
     cudaFree(devInfo);
+    cudaFree(workspace);
 
     return B_.contiguous();
 }
+} // namespace cusolver_ext
 
 TORCH_LIBRARY(cusolver_ext, m) {
-    m.def("cholesky_solve", &cusolver_cholesky_solve);
+    m.def("cholesky_solve", &cusolver_ext::cholesky_solve);
 }
+
