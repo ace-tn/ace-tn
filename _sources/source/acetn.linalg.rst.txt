@@ -1,0 +1,37 @@
+acetn.linalg package
+====================
+
+Submodules
+----------
+
+acetn.linalg.fused\_3matmul\_svd\_lowrank module
+------------------------------------------------
+
+.. automodule:: acetn.linalg.fused_3matmul_svd_lowrank
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+acetn.linalg.fused\_matmul\_svd\_lowrank module
+-----------------------------------------------
+
+.. automodule:: acetn.linalg.fused_matmul_svd_lowrank
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+acetn.linalg.svd\_lowrank module
+--------------------------------
+
+.. automodule:: acetn.linalg.svd_lowrank
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: acetn.linalg
+   :members:
+   :undoc-members:
+   :show-inheritance:
