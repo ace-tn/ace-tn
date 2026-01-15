@@ -1,6 +1,8 @@
 import torch
 from torch import einsum, conj, sqrt
 
+from acetn.linalg import svd_lowrank, fused_matmul_svd_lowrank, fused_3matmul_svd_lowrank
+
 class ProjectorCalculator:
     """Computes projectors for iPEPS tensor networks using full or half-system contractions."""
     
@@ -54,7 +56,7 @@ class ProjectorCalculator:
 
         qD = qk.shape
         qk = qk.reshape(qD[0]*qD[1]*qD[2], qD[3]*qD[4]*qD[5])
-        qk/qk.abs().max()
+        qk = qk/qk.abs().max()
         return qk, qD
 
     def contract_half_system(self, ipeps, sites, k):
@@ -145,8 +147,31 @@ class ProjectorCalculator:
         Returns:
             tuple[Tensor, Tensor]: Left and right projectors.
         """
-        Q1, Q4, R = self.contract_half_system(ipeps, sites, k)
-        return self.calculate_projectors(Q1, Q4, R, ipeps.dims["chi"])
+        if self.svd_type == "full-rank":
+            Q1, Q4, R = self.contract_half_system(ipeps, sites, k)
+            return self.calculate_projectors(Q1, Q4, R, ipeps.dims["chi"])
+
+        # rsvd: use fused approach to avoid forming R = Q1 @ Q4
+        s1, s4 = sites[0], sites[3]
+        Q1, q1D = self.make_quarter_tensor(ipeps[s1], k)
+        Q4, q4D = self.make_quarter_tensor(ipeps[s4], k+3)
+
+        chi = ipeps.dims["chi"]
+        q = chi + self.rsvd_oversampling
+        U, s, V = fused_matmul_svd_lowrank(Q1, Q4, q=q, niter=self.rsvd_niter)
+
+        s = s / s[0]
+        cD_new = min(chi, (s > self.svd_cutoff).sum())
+
+        U = U[:, :cD_new] * (1. / sqrt(s[:cD_new]))
+        V = V[:, :cD_new] * (1. / sqrt(s[:cD_new]))
+
+        Q1 = Q1.view(Q1.shape[0], *q1D[3:])
+        Q4 = Q4.view(*q4D[:3], Q4.shape[1])
+
+        proj1 = einsum("xedD,xz->edDz", Q1, conj(U))
+        proj2 = einsum("cuUy,yz->cuUz", Q4, V)
+        return proj1, proj2
 
     def calculate_full_system(self, ipeps, sites, k):
         """
@@ -160,8 +185,36 @@ class ProjectorCalculator:
         Returns:
             tuple[Tensor, Tensor]: Left and right projectors.
         """
-        R1, R2, F = self.contract_full_system(ipeps, sites, k)
-        return self.calculate_projectors(R1, R2, F, ipeps.dims["chi"])
+        if self.svd_type == "full-rank":
+            R1, R2, F = self.contract_full_system(ipeps, sites, k)
+            return self.calculate_projectors(R1, R2, F, ipeps.dims["chi"])
+
+        # rsvd: use fused approach to avoid forming intermediate products
+        s1, s2, s3, s4 = sites
+        Q1, q1D = self.make_quarter_tensor(ipeps[s1], k)
+        Q2, _   = self.make_quarter_tensor(ipeps[s2], k+1)
+        Q3, _   = self.make_quarter_tensor(ipeps[s3], k+2)
+        Q4, q4D = self.make_quarter_tensor(ipeps[s4], k+3)
+
+        chi = ipeps.dims["chi"]
+        q = chi + self.rsvd_oversampling
+        U, s, V = fused_3matmul_svd_lowrank(Q2, Q1, Q4, Q3, q=q, niter=self.rsvd_niter)
+
+        s = s / s[0]
+        cD_new = min(chi, (s > self.svd_cutoff).sum())
+
+        U = U[:, :cD_new] * (1. / sqrt(s[:cD_new]))
+        V = V[:, :cD_new] * (1. / sqrt(s[:cD_new]))
+
+        # proj1 = R1.T @ conj(U) = (Q2 @ Q1).T @ conj(U) = Q1.T @ (Q2.T @ conj(U))
+        proj1 = Q1.mH @ (Q2.mH @ conj(U))
+        proj1 = proj1.view(*q1D[3:], cD_new)
+
+        # proj2 = R2 @ V = (Q4 @ Q3) @ V = Q4 @ (Q3 @ V)
+        proj2 = Q4 @ (Q3 @ V)
+        proj2 = proj2.view(*q4D[:3], cD_new)
+
+        return proj1, proj2
 
     def svd(self, A, cD):
         """
@@ -179,5 +232,5 @@ class ProjectorCalculator:
             V = Vh.mH
         elif self.svd_type == "rsvd":
             q = cD + self.rsvd_oversampling
-            U,s,V = torch.svd_lowrank(A, q=q, niter=self.rsvd_niter)
+            U,s,V = svd_lowrank(A, q=q, niter=self.rsvd_niter)
         return U,s,V
