@@ -4,6 +4,8 @@ from dataclasses import dataclass, field
 from typing import Dict, Union, Literal
 from tqdm import tqdm
 
+from acetn.evolution._extensions import CUTENSOR_AVAILABLE
+
 @dataclass
 class TNConfig:
     nx: int = 2
@@ -23,12 +25,13 @@ class CTMRGConfig:
 
 @dataclass
 class EvolutionConfig:
+    backend: Literal["torch", "cutensor"] = "torch"
     update_type: str = "full"
     use_gauge_fix: bool = True
     gauge_fix_atol: float = 1e-12
     positive_approx_cutoff: float = 1e-12
     als_niter: int = 100
-    als_tol: int = 1e-12
+    als_tol: int = 1e-15
     als_method: Literal["cholesky", "pinv"] = "cholesky"
     als_epsilon: float = 1e-12
     disable_progressbar: bool = False
@@ -57,6 +60,7 @@ class IpepsConfig:
         self.TN = TNConfig(**self.TN)
         self.ctmrg = CTMRGConfig(**self.ctmrg)
         self.evolution = EvolutionConfig(**self.evolution)
+        self.validate_backend()
         self.model = ModelConfig(dtype=self.dtype,
                            device=self.device,
                            dim=self.TN.dims['phys'],
@@ -95,3 +99,11 @@ class IpepsConfig:
             tqdm.write("Torch not compiled with CUDA enabled")
             tqdm.write("Using device='cpu'")
             self.device = torch.device("cpu")
+
+    def validate_backend(self):
+        """Validate evolution backend and fallback if necessary."""
+        if self.evolution.backend == "cutensor" and not CUTENSOR_AVAILABLE:
+            tqdm.write("cuTENSOR backend requested but extension not available")
+            tqdm.write("Build with: ACETN_BUILD_CUTENSOR=1 pip install .")
+            tqdm.write("Using backend='torch'")
+            self.evolution.backend = "torch"

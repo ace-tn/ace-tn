@@ -1,4 +1,5 @@
 import torch
+from math import ceil
 from torch import einsum, conj
 from torch.linalg import qr,eigh,svd,pinv
 from ..evolution.tensor_update import TensorUpdater
@@ -28,6 +29,7 @@ class FullUpdater(TensorUpdater):
         self.use_gauge_fix          = config.use_gauge_fix
         self.gauge_fix_atol         = config.gauge_fix_atol
         self.positive_approx_cutoff = config.positive_approx_cutoff
+        self.backend                = config.backend
 
     def tensor_update(self, a1, a2, bond):
         """
@@ -84,14 +86,11 @@ class FullUpdater(TensorUpdater):
         a1r, a2r : Tensor
             The updated reduced tensors for the first and second sites.
         """
-        nD,bD,pD = a1r.shape
-        a12g = einsum("yup,xuq->ypxq", a1r, a2r)
-        a12g = einsum("ypxq,pqrs->yxrs", a12g, gate)
+        a12g = einsum("yup,xuq->yxpq", a1r, a2r)
+        a12g = einsum("yxpq,pqrs->yxrs", a12g, gate)
 
         n12, a12g = self.precondition_norm_tensor(n12, a12g)
-        als_solver = ALSSolver(n12, a12g, bD, pD, nD, self.config)
-        a1r,a2r = als_solver.solve()
-
+        a1r,a2r = ALSSolver(n12, a12g, a1r.shape, self.config).solve()
         a1r,a2r = self.finalize_reduced_tensors(a1r, a2r)
         return a1r,a2r
 
@@ -99,7 +98,7 @@ class FullUpdater(TensorUpdater):
         """
         Applies positive approximation and (optionally) gauge fixing to the norm tensor,
         improving conditioning for ALS. The gate-tensor product is also modified when
-        gauge fixing is used
+        gauge fixing is used.
 
         Parameters:
         -----------
@@ -193,7 +192,6 @@ class FullUpdater(TensorUpdater):
 
         a1_tmp = einsum("lurdp->rdulp", a1).reshape(bD**3, pD*bD)
         a1q,a1r = qr(a1_tmp)
-
         a1q = a1q.reshape(bD, bD, bD, nD)
         a1r = a1r.reshape(nD, bD, pD)
 
@@ -261,15 +259,29 @@ def build_norm_tensor(ipeps, bond, a1q, a2q):
     n12 : Tensor
         The resulting norm tensor, which represents the interaction between the two tensors at the given bond.
     """
-    s1,s2,k = bond
+    s1, s2, k = bond
 
-    # build right half
+    # right half
     c12 = ipeps[s1]['C'][(k+1)%4]
     e12 = ipeps[s1]['E'][(k+1)%4]
     e11 = ipeps[s1]['E'][(k+0)%4]
     c13 = ipeps[s1]['C'][(k+2)%4]
     e13 = ipeps[s1]['E'][(k+2)%4]
 
+    # left half
+    c21 = ipeps[s2]['C'][(k+0)%4]
+    e21 = ipeps[s2]['E'][(k+0)%4]
+    e24 = ipeps[s2]['E'][(k+3)%4]
+    c24 = ipeps[s2]['C'][(k+3)%4]
+    e23 = ipeps[s2]['E'][(k+2)%4]
+
+    return build_norm_tensor_core(c12, e12, e11, c13, e13, a1q,
+                                  c21, e21, e24, c24, e23, a2q)
+
+
+def build_norm_tensor_core(c12, e12, e11, c13, e13, a1q,
+                           c21, e21, e24, c24, e23, a2q):
+    # build right half
     tmp = einsum("ab,bcrR->acrR", c12, e12)
     tmp = einsum("acrR,eauU->crReuU", tmp, e11)
     tmp = einsum("crReuU,RDUY->creuDY", tmp, conj(a1q))
@@ -278,12 +290,6 @@ def build_norm_tensor(ipeps, bond, a1q, a2q):
     n1_tmp = einsum("afdD,aeDYdy->feYy", n1_tmp, tmp)
 
     # build left half
-    c21 = ipeps[s2]['C'][(k+0)%4]
-    e21 = ipeps[s2]['E'][(k+0)%4]
-    e24 = ipeps[s2]['E'][(k+3)%4]
-    c24 = ipeps[s2]['C'][(k+3)%4]
-    e23 = ipeps[s2]['E'][(k+2)%4]
-
     tmp = einsum("ab,bcuU->acuU", c21, e21)
     tmp = einsum("acuU,ealL->cuUelL", tmp, e24)
     tmp = einsum("cuUelL,DLUX->cuelXD", tmp, conj(a2q))
@@ -291,9 +297,40 @@ def build_norm_tensor(ipeps, bond, a1q, a2q):
     n2_tmp = einsum("ab,fadD->bfdD", c24, e23)
     n2_tmp = einsum("bfdD,cbXDxd->fcXx", n2_tmp, tmp)
 
-    # contract right-left
-    n12 = einsum("fcYy,fcXx->yxYX", n1_tmp, n2_tmp)
+    return einsum("fcYy,fcXx->yxYX", n1_tmp, n2_tmp)
+
+
+def build_norm_tensor_core_blocked(c12, e12, e11, c13, e13, a1q,
+                                   c21, e21, e24, c24, e23, a2q):
+    nD = a1q.shape[-1]
+    BC = max(8, ceil(nD/4))
+    block_range = range(0, nD, BC)
+    block_indices = [(b00, b10, min(nD, b00+BC), min(nD, b10+BC))
+                     for b00 in block_range for b10 in block_range]
+
+    tmp_r1 = einsum("ab,bcrR->acrR", c12, e12)
+    tmp_r1 = einsum("acrR,eauU->crReuU", tmp_r1, e11)
+    tmp_r2 = einsum("ab,bfdD->afdD", c13, e13)
+
+    tmp_l1 = einsum("ab,bcuU->acuU", c21, e21)
+    tmp_l1 = einsum("acuU,ealL->cuUelL", tmp_l1, e24)
+    tmp_l2 = einsum("ab,fadD->bfdD", c24, e23)
+
+    n12 = torch.empty(nD,nD,nD,nD, dtype=a1q.dtype, device=a1q.device)
+    for b00,b10,b01,b11 in block_indices:
+        # build right half
+        tmp_r3 = einsum("crReuU,RDUY->creuDY", tmp_r1, conj(a1q[:,:,:,b00:b01]))
+        tmp_r3 = einsum("creuDY,rduy->ceDYdy", tmp_r3, a1q)
+        n1_tmp = einsum("afdD,aeDYdy->feYy", tmp_r2, tmp_r3)
+
+        # build left half
+        tmp_l3 = einsum("cuUelL,DLUX->cuelXD", tmp_l1, conj(a2q[:,:,:,b10:b11]))
+        tmp_l3 = einsum("cuelXD,dlux->ceXDxd", tmp_l3, a2q)
+        n2_tmp = einsum("bfdD,cbXDxd->fcXx", tmp_l2, tmp_l3)
+
+        n12[:,:,b00:b01,b10:b11] = einsum("fcYy,fcXx->yxYX", n1_tmp, n2_tmp)
     return n12
+
 
 def positive_approx(n12, cutoff=1e-12):
     """
@@ -332,15 +369,15 @@ def positive_approx(n12, cutoff=1e-12):
     nz = nz.reshape(nD, nD, nD**2)*torch.sqrt(nw)
     return nz
 
+
 def gauge_fix(nz, a12g, atol=1e-12):
     """
     Applies a gauge fixing procedure to the norm tensor square root and the reduced tensors.
-    See
 
     Parameters:
     -----------
     nz : Tensor
-        The positive-approximation norm tensor used to adjust the values during gauge fixing.
+        The norm tensor square root used to adjust the values during gauge fixing.
 
     a12g : Tensor
         The reduced tensor representing the bond interaction that will be updated during the gauge fixing.

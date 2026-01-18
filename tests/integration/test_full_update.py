@@ -21,6 +21,7 @@ def setup_ipeps_and_gate():
 
     # Mock config object with required parameters
     class Config:
+        backend = "torch"
         als_niter = 100
         als_tol = 1e-15
         als_method = "cholesky"

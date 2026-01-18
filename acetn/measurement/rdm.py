@@ -1,4 +1,6 @@
+import torch
 from torch import einsum,conj
+from math import ceil
 
 class RDM:
     """
@@ -86,13 +88,6 @@ class RDM:
         e13 = self.ipeps[s1]['E'][(k+2)%4]
         a1  = self.ipeps[s1].bond_permute(k)
 
-        tmp = einsum("ab,bcrR->acrR", c12, e12)
-        tmp = einsum("acrR,eauU->crReuU", tmp, e11)
-        tmp = einsum("crReuU,LURDP->creuLDP", tmp, conj(a1))
-        tmp = einsum("creuLDP,lurdp->ceLDPldp", tmp, a1)
-        rdm1_tmp = einsum("ab,bfdD->afdD", c13, e13)
-        rdm1_tmp = einsum("afdD,acLDPldp->fcLPlp", rdm1_tmp, tmp)
-
         c21 = self.ipeps[s2]['C'][(k+0)%4]
         e21 = self.ipeps[s2]['E'][(k+0)%4]
         e24 = self.ipeps[s2]['E'][(k+3)%4]
@@ -100,12 +95,60 @@ class RDM:
         e23 = self.ipeps[s2]['E'][(k+2)%4]
         a2  = self.ipeps[s2].bond_permute(k)
 
-        tmp = einsum("ab,bcuU->acuU", c21, e21)
-        tmp = einsum("acuU,ealL->cuUelL", tmp, e24)
-        tmp = einsum("cuUelL,LURDQ->cuelRDQ", tmp, conj(a2))
-        tmp = einsum("cuelRDQ,lurdq->ceRDQrdq", tmp, a2)
-        rdm2_tmp = einsum("ae,fadD->efdD", c24, e23)
-        rdm2_tmp = einsum("efdD,ceRDQrdq->fcRQrq", rdm2_tmp, tmp)
+        return build_bond_rdm_core_blocked(c12, e12, e11, c13, e13, a1,
+                                   c21, e21, e24, c24, e23, a2)
 
-        rdm = einsum("fcRPrp,fcRQrq->PQpq", rdm1_tmp, rdm2_tmp)
-        return rdm
+
+def build_bond_rdm_core(c12, e12, e11, c13, e13, a1,
+                        c21, e21, e24, c24, e23, a2):
+    # build right half
+    tmp = einsum("ab,bcrR->acrR", c12, e12)
+    tmp = einsum("acrR,eauU->crReuU", tmp, e11)
+    tmp = einsum("crReuU,LURDP->creuLDP", tmp, conj(a1))
+    tmp = einsum("creuLDP,lurdp->ceLDPldp", tmp, a1)
+    rdm1_tmp = einsum("ab,bfdD->afdD", c13, e13)
+    rdm1_tmp = einsum("afdD,acLDPldp->fcLPlp", rdm1_tmp, tmp)
+
+    # build left half
+    tmp = einsum("ab,bcuU->acuU", c21, e21)
+    tmp = einsum("acuU,ealL->cuUelL", tmp, e24)
+    tmp = einsum("cuUelL,LURDQ->cuelRDQ", tmp, conj(a2))
+    tmp = einsum("cuelRDQ,lurdq->ceRDQrdq", tmp, a2)
+    rdm2_tmp = einsum("ae,fadD->efdD", c24, e23)
+    rdm2_tmp = einsum("efdD,ceRDQrdq->fcRQrq", rdm2_tmp, tmp)
+
+    return einsum("fcRPrp,fcRQrq->PQpq", rdm1_tmp, rdm2_tmp)
+
+
+def build_bond_rdm_core_blocked(c12, e12, e11, c13, e13, a1,
+                                c21, e21, e24, c24, e23, a2):
+
+    tmp_r1 = einsum("ab,bcrR->acrR", c12, e12)
+    tmp_r1 = einsum("acrR,eauU->crReuU", tmp_r1, e11)
+    tmp_r2 = einsum("ab,bfdD->afdD", c13, e13)
+
+    tmp_l1 = einsum("ab,bcuU->acuU", c21, e21)
+    tmp_l1 = einsum("acuU,ealL->cuUelL", tmp_l1, e24)
+    tmp_l2 = einsum("ae,fadD->efdD", c24, e23)
+
+    pD = a1.shape[-1]
+    BC = 1
+    block_range = range(0, pD, BC)
+    block_indices = [(b00, b10, min(pD, b00+BC), min(pD, b10+BC))
+                     for b00 in block_range for b10 in block_range]
+
+    bond_rdm = torch.empty(pD,pD,pD,pD, dtype=a1.dtype, device=a1.device)
+    for b00,b10,b01,b11 in block_indices:
+        # build right half
+        tmp_r3 = einsum("crReuU,LURDP->creuLDP", tmp_r1, conj(a1[...,b00:b01]))
+        tmp_r3 = einsum("creuLDP,lurdp->ceLDPldp", tmp_r3, a1)
+        rdm1_tmp = einsum("afdD,acLDPldp->fcLPlp", tmp_r2, tmp_r3)
+
+        # build left half
+        tmp_l3 = einsum("cuUelL,LURDQ->cuelRDQ", tmp_l1, conj(a2[...,b10:b11]))
+        tmp_l3 = einsum("cuelRDQ,lurdq->ceRDQrdq", tmp_l3, a2)
+        rdm2_tmp = einsum("efdD,ceRDQrdq->fcRQrq", tmp_l2, tmp_l3)
+
+        bond_rdm[b00:b01,b10:b11,:,:] = einsum("fcRPrp,fcRQrq->PQpq", rdm1_tmp, rdm2_tmp)
+
+    return bond_rdm

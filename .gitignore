@@ -16,6 +16,9 @@ dist/
 .installed.cfg
 *.wheel
 
+# Compiled extensions
+*.so
+
 # Pytest cache
 .pytest_cache/
 
