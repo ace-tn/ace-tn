@@ -268,8 +268,3 @@ class ALSSolver:
         except:
             ar = torch.linalg.solve(R, S)
         return ar
-
-    @staticmethod
-    def column_major_contiguous(tensor):
-        reversed_modes = range(tensor.ndim-1,-1,-1)
-        return tensor.permute(*reversed_modes).contiguous().permute(*reversed_modes)

@@ -30,26 +30,6 @@ class FullUpdater(TensorUpdater):
         self.gauge_fix_atol         = config.gauge_fix_atol
         self.positive_approx_cutoff = config.positive_approx_cutoff
         self.backend                = config.backend
-        self.setup_backend()
-
-    def setup_backend(self):
-        if self.backend == "cutensor":
-            self.load_cutensor_library()
-        elif self.backend != "torch":
-            raise NotImplementedError(f"Backend {self.backend} not supported.")
-        self.build_norm_tensor = torch_build_norm_tensor
-
-    def load_cutensor_library(self):
-        try:
-            from pathlib import Path
-            cutensor_lib_path = Path(__file__).resolve().parent / "../../csrc/evolution/als_contractions.so"
-            cutensor_lib_path = cutensor_lib_path.resolve(strict=True)
-            torch.ops.load_library(cutensor_lib_path)
-            cusolver_lib_path = Path(__file__).resolve().parent / "../../csrc/evolution/cholesky_solve.so"
-            cusolver_lib_path = cusolver_lib_path.resolve(strict=True)
-            torch.ops.load_library(cusolver_lib_path)
-        except:
-            self.backend = "torch"
 
     def tensor_update(self, a1, a2, bond):
         """
@@ -73,7 +53,7 @@ class FullUpdater(TensorUpdater):
             The updated tensors after performing the tensor update operation.
         """
         a1q,a1r,a2q,a2r = self.decompose_site_tensors(a1, a2)
-        n12 = self.build_norm_tensor(self.ipeps, bond, a1q, a2q)
+        n12 = build_norm_tensor(self.ipeps, bond, a1q, a2q)
 
         gate = self.gate[bond]
         a1r,a2r = self.update_reduced_tensors(a1r, a2r, n12, gate)
@@ -253,7 +233,7 @@ class FullUpdater(TensorUpdater):
         a2 = einsum('dlux,xrp->lurdp', a2q, a2r)
         return a1,a2
 
-def torch_build_norm_tensor(ipeps, bond, a1q, a2q):
+def build_norm_tensor(ipeps, bond, a1q, a2q):
     """
     Builds the norm tensor for a given bond in the iPEPS network. The norm tensor is a combination 
     of tensors from the iPEPS network and the decomposed tensors for the two sites. This tensor 
