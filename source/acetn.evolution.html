@@ -99,29 +99,50 @@
 <span id="acetn-evolution-als-solver-module"></span><h2>acetn.evolution.als_solver module<a class="headerlink" href="#module-acetn.evolution.als_solver" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="acetn.evolution.als_solver.ALSSolver">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">acetn.evolution.als_solver.</span></span><span class="sig-name descname"><span class="pre">ALSSolver</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a12g</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bD</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pD</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nD</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.als_solver.ALSSolver" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">acetn.evolution.als_solver.</span></span><span class="sig-name descname"><span class="pre">ALSSolver</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a12g</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ar_shape</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.als_solver.ALSSolver" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>A class that implements the Alternating Least Squares (ALS) algorithm to solve for reduced tensors 
-in the context of iPEPS tensor network optimization.</p>
+<p>Alternating Least Squares (ALS) solver for the reduced tensor update.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="acetn.evolution.als_solver.ALSSolver.calculate_distance">
-<span class="sig-name descname"><span class="pre">calculate_distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a1r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a2r</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.als_solver.ALSSolver.calculate_distance" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="acetn.evolution.als_solver.ALSSolver.build_r1">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">build_r1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a2r</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.als_solver.ALSSolver.build_r1" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.evolution.als_solver.ALSSolver.build_r2">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">build_r2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a1r</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.als_solver.ALSSolver.build_r2" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.evolution.als_solver.ALSSolver.build_s1">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">build_s1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n12g</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a2r</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.als_solver.ALSSolver.build_s1" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.evolution.als_solver.ALSSolver.build_s2">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">build_s2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n12g</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a1r</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.als_solver.ALSSolver.build_s2" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.evolution.als_solver.ALSSolver.calculate_cost">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">calculate_cost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a1r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a2r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a12g</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n12</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.als_solver.ALSSolver.calculate_cost" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.evolution.als_solver.ALSSolver.cholesky_solve">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cholesky_solve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">R</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">S</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.als_solver.ALSSolver.cholesky_solve" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="acetn.evolution.als_solver.ALSSolver.initialize_reduced_tensors">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">initialize_reduced_tensors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a12g</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bD</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pD</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nD</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.als_solver.ALSSolver.initialize_reduced_tensors" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">initialize_reduced_tensors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a12g</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ar_shape</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.als_solver.ALSSolver.initialize_reduced_tensors" title="Link to this definition"></a></dt>
 <dd><p>Initializes the reduced tensors <cite>a1r</cite> and <cite>a2r</cite> from the gate-contracted tensor <cite>a12g</cite>.</p>
-<p>The method performs a singular value decomposition (SVD) on a reshaped version of the gate-contracted tensor 
-<cite>a12g</cite> and constructs the reduced tensors based on the resulting singular values and vectors.</p>
+<p>The initial guess for the updated a1r and a2r is determined from a truncated SVD of a12g.</p>
 <section id="parameters">
 <h3>Parameters:<a class="headerlink" href="#parameters" title="Link to this heading"></a></h3>
 <dl class="simple">
-<dt>a12g<span class="classifier">Tensor</span></dt><dd><p>The <cite>a1</cite>, <cite>a2</cite>, and gate-contracted tensor to be approximated in the ALS optimization.</p>
+<dt>a12g<span class="classifier">Tensor</span></dt><dd><p>The gate-tensor product.</p>
 </dd>
-<dt>bD<span class="classifier">int</span></dt><dd><p>The bond dimension of the tensors.</p>
-</dd>
-<dt>pD<span class="classifier">int</span></dt><dd><p>The physical dimension of the tensors.</p>
+<dt>ar_shape<span class="classifier">tuple</span></dt><dd><p>The shape of the reduced tensors.</p>
 </dd>
 </dl>
 </section>
@@ -136,15 +157,15 @@ in the context of iPEPS tensor network optimization.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="acetn.evolution.als_solver.ALSSolver.initialize_tensors">
-<span class="sig-name descname"><span class="pre">initialize_tensors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bD</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pD</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nD</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.als_solver.ALSSolver.initialize_tensors" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">initialize_tensors</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.als_solver.ALSSolver.initialize_tensors" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="acetn.evolution.als_solver.ALSSolver.solve">
 <span class="sig-name descname"><span class="pre">solve</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.als_solver.ALSSolver.solve" title="Link to this definition"></a></dt>
-<dd><p>Solves the Alternating Least Squares (ALS) optimization problem by alternating between 
-solving for <cite>a1r</cite> and <cite>a2r</cite> for a fixed number of iterations.</p>
-<p>The method iterates the ALS optimization procedure, solving for one tensor at a time while fixing the other.</p>
+<dd><p>Solves for the updated tensors by alternating between solving for <cite>a1r</cite> and <cite>a2r</cite>.</p>
+<p>Initialization is always done in PyTorch, then the iteration loop is handled
+by the backend-specific implementation.</p>
 <section id="id1">
 <h3>Returns:<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
 <dl class="simple">
@@ -156,7 +177,7 @@ solving for <cite>a1r</cite> and <cite>a2r</cite> for a fixed number of iteratio
 
 <dl class="py method">
 <dt class="sig sig-object py" id="acetn.evolution.als_solver.ALSSolver.solve_a1r">
-<span class="sig-name descname"><span class="pre">solve_a1r</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n12g</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a2r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bD</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pD</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nD</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.als_solver.ALSSolver.solve_a1r" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">solve_a1r</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n12g</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a2r</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.als_solver.ALSSolver.solve_a1r" title="Link to this definition"></a></dt>
 <dd><p>Solves for the reduced tensor <cite>a1r</cite> in the ALS optimization process.</p>
 <p>This method forms a system of linear equations and solves for <cite>a1r</cite> given the fixed tensor <cite>a2r</cite>.</p>
 <section id="id2">
@@ -165,10 +186,6 @@ solving for <cite>a1r</cite> and <cite>a2r</cite> for a fixed number of iteratio
 <dt>n12g<span class="classifier">Tensor</span></dt><dd><p>The modified norm tensor used in the ALS optimization.</p>
 </dd>
 <dt>a2r<span class="classifier">Tensor</span></dt><dd><p>The fixed reduced tensor <cite>a2r</cite>.</p>
-</dd>
-<dt>bD<span class="classifier">int</span></dt><dd><p>The bond dimension of the tensors.</p>
-</dd>
-<dt>pD<span class="classifier">int</span></dt><dd><p>The physical dimension of the tensors.</p>
 </dd>
 </dl>
 </section>
@@ -183,7 +200,7 @@ solving for <cite>a1r</cite> and <cite>a2r</cite> for a fixed number of iteratio
 
 <dl class="py method">
 <dt class="sig sig-object py" id="acetn.evolution.als_solver.ALSSolver.solve_a2r">
-<span class="sig-name descname"><span class="pre">solve_a2r</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n12g</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a1r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bD</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pD</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nD</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.als_solver.ALSSolver.solve_a2r" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">solve_a2r</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n12g</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a1r</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.als_solver.ALSSolver.solve_a2r" title="Link to this definition"></a></dt>
 <dd><p>Solves for the reduced tensor <cite>a2r</cite> in the ALS optimization process.</p>
 <p>This method forms a system of linear equations and solves for <cite>a2r</cite> given the fixed tensor <cite>a1r</cite>.</p>
 <section id="id4">
@@ -192,10 +209,6 @@ solving for <cite>a1r</cite> and <cite>a2r</cite> for a fixed number of iteratio
 <dt>n12g<span class="classifier">Tensor</span></dt><dd><p>The modified norm tensor used in the ALS optimization.</p>
 </dd>
 <dt>a1r<span class="classifier">Tensor</span></dt><dd><p>The fixed reduced tensor <cite>a1r</cite>.</p>
-</dd>
-<dt>bD<span class="classifier">int</span></dt><dd><p>The bond dimension of the tensors.</p>
-</dd>
-<dt>pD<span class="classifier">int</span></dt><dd><p>The physical dimension of the tensors.</p>
 </dd>
 </dl>
 </section>
@@ -210,7 +223,7 @@ solving for <cite>a1r</cite> and <cite>a2r</cite> for a fixed number of iteratio
 
 <dl class="py method">
 <dt class="sig sig-object py" id="acetn.evolution.als_solver.ALSSolver.solve_ar">
-<span class="sig-name descname"><span class="pre">solve_ar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">R</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">S</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bD</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pD</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nD</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.als_solver.ALSSolver.solve_ar" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">solve_ar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">R</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">S</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.als_solver.ALSSolver.solve_ar" title="Link to this definition"></a></dt>
 <dd><p>Solves the linear system for the reduced tensor using either Cholesky decomposition or pseudoinverse.</p>
 <p>Depending on the chosen method, this function either solves the system using Cholesky decomposition or
 computes the pseudoinverse of the matrix <cite>R</cite> to solve the linear system.</p>
@@ -221,16 +234,62 @@ computes the pseudoinverse of the matrix <cite>R</cite> to solve the linear syst
 </dd>
 <dt>S<span class="classifier">Tensor</span></dt><dd><p>The right-hand side vector of the linear system.</p>
 </dd>
-<dt>bD<span class="classifier">int</span></dt><dd><p>The bond dimension of the tensors.</p>
-</dd>
-<dt>pD<span class="classifier">int</span></dt><dd><p>The physical dimension of the tensors.</p>
-</dd>
 </dl>
 </section>
 <section id="id7">
 <h3>Returns:<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>Tensor</dt><dd><p>The solved reduced tensor <cite>ar</cite> reshaped to the appropriate dimensions.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.evolution.als_solver.ALSSolver.solve_cutensor">
+<span class="sig-name descname"><span class="pre">solve_cutensor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a1r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a2r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n12g</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.als_solver.ALSSolver.solve_cutensor" title="Link to this definition"></a></dt>
+<dd><p>C++ implementation of the ALS iteration loop.</p>
+<p>This calls the compiled C++ function that performs the entire iteration
+loop using cuTensor operations for maximum performance.</p>
+<section id="id8">
+<h3>Parameters:<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>a1r<span class="classifier">Tensor</span></dt><dd><p>Initial reduced tensor for first site.</p>
+</dd>
+<dt>a2r<span class="classifier">Tensor</span></dt><dd><p>Initial reduced tensor for second site.</p>
+</dd>
+<dt>n12g<span class="classifier">Tensor</span></dt><dd><p>Modified norm tensor.</p>
+</dd>
+</dl>
+</section>
+<section id="id9">
+<h3>Returns:<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>tuple</dt><dd><p>Updated tensors (a1r, a2r).</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.evolution.als_solver.ALSSolver.solve_torch">
+<span class="sig-name descname"><span class="pre">solve_torch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a1r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a2r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n12g</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.als_solver.ALSSolver.solve_torch" title="Link to this definition"></a></dt>
+<dd><p>Python implementation of the ALS iteration loop.</p>
+<section id="id10">
+<h3>Parameters:<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>a1r<span class="classifier">Tensor</span></dt><dd><p>Initial reduced tensor for first site.</p>
+</dd>
+<dt>a2r<span class="classifier">Tensor</span></dt><dd><p>Initial reduced tensor for second site.</p>
+</dd>
+<dt>n12g<span class="classifier">Tensor</span></dt><dd><p>Modified norm tensor.</p>
+</dd>
+</dl>
+</section>
+<section id="id11">
+<h3>Returns:<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>tuple</dt><dd><p>Updated tensors (a1r, a2r).</p>
 </dd>
 </dl>
 </section>
@@ -325,8 +384,8 @@ operation, and recomposes the tensors.</p>
 <dt class="sig sig-object py" id="acetn.evolution.full_update.FullUpdater.decompose_site_tensors">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">decompose_site_tensors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.full_update.FullUpdater.decompose_site_tensors" title="Link to this definition"></a></dt>
 <dd><p>Decomposes the site tensors <cite>a1</cite> and <cite>a2</cite> into their core and reduced parts using QR decomposition.</p>
-<section id="id8">
-<h3>Parameters:<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<section id="id12">
+<h3>Parameters:<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>a1<span class="classifier">Tensor</span></dt><dd><p>The first tensor at the site being decomposed.</p>
 </dd>
@@ -334,8 +393,8 @@ operation, and recomposes the tensors.</p>
 </dd>
 </dl>
 </section>
-<section id="id9">
-<h3>Returns:<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<section id="id13">
+<h3>Returns:<a class="headerlink" href="#id13" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>a1q<span class="classifier">Tensor</span></dt><dd><p>The core part of the first tensor after decomposition.</p>
 </dd>
@@ -354,8 +413,8 @@ operation, and recomposes the tensors.</p>
 <span class="sig-name descname"><span class="pre">finalize_reduced_tensors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a1r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a2r</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.full_update.FullUpdater.finalize_reduced_tensors" title="Link to this definition"></a></dt>
 <dd><p>Finalizes the tensor update using the method shown in Fig.12(b) 
 of arxiv.org/abs/1405.3259.</p>
-<section id="id10">
-<h3>Parameters:<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
+<section id="id14">
+<h3>Parameters:<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>a1r<span class="classifier">Tensor</span></dt><dd><p>The reduced tensor for the first site.</p>
 </dd>
@@ -363,8 +422,8 @@ of arxiv.org/abs/1405.3259.</p>
 </dd>
 </dl>
 </section>
-<section id="id11">
-<h3>Returns:<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
+<section id="id15">
+<h3>Returns:<a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>a1r, a2r<span class="classifier">Tensor</span></dt><dd><p>The finalized reduced tensors.</p>
 </dd>
@@ -377,9 +436,9 @@ of arxiv.org/abs/1405.3259.</p>
 <span class="sig-name descname"><span class="pre">precondition_norm_tensor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a12g</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.full_update.FullUpdater.precondition_norm_tensor" title="Link to this definition"></a></dt>
 <dd><p>Applies positive approximation and (optionally) gauge fixing to the norm tensor,
 improving conditioning for ALS. The gate-tensor product is also modified when
-gauge fixing is used</p>
-<section id="id12">
-<h3>Parameters:<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+gauge fixing is used.</p>
+<section id="id16">
+<h3>Parameters:<a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>n12<span class="classifier">Tensor</span></dt><dd><p>The norm tensor.</p>
 </dd>
@@ -387,8 +446,8 @@ gauge fixing is used</p>
 </dd>
 </dl>
 </section>
-<section id="id13">
-<h3>Returns:<a class="headerlink" href="#id13" title="Link to this heading"></a></h3>
+<section id="id17">
+<h3>Returns:<a class="headerlink" href="#id17" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>n12, a12g<span class="classifier">Tensor</span></dt><dd><p>The updated tensors.</p>
 </dd>
@@ -400,8 +459,8 @@ gauge fixing is used</p>
 <dt class="sig sig-object py" id="acetn.evolution.full_update.FullUpdater.recompose_site_tensors">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">recompose_site_tensors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a1q</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a1r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a2q</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a2r</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.full_update.FullUpdater.recompose_site_tensors" title="Link to this definition"></a></dt>
 <dd><p>Reconstructs the full site tensors from the decomposed core and reduced components.</p>
-<section id="id14">
-<h3>Parameters:<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
+<section id="id18">
+<h3>Parameters:<a class="headerlink" href="#id18" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>a1q<span class="classifier">Tensor</span></dt><dd><p>The core part of the first tensor.</p>
 </dd>
@@ -413,8 +472,8 @@ gauge fixing is used</p>
 </dd>
 </dl>
 </section>
-<section id="id15">
-<h3>Returns:<a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
+<section id="id19">
+<h3>Returns:<a class="headerlink" href="#id19" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>a1<span class="classifier">Tensor</span></dt><dd><p>The reconstructed tensor for the first site.</p>
 </dd>
@@ -429,8 +488,8 @@ gauge fixing is used</p>
 <span class="sig-name descname"><span class="pre">tensor_update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bond</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.full_update.FullUpdater.tensor_update" title="Link to this definition"></a></dt>
 <dd><p>Performs the full tensor update process for the given bond. This involves tensor 
 decomposition, norm tensor computation, reduced tensor update, and tensor recomposition.</p>
-<section id="id16">
-<h3>Parameters:<a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
+<section id="id20">
+<h3>Parameters:<a class="headerlink" href="#id20" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>a1<span class="classifier">Tensor</span></dt><dd><p>The first tensor at the site being updated.</p>
 </dd>
@@ -440,8 +499,8 @@ decomposition, norm tensor computation, reduced tensor update, and tensor recomp
 </dd>
 </dl>
 </section>
-<section id="id17">
-<h3>Returns:<a class="headerlink" href="#id17" title="Link to this heading"></a></h3>
+<section id="id21">
+<h3>Returns:<a class="headerlink" href="#id21" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>a1, a2<span class="classifier">Tensor</span></dt><dd><p>The updated tensors after performing the tensor update operation.</p>
 </dd>
@@ -454,8 +513,8 @@ decomposition, norm tensor computation, reduced tensor update, and tensor recomp
 <span class="sig-name descname"><span class="pre">update_reduced_tensors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a1r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a2r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gate</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.full_update.FullUpdater.update_reduced_tensors" title="Link to this definition"></a></dt>
 <dd><p>Updates the reduced tensors by applying the gate operation and norm tensor, 
 and optionally applying gauge fixing.</p>
-<section id="id18">
-<h3>Parameters:<a class="headerlink" href="#id18" title="Link to this heading"></a></h3>
+<section id="id22">
+<h3>Parameters:<a class="headerlink" href="#id22" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>a1r<span class="classifier">Tensor</span></dt><dd><p>The reduced tensor for the first site.</p>
 </dd>
@@ -467,8 +526,8 @@ and optionally applying gauge fixing.</p>
 </dd>
 </dl>
 </section>
-<section id="id19">
-<h3>Returns:<a class="headerlink" href="#id19" title="Link to this heading"></a></h3>
+<section id="id23">
+<h3>Returns:<a class="headerlink" href="#id23" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>a1r, a2r<span class="classifier">Tensor</span></dt><dd><p>The updated reduced tensors for the first and second sites.</p>
 </dd>
@@ -484,8 +543,8 @@ and optionally applying gauge fixing.</p>
 <dd><p>Builds the norm tensor for a given bond in the iPEPS network. The norm tensor is a combination 
 of tensors from the iPEPS network and the decomposed tensors for the two sites. This tensor 
 is used to calculate the bond interactions and tensor updates in the iPEPS algorithm.</p>
-<section id="id20">
-<h3>Parameters:<a class="headerlink" href="#id20" title="Link to this heading"></a></h3>
+<section id="id24">
+<h3>Parameters:<a class="headerlink" href="#id24" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>ipeps<span class="classifier">object</span></dt><dd><p>An instance of the iPEPS tensor network, which contains the tensors that define the network.</p>
 </dd>
@@ -498,8 +557,8 @@ of two site indices and the bond index (s1, s2, k).</p>
 </dd>
 </dl>
 </section>
-<section id="id21">
-<h3>Returns:<a class="headerlink" href="#id21" title="Link to this heading"></a></h3>
+<section id="id25">
+<h3>Returns:<a class="headerlink" href="#id25" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>n12<span class="classifier">Tensor</span></dt><dd><p>The resulting norm tensor, which represents the interaction between the two tensors at the given bond.</p>
 </dd>
@@ -508,14 +567,23 @@ of two site indices and the bond index (s1, s2, k).</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="acetn.evolution.full_update.build_norm_tensor_core">
+<span class="sig-prename descclassname"><span class="pre">acetn.evolution.full_update.</span></span><span class="sig-name descname"><span class="pre">build_norm_tensor_core</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">c12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e11</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c13</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e13</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a1q</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c21</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e21</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e24</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c24</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e23</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a2q</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.full_update.build_norm_tensor_core" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="acetn.evolution.full_update.build_norm_tensor_core_blocked">
+<span class="sig-prename descclassname"><span class="pre">acetn.evolution.full_update.</span></span><span class="sig-name descname"><span class="pre">build_norm_tensor_core_blocked</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">c12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e11</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c13</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e13</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a1q</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c21</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e21</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e24</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c24</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e23</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a2q</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.full_update.build_norm_tensor_core_blocked" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="acetn.evolution.full_update.gauge_fix">
 <span class="sig-prename descclassname"><span class="pre">acetn.evolution.full_update.</span></span><span class="sig-name descname"><span class="pre">gauge_fix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nz</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a12g</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-12</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.full_update.gauge_fix" title="Link to this definition"></a></dt>
-<dd><p>Applies a gauge fixing procedure to the norm tensor square root and the reduced tensors.
-See</p>
-<section id="id22">
-<h3>Parameters:<a class="headerlink" href="#id22" title="Link to this heading"></a></h3>
+<dd><p>Applies a gauge fixing procedure to the norm tensor square root and the reduced tensors.</p>
+<section id="id26">
+<h3>Parameters:<a class="headerlink" href="#id26" title="Link to this heading"></a></h3>
 <dl class="simple">
-<dt>nz<span class="classifier">Tensor</span></dt><dd><p>The positive-approximation norm tensor used to adjust the values during gauge fixing.</p>
+<dt>nz<span class="classifier">Tensor</span></dt><dd><p>The norm tensor square root used to adjust the values during gauge fixing.</p>
 </dd>
 <dt>a12g<span class="classifier">Tensor</span></dt><dd><p>The reduced tensor representing the bond interaction that will be updated during the gauge fixing.</p>
 </dd>
@@ -523,8 +591,8 @@ See</p>
 </dd>
 </dl>
 </section>
-<section id="id23">
-<h3>Returns:<a class="headerlink" href="#id23" title="Link to this heading"></a></h3>
+<section id="id27">
+<h3>Returns:<a class="headerlink" href="#id27" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>n12<span class="classifier">Tensor</span></dt><dd><p>The updated norm tensor after applying gauge fixing.</p>
 </dd>
@@ -543,8 +611,8 @@ See</p>
 <span class="sig-prename descclassname"><span class="pre">acetn.evolution.full_update.</span></span><span class="sig-name descname"><span class="pre">positive_approx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cutoff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-12</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.full_update.positive_approx" title="Link to this definition"></a></dt>
 <dd><p>Computes a positive approximation of the norm tensor. Eigenvalues are ensured to be positive
 by dynamic regularization and the condition number is greatly reduced.</p>
-<section id="id24">
-<h3>Parameters:<a class="headerlink" href="#id24" title="Link to this heading"></a></h3>
+<section id="id28">
+<h3>Parameters:<a class="headerlink" href="#id28" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>n12<span class="classifier">Tensor</span></dt><dd><p>The norm tensor to be approximated.</p>
 </dd>
@@ -552,8 +620,8 @@ by dynamic regularization and the condition number is greatly reduced.</p>
 </dd>
 </dl>
 </section>
-<section id="id25">
-<h3>Returns:<a class="headerlink" href="#id25" title="Link to this heading"></a></h3>
+<section id="id29">
+<h3>Returns:<a class="headerlink" href="#id29" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>nz<span class="classifier">Tensor</span></dt><dd><p>Square root of the updated norm tensor after applying the positive approximation.</p>
 </dd>
@@ -575,8 +643,8 @@ used in time evolution algorithms.</p>
 <span class="sig-name descname"><span class="pre">build_one_site_gates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtau</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">site_list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.gate.Gate.build_one_site_gates" title="Link to this definition"></a></dt>
 <dd><p>Builds the one-site gates for the given list of sites by calculating the exponential of
 the Hamiltonian for each site.</p>
-<section id="id26">
-<h3>Parameters:<a class="headerlink" href="#id26" title="Link to this heading"></a></h3>
+<section id="id30">
+<h3>Parameters:<a class="headerlink" href="#id30" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>model<span class="classifier">object</span></dt><dd><p>The model that defines the Hamiltonian for the site.</p>
 </dd>
@@ -593,8 +661,8 @@ the Hamiltonian for each site.</p>
 <span class="sig-name descname"><span class="pre">build_two_site_gates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtau</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bond_list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.gate.Gate.build_two_site_gates" title="Link to this definition"></a></dt>
 <dd><p>Builds the two-site gates for the given list of bonds by calculating the exponential of
 the Hamiltonian for each bond and adding contributions from one-site Hamiltonians if necessary.</p>
-<section id="id27">
-<h3>Parameters:<a class="headerlink" href="#id27" title="Link to this heading"></a></h3>
+<section id="id31">
+<h3>Parameters:<a class="headerlink" href="#id31" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>model<span class="classifier">object</span></dt><dd><p>The model that defines the Hamiltonians for the bonds and sites.</p>
 </dd>
@@ -610,8 +678,8 @@ the Hamiltonian for each bond and adding contributions from one-site Hamiltonian
 <dt class="sig sig-object py" id="acetn.evolution.gate.Gate.calculate_gate">
 <span class="sig-name descname"><span class="pre">calculate_gate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ham</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtau</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.gate.Gate.calculate_gate" title="Link to this definition"></a></dt>
 <dd><p>Calculates the gate from the Hamiltonian using the matrix exponential and time step.</p>
-<section id="id28">
-<h3>Parameters:<a class="headerlink" href="#id28" title="Link to this heading"></a></h3>
+<section id="id32">
+<h3>Parameters:<a class="headerlink" href="#id32" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>ham<span class="classifier">torch.Tensor</span></dt><dd><p>The Hamiltonian matrix for which the gate will be calculated.</p>
 </dd>
@@ -619,8 +687,8 @@ the Hamiltonian for each bond and adding contributions from one-site Hamiltonian
 </dd>
 </dl>
 </section>
-<section id="id29">
-<h3>Returns:<a class="headerlink" href="#id29" title="Link to this heading"></a></h3>
+<section id="id33">
+<h3>Returns:<a class="headerlink" href="#id33" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>torch.Tensor</dt><dd><p>The calculated gate for the given Hamiltonian.</p>
 </dd>
@@ -644,15 +712,15 @@ the Hamiltonian for each bond and adding contributions from one-site Hamiltonian
 <dd><p>Generates a permutation pattern for tensor indices based on the bond direction <cite>k</cite>.</p>
 <p>The permutation is calculated by shifting the tensor indices in a circular fashion,
 and it determines how the tensor’s dimensions will be permuted during the update process.</p>
-<section id="id30">
-<h3>Parameters:<a class="headerlink" href="#id30" title="Link to this heading"></a></h3>
+<section id="id34">
+<h3>Parameters:<a class="headerlink" href="#id34" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>k<span class="classifier">int</span></dt><dd><p>The bond index used to generate the permutation pattern.</p>
 </dd>
 </dl>
 </section>
-<section id="id31">
-<h3>Returns:<a class="headerlink" href="#id31" title="Link to this heading"></a></h3>
+<section id="id35">
+<h3>Returns:<a class="headerlink" href="#id35" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>list</dt><dd><p>A list representing the permutation pattern of the tensor indices.</p>
 </dd>
@@ -666,8 +734,8 @@ and it determines how the tensor’s dimensions will be permuted during the upda
 <dd><p>Permutes the input tensors <cite>a1</cite> and <cite>a2</cite> based on the bond index <cite>k</cite>.</p>
 <p>This method rearranges the dimensions of the tensors according to a permutation pattern
 determined by the bond direction <cite>k</cite>, which is typically used in the iPEPS update procedure.</p>
-<section id="id32">
-<h3>Parameters:<a class="headerlink" href="#id32" title="Link to this heading"></a></h3>
+<section id="id36">
+<h3>Parameters:<a class="headerlink" href="#id36" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>a1<span class="classifier">Tensor</span></dt><dd><p>The first input tensor to be permuted.</p>
 </dd>
@@ -677,8 +745,8 @@ determined by the bond direction <cite>k</cite>, which is typically used in the 
 </dd>
 </dl>
 </section>
-<section id="id33">
-<h3>Returns:<a class="headerlink" href="#id33" title="Link to this heading"></a></h3>
+<section id="id37">
+<h3>Returns:<a class="headerlink" href="#id37" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>tuple</dt><dd><p>A tuple containing the permuted tensors (a1, a2).</p>
 </dd>
@@ -693,8 +761,8 @@ determined by the bond direction <cite>k</cite>, which is typically used in the 
 for updating the tensors in the iPEPS network.</p>
 <p>This method must be overridden by a subclass to provide the specific update operation 
 for the tensors based on the network’s requirements.</p>
-<section id="id34">
-<h3>Returns:<a class="headerlink" href="#id34" title="Link to this heading"></a></h3>
+<section id="id38">
+<h3>Returns:<a class="headerlink" href="#id38" title="Link to this heading"></a></h3>
 <p>None</p>
 </section>
 </dd></dl>
@@ -709,6 +777,579 @@ for the tensors based on the network’s requirements.</p>
 </section>
 <section id="module-acetn.evolution">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-acetn.evolution" title="Link to this heading"></a></h2>
+<p>Evolution module for iPEPS tensor network updates.</p>
+<p>This module handles the evolution/optimization of tensor networks using
+various update algorithms (full update, simple update, etc.).</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="acetn.evolution.ALSSolver">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">acetn.evolution.</span></span><span class="sig-name descname"><span class="pre">ALSSolver</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a12g</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ar_shape</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.ALSSolver" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Alternating Least Squares (ALS) solver for the reduced tensor update.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.evolution.ALSSolver.build_r1">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">build_r1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a2r</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.ALSSolver.build_r1" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.evolution.ALSSolver.build_r2">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">build_r2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a1r</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.ALSSolver.build_r2" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.evolution.ALSSolver.build_s1">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">build_s1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n12g</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a2r</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.ALSSolver.build_s1" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.evolution.ALSSolver.build_s2">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">build_s2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n12g</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a1r</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.ALSSolver.build_s2" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.evolution.ALSSolver.calculate_cost">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">calculate_cost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a1r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a2r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a12g</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n12</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.ALSSolver.calculate_cost" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.evolution.ALSSolver.cholesky_solve">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cholesky_solve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">R</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">S</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.ALSSolver.cholesky_solve" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.evolution.ALSSolver.initialize_reduced_tensors">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">initialize_reduced_tensors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a12g</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ar_shape</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.ALSSolver.initialize_reduced_tensors" title="Link to this definition"></a></dt>
+<dd><p>Initializes the reduced tensors <cite>a1r</cite> and <cite>a2r</cite> from the gate-contracted tensor <cite>a12g</cite>.</p>
+<p>The initial guess for the updated a1r and a2r is determined from a truncated SVD of a12g.</p>
+<section id="id39">
+<h3>Parameters:<a class="headerlink" href="#id39" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>a12g<span class="classifier">Tensor</span></dt><dd><p>The gate-tensor product.</p>
+</dd>
+<dt>ar_shape<span class="classifier">tuple</span></dt><dd><p>The shape of the reduced tensors.</p>
+</dd>
+</dl>
+</section>
+<section id="id40">
+<h3>Returns:<a class="headerlink" href="#id40" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>tuple</dt><dd><p>A tuple containing the initialized reduced tensors <cite>a1r</cite> and <cite>a2r</cite>.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.evolution.ALSSolver.initialize_tensors">
+<span class="sig-name descname"><span class="pre">initialize_tensors</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.ALSSolver.initialize_tensors" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.evolution.ALSSolver.solve">
+<span class="sig-name descname"><span class="pre">solve</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.ALSSolver.solve" title="Link to this definition"></a></dt>
+<dd><p>Solves for the updated tensors by alternating between solving for <cite>a1r</cite> and <cite>a2r</cite>.</p>
+<p>Initialization is always done in PyTorch, then the iteration loop is handled
+by the backend-specific implementation.</p>
+<section id="id41">
+<h3>Returns:<a class="headerlink" href="#id41" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>tuple</dt><dd><p>A tuple containing the updated reduced tensors (<cite>a1r</cite>, <cite>a2r</cite>).</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.evolution.ALSSolver.solve_a1r">
+<span class="sig-name descname"><span class="pre">solve_a1r</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n12g</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a2r</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.ALSSolver.solve_a1r" title="Link to this definition"></a></dt>
+<dd><p>Solves for the reduced tensor <cite>a1r</cite> in the ALS optimization process.</p>
+<p>This method forms a system of linear equations and solves for <cite>a1r</cite> given the fixed tensor <cite>a2r</cite>.</p>
+<section id="id42">
+<h3>Parameters:<a class="headerlink" href="#id42" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>n12g<span class="classifier">Tensor</span></dt><dd><p>The modified norm tensor used in the ALS optimization.</p>
+</dd>
+<dt>a2r<span class="classifier">Tensor</span></dt><dd><p>The fixed reduced tensor <cite>a2r</cite>.</p>
+</dd>
+</dl>
+</section>
+<section id="id43">
+<h3>Returns:<a class="headerlink" href="#id43" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>Tensor</dt><dd><p>The solved reduced tensor <cite>a1r</cite>.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.evolution.ALSSolver.solve_a2r">
+<span class="sig-name descname"><span class="pre">solve_a2r</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n12g</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a1r</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.ALSSolver.solve_a2r" title="Link to this definition"></a></dt>
+<dd><p>Solves for the reduced tensor <cite>a2r</cite> in the ALS optimization process.</p>
+<p>This method forms a system of linear equations and solves for <cite>a2r</cite> given the fixed tensor <cite>a1r</cite>.</p>
+<section id="id44">
+<h3>Parameters:<a class="headerlink" href="#id44" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>n12g<span class="classifier">Tensor</span></dt><dd><p>The modified norm tensor used in the ALS optimization.</p>
+</dd>
+<dt>a1r<span class="classifier">Tensor</span></dt><dd><p>The fixed reduced tensor <cite>a1r</cite>.</p>
+</dd>
+</dl>
+</section>
+<section id="id45">
+<h3>Returns:<a class="headerlink" href="#id45" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>Tensor</dt><dd><p>The solved reduced tensor <cite>a2r</cite>.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.evolution.ALSSolver.solve_ar">
+<span class="sig-name descname"><span class="pre">solve_ar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">R</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">S</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.ALSSolver.solve_ar" title="Link to this definition"></a></dt>
+<dd><p>Solves the linear system for the reduced tensor using either Cholesky decomposition or pseudoinverse.</p>
+<p>Depending on the chosen method, this function either solves the system using Cholesky decomposition or
+computes the pseudoinverse of the matrix <cite>R</cite> to solve the linear system.</p>
+<section id="id46">
+<h3>Parameters:<a class="headerlink" href="#id46" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>R<span class="classifier">Tensor</span></dt><dd><p>The matrix representing the linear system to be solved.</p>
+</dd>
+<dt>S<span class="classifier">Tensor</span></dt><dd><p>The right-hand side vector of the linear system.</p>
+</dd>
+</dl>
+</section>
+<section id="id47">
+<h3>Returns:<a class="headerlink" href="#id47" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>Tensor</dt><dd><p>The solved reduced tensor <cite>ar</cite> reshaped to the appropriate dimensions.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.evolution.ALSSolver.solve_cutensor">
+<span class="sig-name descname"><span class="pre">solve_cutensor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a1r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a2r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n12g</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.ALSSolver.solve_cutensor" title="Link to this definition"></a></dt>
+<dd><p>C++ implementation of the ALS iteration loop.</p>
+<p>This calls the compiled C++ function that performs the entire iteration
+loop using cuTensor operations for maximum performance.</p>
+<section id="id48">
+<h3>Parameters:<a class="headerlink" href="#id48" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>a1r<span class="classifier">Tensor</span></dt><dd><p>Initial reduced tensor for first site.</p>
+</dd>
+<dt>a2r<span class="classifier">Tensor</span></dt><dd><p>Initial reduced tensor for second site.</p>
+</dd>
+<dt>n12g<span class="classifier">Tensor</span></dt><dd><p>Modified norm tensor.</p>
+</dd>
+</dl>
+</section>
+<section id="id49">
+<h3>Returns:<a class="headerlink" href="#id49" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>tuple</dt><dd><p>Updated tensors (a1r, a2r).</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.evolution.ALSSolver.solve_torch">
+<span class="sig-name descname"><span class="pre">solve_torch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a1r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a2r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n12g</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.ALSSolver.solve_torch" title="Link to this definition"></a></dt>
+<dd><p>Python implementation of the ALS iteration loop.</p>
+<section id="id50">
+<h3>Parameters:<a class="headerlink" href="#id50" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>a1r<span class="classifier">Tensor</span></dt><dd><p>Initial reduced tensor for first site.</p>
+</dd>
+<dt>a2r<span class="classifier">Tensor</span></dt><dd><p>Initial reduced tensor for second site.</p>
+</dd>
+<dt>n12g<span class="classifier">Tensor</span></dt><dd><p>Modified norm tensor.</p>
+</dd>
+</dl>
+</section>
+<section id="id51">
+<h3>Returns:<a class="headerlink" href="#id51" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>tuple</dt><dd><p>Updated tensors (a1r, a2r).</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="acetn.evolution.FastFullUpdater">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">acetn.evolution.</span></span><span class="sig-name descname"><span class="pre">FastFullUpdater</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ipeps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.FastFullUpdater" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#acetn.evolution.full_update.FullUpdater" title="acetn.evolution.full_update.FullUpdater"><code class="xref py py-class docutils literal notranslate"><span class="pre">FullUpdater</span></code></a></p>
+<p>A subclass of FullUpdater that combines full updates with directional moves using both 
+distributed and non-distributed Corner Transfer Matrix (CTM) updates.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><dl class="simple">
+<dt>mover (DirectionalMover): An instance of the DirectionalMover class responsible for </dt><dd><p>performing directional moves updating the iPEPS boundary tensors following the
+tensor update.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.evolution.FastFullUpdater.absorb_bond">
+<span class="sig-name descname"><span class="pre">absorb_bond</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.FastFullUpdater.absorb_bond" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.evolution.FastFullUpdater.absorb_bond_dist">
+<span class="sig-name descname"><span class="pre">absorb_bond_dist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.FastFullUpdater.absorb_bond_dist" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.evolution.FastFullUpdater.bond_update">
+<span class="sig-name descname"><span class="pre">bond_update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bond</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.FastFullUpdater.bond_update" title="Link to this definition"></a></dt>
+<dd><p>Updates the tensors for a given bond in the iPEPS network.</p>
+<p>Depending on whether the iPEPS network is distributed or not, this method either broadcasts 
+tensors across ranks or updates them locally. Afterward, it absorbs the updated bond either 
+in a distributed or non-distributed manner.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>bond (list): A list representing a bond in the iPEPS network. It contains the site</dt><dd><p>indices of two adjacent tensors and an integer (k) that indicates the direction 
+of the update.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>tuple: A tuple containing two values:</dt><dd><ul class="simple">
+<li><p>ctm_time (float): The time spent on the CTM update for the bond.</p></li>
+<li><p>upd_time (float): The time spent on the full update for the bond.</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="acetn.evolution.FullUpdater">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">acetn.evolution.</span></span><span class="sig-name descname"><span class="pre">FullUpdater</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ipeps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.FullUpdater" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#acetn.evolution.tensor_update.TensorUpdater" title="acetn.evolution.tensor_update.TensorUpdater"><code class="xref py py-class docutils literal notranslate"><span class="pre">TensorUpdater</span></code></a></p>
+<p>A concrete subclass of TensorUpdater that implements the full tensor update algorithm. 
+This class performs tensor decompositions, updates the reduced tensors, applies a gate 
+operation, and recomposes the tensors.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.evolution.FullUpdater.decompose_site_tensors">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">decompose_site_tensors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.FullUpdater.decompose_site_tensors" title="Link to this definition"></a></dt>
+<dd><p>Decomposes the site tensors <cite>a1</cite> and <cite>a2</cite> into their core and reduced parts using QR decomposition.</p>
+<section id="id52">
+<h3>Parameters:<a class="headerlink" href="#id52" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>a1<span class="classifier">Tensor</span></dt><dd><p>The first tensor at the site being decomposed.</p>
+</dd>
+<dt>a2<span class="classifier">Tensor</span></dt><dd><p>The second tensor at the site being decomposed.</p>
+</dd>
+</dl>
+</section>
+<section id="id53">
+<h3>Returns:<a class="headerlink" href="#id53" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>a1q<span class="classifier">Tensor</span></dt><dd><p>The core part of the first tensor after decomposition.</p>
+</dd>
+<dt>a1r<span class="classifier">Tensor</span></dt><dd><p>The reduced part of the first tensor after decomposition.</p>
+</dd>
+<dt>a2q<span class="classifier">Tensor</span></dt><dd><p>The core part of the second tensor after decomposition.</p>
+</dd>
+<dt>a2r<span class="classifier">Tensor</span></dt><dd><p>The reduced part of the second tensor after decomposition.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.evolution.FullUpdater.finalize_reduced_tensors">
+<span class="sig-name descname"><span class="pre">finalize_reduced_tensors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a1r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a2r</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.FullUpdater.finalize_reduced_tensors" title="Link to this definition"></a></dt>
+<dd><p>Finalizes the tensor update using the method shown in Fig.12(b) 
+of arxiv.org/abs/1405.3259.</p>
+<section id="id54">
+<h3>Parameters:<a class="headerlink" href="#id54" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>a1r<span class="classifier">Tensor</span></dt><dd><p>The reduced tensor for the first site.</p>
+</dd>
+<dt>a2r<span class="classifier">Tensor</span></dt><dd><p>The reduced tensor for the second site.</p>
+</dd>
+</dl>
+</section>
+<section id="id55">
+<h3>Returns:<a class="headerlink" href="#id55" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>a1r, a2r<span class="classifier">Tensor</span></dt><dd><p>The finalized reduced tensors.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.evolution.FullUpdater.precondition_norm_tensor">
+<span class="sig-name descname"><span class="pre">precondition_norm_tensor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a12g</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.FullUpdater.precondition_norm_tensor" title="Link to this definition"></a></dt>
+<dd><p>Applies positive approximation and (optionally) gauge fixing to the norm tensor,
+improving conditioning for ALS. The gate-tensor product is also modified when
+gauge fixing is used.</p>
+<section id="id56">
+<h3>Parameters:<a class="headerlink" href="#id56" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>n12<span class="classifier">Tensor</span></dt><dd><p>The norm tensor.</p>
+</dd>
+<dt>a12g<span class="classifier">Tensor</span></dt><dd><p>The contracted a1r-a2r-gate.</p>
+</dd>
+</dl>
+</section>
+<section id="id57">
+<h3>Returns:<a class="headerlink" href="#id57" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>n12, a12g<span class="classifier">Tensor</span></dt><dd><p>The updated tensors.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.evolution.FullUpdater.recompose_site_tensors">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">recompose_site_tensors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a1q</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a1r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a2q</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a2r</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.FullUpdater.recompose_site_tensors" title="Link to this definition"></a></dt>
+<dd><p>Reconstructs the full site tensors from the decomposed core and reduced components.</p>
+<section id="id58">
+<h3>Parameters:<a class="headerlink" href="#id58" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>a1q<span class="classifier">Tensor</span></dt><dd><p>The core part of the first tensor.</p>
+</dd>
+<dt>a1r<span class="classifier">Tensor</span></dt><dd><p>The reduced part of the first tensor.</p>
+</dd>
+<dt>a2q<span class="classifier">Tensor</span></dt><dd><p>The core part of the second tensor.</p>
+</dd>
+<dt>a2r<span class="classifier">Tensor</span></dt><dd><p>The reduced part of the second tensor.</p>
+</dd>
+</dl>
+</section>
+<section id="id59">
+<h3>Returns:<a class="headerlink" href="#id59" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>a1<span class="classifier">Tensor</span></dt><dd><p>The reconstructed tensor for the first site.</p>
+</dd>
+<dt>a2<span class="classifier">Tensor</span></dt><dd><p>The reconstructed tensor for the second site.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.evolution.FullUpdater.tensor_update">
+<span class="sig-name descname"><span class="pre">tensor_update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bond</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.FullUpdater.tensor_update" title="Link to this definition"></a></dt>
+<dd><p>Performs the full tensor update process for the given bond. This involves tensor 
+decomposition, norm tensor computation, reduced tensor update, and tensor recomposition.</p>
+<section id="id60">
+<h3>Parameters:<a class="headerlink" href="#id60" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>a1<span class="classifier">Tensor</span></dt><dd><p>The first tensor at the site being updated.</p>
+</dd>
+<dt>a2<span class="classifier">Tensor</span></dt><dd><p>The second tensor at the site being updated.</p>
+</dd>
+<dt>bond<span class="classifier">tuple</span></dt><dd><p>The bond that connects the two tensors (indices and position).</p>
+</dd>
+</dl>
+</section>
+<section id="id61">
+<h3>Returns:<a class="headerlink" href="#id61" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>a1, a2<span class="classifier">Tensor</span></dt><dd><p>The updated tensors after performing the tensor update operation.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.evolution.FullUpdater.update_reduced_tensors">
+<span class="sig-name descname"><span class="pre">update_reduced_tensors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a1r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a2r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gate</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.FullUpdater.update_reduced_tensors" title="Link to this definition"></a></dt>
+<dd><p>Updates the reduced tensors by applying the gate operation and norm tensor, 
+and optionally applying gauge fixing.</p>
+<section id="id62">
+<h3>Parameters:<a class="headerlink" href="#id62" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>a1r<span class="classifier">Tensor</span></dt><dd><p>The reduced tensor for the first site.</p>
+</dd>
+<dt>a2r<span class="classifier">Tensor</span></dt><dd><p>The reduced tensor for the second site.</p>
+</dd>
+<dt>n12<span class="classifier">Tensor</span></dt><dd><p>The norm tensor that represents the bond interaction between the two sites.</p>
+</dd>
+<dt>gate<span class="classifier">Tensor</span></dt><dd><p>The gate operation to be applied during the update.</p>
+</dd>
+</dl>
+</section>
+<section id="id63">
+<h3>Returns:<a class="headerlink" href="#id63" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>a1r, a2r<span class="classifier">Tensor</span></dt><dd><p>The updated reduced tensors for the first and second sites.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="acetn.evolution.Gate">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">acetn.evolution.</span></span><span class="sig-name descname"><span class="pre">Gate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtau</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bond_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">site_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.Gate" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A class representing quantum gates for one-site and two-site Hamiltonians, 
+used in time evolution algorithms.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.evolution.Gate.build_one_site_gates">
+<span class="sig-name descname"><span class="pre">build_one_site_gates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtau</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">site_list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.Gate.build_one_site_gates" title="Link to this definition"></a></dt>
+<dd><p>Builds the one-site gates for the given list of sites by calculating the exponential of
+the Hamiltonian for each site.</p>
+<section id="id64">
+<h3>Parameters:<a class="headerlink" href="#id64" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>model<span class="classifier">object</span></dt><dd><p>The model that defines the Hamiltonian for the site.</p>
+</dd>
+<dt>dtau<span class="classifier">float</span></dt><dd><p>The imaginary-time step for the gate calculation.</p>
+</dd>
+<dt>site_list<span class="classifier">list</span></dt><dd><p>A list of sites for which one-site gates will be created.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.evolution.Gate.build_two_site_gates">
+<span class="sig-name descname"><span class="pre">build_two_site_gates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtau</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bond_list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.Gate.build_two_site_gates" title="Link to this definition"></a></dt>
+<dd><p>Builds the two-site gates for the given list of bonds by calculating the exponential of
+the Hamiltonian for each bond and adding contributions from one-site Hamiltonians if necessary.</p>
+<section id="id65">
+<h3>Parameters:<a class="headerlink" href="#id65" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>model<span class="classifier">object</span></dt><dd><p>The model that defines the Hamiltonians for the bonds and sites.</p>
+</dd>
+<dt>dtau<span class="classifier">float</span></dt><dd><p>The imaginary-time step for the gate calculation.</p>
+</dd>
+<dt>bond_list<span class="classifier">list</span></dt><dd><p>A list of bonds for which two-site gates will be created.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.evolution.Gate.calculate_gate">
+<span class="sig-name descname"><span class="pre">calculate_gate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ham</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtau</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.Gate.calculate_gate" title="Link to this definition"></a></dt>
+<dd><p>Calculates the gate from the Hamiltonian using the matrix exponential and time step.</p>
+<section id="id66">
+<h3>Parameters:<a class="headerlink" href="#id66" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>ham<span class="classifier">torch.Tensor</span></dt><dd><p>The Hamiltonian matrix for which the gate will be calculated.</p>
+</dd>
+<dt>dtau<span class="classifier">float</span></dt><dd><p>The imaginary-time step for the gate calculation.</p>
+</dd>
+</dl>
+</section>
+<section id="id67">
+<h3>Returns:<a class="headerlink" href="#id67" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>torch.Tensor</dt><dd><p>The calculated gate for the given Hamiltonian.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="acetn.evolution.TensorUpdater">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">acetn.evolution.</span></span><span class="sig-name descname"><span class="pre">TensorUpdater</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ipeps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gate</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.TensorUpdater" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<p>Abstract base class for the iPEPS tensor update.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.evolution.TensorUpdater.bond_permutation">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bond_permutation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.TensorUpdater.bond_permutation" title="Link to this definition"></a></dt>
+<dd><p>Generates a permutation pattern for tensor indices based on the bond direction <cite>k</cite>.</p>
+<p>The permutation is calculated by shifting the tensor indices in a circular fashion,
+and it determines how the tensor’s dimensions will be permuted during the update process.</p>
+<section id="id68">
+<h3>Parameters:<a class="headerlink" href="#id68" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>k<span class="classifier">int</span></dt><dd><p>The bond index used to generate the permutation pattern.</p>
+</dd>
+</dl>
+</section>
+<section id="id69">
+<h3>Returns:<a class="headerlink" href="#id69" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>list</dt><dd><p>A list representing the permutation pattern of the tensor indices.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.evolution.TensorUpdater.permute_bond_tensors">
+<span class="sig-name descname"><span class="pre">permute_bond_tensors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.TensorUpdater.permute_bond_tensors" title="Link to this definition"></a></dt>
+<dd><p>Permutes the input tensors <cite>a1</cite> and <cite>a2</cite> based on the bond index <cite>k</cite>.</p>
+<p>This method rearranges the dimensions of the tensors according to a permutation pattern
+determined by the bond direction <cite>k</cite>, which is typically used in the iPEPS update procedure.</p>
+<section id="id70">
+<h3>Parameters:<a class="headerlink" href="#id70" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>a1<span class="classifier">Tensor</span></dt><dd><p>The first input tensor to be permuted.</p>
+</dd>
+<dt>a2<span class="classifier">Tensor</span></dt><dd><p>The second input tensor to be permuted.</p>
+</dd>
+<dt>k<span class="classifier">int</span></dt><dd><p>The bond index used to determine the permutation pattern.</p>
+</dd>
+</dl>
+</section>
+<section id="id71">
+<h3>Returns:<a class="headerlink" href="#id71" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>tuple</dt><dd><p>A tuple containing the permuted tensors (a1, a2).</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.evolution.TensorUpdater.tensor_update">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tensor_update</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.TensorUpdater.tensor_update" title="Link to this definition"></a></dt>
+<dd><p>Abstract method that should be implemented by subclasses to define the specific logic 
+for updating the tensors in the iPEPS network.</p>
+<p>This method must be overridden by a subclass to provide the specific update operation 
+for the tensors based on the network’s requirements.</p>
+<section id="id72">
+<h3>Returns:<a class="headerlink" href="#id72" title="Link to this heading"></a></h3>
+<p>None</p>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.evolution.TensorUpdater.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.TensorUpdater.update" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="acetn.evolution.evolve">
+<span class="sig-prename descclassname"><span class="pre">acetn.evolution.</span></span><span class="sig-name descname"><span class="pre">evolve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ipeps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtau</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">steps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.evolution.evolve" title="Link to this definition"></a></dt>
+<dd><p>Evolves the iPEPS tensor network over a given number of steps.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>ipeps (Ipeps): The iPEPS object representing the tensor network.
+dtau (float): The imaginary-time step size.
+steps (int): The number of evolution steps to perform.
+model (Model): The model used for generating the gate in the evolution.
+config (dict): A configuration dictionary that contains parameters for the evolution.</p>
+</dd>
+<dt>Returns:</dt><dd><p>None: The function updates the iPEPS tensors in place and logs the runtime.</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 </section>
 

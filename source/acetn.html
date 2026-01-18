@@ -99,13 +99,20 @@
 <li class="toctree-l2"><a class="reference internal" href="acetn.evolution.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="acetn.evolution.html#module-acetn.evolution.als_solver">acetn.evolution.als_solver module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="acetn.evolution.html#acetn.evolution.als_solver.ALSSolver"><code class="docutils literal notranslate"><span class="pre">ALSSolver</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="acetn.evolution.html#acetn.evolution.als_solver.ALSSolver.calculate_distance"><code class="docutils literal notranslate"><span class="pre">ALSSolver.calculate_distance()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="acetn.evolution.html#acetn.evolution.als_solver.ALSSolver.build_r1"><code class="docutils literal notranslate"><span class="pre">ALSSolver.build_r1()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="acetn.evolution.html#acetn.evolution.als_solver.ALSSolver.build_r2"><code class="docutils literal notranslate"><span class="pre">ALSSolver.build_r2()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="acetn.evolution.html#acetn.evolution.als_solver.ALSSolver.build_s1"><code class="docutils literal notranslate"><span class="pre">ALSSolver.build_s1()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="acetn.evolution.html#acetn.evolution.als_solver.ALSSolver.build_s2"><code class="docutils literal notranslate"><span class="pre">ALSSolver.build_s2()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="acetn.evolution.html#acetn.evolution.als_solver.ALSSolver.calculate_cost"><code class="docutils literal notranslate"><span class="pre">ALSSolver.calculate_cost()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="acetn.evolution.html#acetn.evolution.als_solver.ALSSolver.cholesky_solve"><code class="docutils literal notranslate"><span class="pre">ALSSolver.cholesky_solve()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="acetn.evolution.html#acetn.evolution.als_solver.ALSSolver.initialize_reduced_tensors"><code class="docutils literal notranslate"><span class="pre">ALSSolver.initialize_reduced_tensors()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="acetn.evolution.html#acetn.evolution.als_solver.ALSSolver.initialize_tensors"><code class="docutils literal notranslate"><span class="pre">ALSSolver.initialize_tensors()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="acetn.evolution.html#acetn.evolution.als_solver.ALSSolver.solve"><code class="docutils literal notranslate"><span class="pre">ALSSolver.solve()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="acetn.evolution.html#acetn.evolution.als_solver.ALSSolver.solve_a1r"><code class="docutils literal notranslate"><span class="pre">ALSSolver.solve_a1r()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="acetn.evolution.html#acetn.evolution.als_solver.ALSSolver.solve_a2r"><code class="docutils literal notranslate"><span class="pre">ALSSolver.solve_a2r()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="acetn.evolution.html#acetn.evolution.als_solver.ALSSolver.solve_ar"><code class="docutils literal notranslate"><span class="pre">ALSSolver.solve_ar()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="acetn.evolution.html#acetn.evolution.als_solver.ALSSolver.solve_cutensor"><code class="docutils literal notranslate"><span class="pre">ALSSolver.solve_cutensor()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="acetn.evolution.html#acetn.evolution.als_solver.ALSSolver.solve_torch"><code class="docutils literal notranslate"><span class="pre">ALSSolver.solve_torch()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -134,6 +141,8 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="acetn.evolution.html#acetn.evolution.full_update.build_norm_tensor"><code class="docutils literal notranslate"><span class="pre">build_norm_tensor()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="acetn.evolution.html#acetn.evolution.full_update.build_norm_tensor_core"><code class="docutils literal notranslate"><span class="pre">build_norm_tensor_core()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="acetn.evolution.html#acetn.evolution.full_update.build_norm_tensor_core_blocked"><code class="docutils literal notranslate"><span class="pre">build_norm_tensor_core_blocked()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="acetn.evolution.html#acetn.evolution.full_update.gauge_fix"><code class="docutils literal notranslate"><span class="pre">gauge_fix()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="acetn.evolution.html#acetn.evolution.full_update.positive_approx"><code class="docutils literal notranslate"><span class="pre">positive_approx()</span></code></a></li>
 </ul>
@@ -157,7 +166,55 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="acetn.evolution.html#module-acetn.evolution">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="acetn.evolution.html#module-acetn.evolution">Module contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="acetn.evolution.html#acetn.evolution.ALSSolver"><code class="docutils literal notranslate"><span class="pre">ALSSolver</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="acetn.evolution.html#acetn.evolution.ALSSolver.build_r1"><code class="docutils literal notranslate"><span class="pre">ALSSolver.build_r1()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="acetn.evolution.html#acetn.evolution.ALSSolver.build_r2"><code class="docutils literal notranslate"><span class="pre">ALSSolver.build_r2()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="acetn.evolution.html#acetn.evolution.ALSSolver.build_s1"><code class="docutils literal notranslate"><span class="pre">ALSSolver.build_s1()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="acetn.evolution.html#acetn.evolution.ALSSolver.build_s2"><code class="docutils literal notranslate"><span class="pre">ALSSolver.build_s2()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="acetn.evolution.html#acetn.evolution.ALSSolver.calculate_cost"><code class="docutils literal notranslate"><span class="pre">ALSSolver.calculate_cost()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="acetn.evolution.html#acetn.evolution.ALSSolver.cholesky_solve"><code class="docutils literal notranslate"><span class="pre">ALSSolver.cholesky_solve()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="acetn.evolution.html#acetn.evolution.ALSSolver.initialize_reduced_tensors"><code class="docutils literal notranslate"><span class="pre">ALSSolver.initialize_reduced_tensors()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="acetn.evolution.html#acetn.evolution.ALSSolver.initialize_tensors"><code class="docutils literal notranslate"><span class="pre">ALSSolver.initialize_tensors()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="acetn.evolution.html#acetn.evolution.ALSSolver.solve"><code class="docutils literal notranslate"><span class="pre">ALSSolver.solve()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="acetn.evolution.html#acetn.evolution.ALSSolver.solve_a1r"><code class="docutils literal notranslate"><span class="pre">ALSSolver.solve_a1r()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="acetn.evolution.html#acetn.evolution.ALSSolver.solve_a2r"><code class="docutils literal notranslate"><span class="pre">ALSSolver.solve_a2r()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="acetn.evolution.html#acetn.evolution.ALSSolver.solve_ar"><code class="docutils literal notranslate"><span class="pre">ALSSolver.solve_ar()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="acetn.evolution.html#acetn.evolution.ALSSolver.solve_cutensor"><code class="docutils literal notranslate"><span class="pre">ALSSolver.solve_cutensor()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="acetn.evolution.html#acetn.evolution.ALSSolver.solve_torch"><code class="docutils literal notranslate"><span class="pre">ALSSolver.solve_torch()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="acetn.evolution.html#acetn.evolution.FastFullUpdater"><code class="docutils literal notranslate"><span class="pre">FastFullUpdater</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="acetn.evolution.html#acetn.evolution.FastFullUpdater.absorb_bond"><code class="docutils literal notranslate"><span class="pre">FastFullUpdater.absorb_bond()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="acetn.evolution.html#acetn.evolution.FastFullUpdater.absorb_bond_dist"><code class="docutils literal notranslate"><span class="pre">FastFullUpdater.absorb_bond_dist()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="acetn.evolution.html#acetn.evolution.FastFullUpdater.bond_update"><code class="docutils literal notranslate"><span class="pre">FastFullUpdater.bond_update()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="acetn.evolution.html#acetn.evolution.FullUpdater"><code class="docutils literal notranslate"><span class="pre">FullUpdater</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="acetn.evolution.html#acetn.evolution.FullUpdater.decompose_site_tensors"><code class="docutils literal notranslate"><span class="pre">FullUpdater.decompose_site_tensors()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="acetn.evolution.html#acetn.evolution.FullUpdater.finalize_reduced_tensors"><code class="docutils literal notranslate"><span class="pre">FullUpdater.finalize_reduced_tensors()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="acetn.evolution.html#acetn.evolution.FullUpdater.precondition_norm_tensor"><code class="docutils literal notranslate"><span class="pre">FullUpdater.precondition_norm_tensor()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="acetn.evolution.html#acetn.evolution.FullUpdater.recompose_site_tensors"><code class="docutils literal notranslate"><span class="pre">FullUpdater.recompose_site_tensors()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="acetn.evolution.html#acetn.evolution.FullUpdater.tensor_update"><code class="docutils literal notranslate"><span class="pre">FullUpdater.tensor_update()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="acetn.evolution.html#acetn.evolution.FullUpdater.update_reduced_tensors"><code class="docutils literal notranslate"><span class="pre">FullUpdater.update_reduced_tensors()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="acetn.evolution.html#acetn.evolution.Gate"><code class="docutils literal notranslate"><span class="pre">Gate</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="acetn.evolution.html#acetn.evolution.Gate.build_one_site_gates"><code class="docutils literal notranslate"><span class="pre">Gate.build_one_site_gates()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="acetn.evolution.html#acetn.evolution.Gate.build_two_site_gates"><code class="docutils literal notranslate"><span class="pre">Gate.build_two_site_gates()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="acetn.evolution.html#acetn.evolution.Gate.calculate_gate"><code class="docutils literal notranslate"><span class="pre">Gate.calculate_gate()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="acetn.evolution.html#acetn.evolution.TensorUpdater"><code class="docutils literal notranslate"><span class="pre">TensorUpdater</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="acetn.evolution.html#acetn.evolution.TensorUpdater.bond_permutation"><code class="docutils literal notranslate"><span class="pre">TensorUpdater.bond_permutation()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="acetn.evolution.html#acetn.evolution.TensorUpdater.permute_bond_tensors"><code class="docutils literal notranslate"><span class="pre">TensorUpdater.permute_bond_tensors()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="acetn.evolution.html#acetn.evolution.TensorUpdater.tensor_update"><code class="docutils literal notranslate"><span class="pre">TensorUpdater.tensor_update()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="acetn.evolution.html#acetn.evolution.TensorUpdater.update"><code class="docutils literal notranslate"><span class="pre">TensorUpdater.update()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="acetn.evolution.html#acetn.evolution.evolve"><code class="docutils literal notranslate"><span class="pre">evolve()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="acetn.ipeps.html">acetn.ipeps package</a><ul>
@@ -191,6 +248,7 @@
 <li class="toctree-l4"><a class="reference internal" href="acetn.ipeps.html#acetn.ipeps.ipeps_config.EvolutionConfig.als_method"><code class="docutils literal notranslate"><span class="pre">EvolutionConfig.als_method</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="acetn.ipeps.html#acetn.ipeps.ipeps_config.EvolutionConfig.als_niter"><code class="docutils literal notranslate"><span class="pre">EvolutionConfig.als_niter</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="acetn.ipeps.html#acetn.ipeps.ipeps_config.EvolutionConfig.als_tol"><code class="docutils literal notranslate"><span class="pre">EvolutionConfig.als_tol</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="acetn.ipeps.html#acetn.ipeps.ipeps_config.EvolutionConfig.backend"><code class="docutils literal notranslate"><span class="pre">EvolutionConfig.backend</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="acetn.ipeps.html#acetn.ipeps.ipeps_config.EvolutionConfig.disable_progressbar"><code class="docutils literal notranslate"><span class="pre">EvolutionConfig.disable_progressbar</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="acetn.ipeps.html#acetn.ipeps.ipeps_config.EvolutionConfig.gauge_fix_atol"><code class="docutils literal notranslate"><span class="pre">EvolutionConfig.gauge_fix_atol</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="acetn.ipeps.html#acetn.ipeps.ipeps_config.EvolutionConfig.positive_approx_cutoff"><code class="docutils literal notranslate"><span class="pre">EvolutionConfig.positive_approx_cutoff</span></code></a></li>
@@ -208,6 +266,7 @@
 <li class="toctree-l4"><a class="reference internal" href="acetn.ipeps.html#acetn.ipeps.ipeps_config.IpepsConfig.model"><code class="docutils literal notranslate"><span class="pre">IpepsConfig.model</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="acetn.ipeps.html#acetn.ipeps.ipeps_config.IpepsConfig.set_device"><code class="docutils literal notranslate"><span class="pre">IpepsConfig.set_device()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="acetn.ipeps.html#acetn.ipeps.ipeps_config.IpepsConfig.set_dtype"><code class="docutils literal notranslate"><span class="pre">IpepsConfig.set_dtype()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="acetn.ipeps.html#acetn.ipeps.ipeps_config.IpepsConfig.validate_backend"><code class="docutils literal notranslate"><span class="pre">IpepsConfig.validate_backend()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="acetn.ipeps.html#acetn.ipeps.ipeps_config.ModelConfig"><code class="docutils literal notranslate"><span class="pre">ModelConfig</span></code></a><ul>
@@ -277,6 +336,8 @@
 <li class="toctree-l4"><a class="reference internal" href="acetn.measurement.html#acetn.measurement.rdm.RDM.build_site_rdm"><code class="docutils literal notranslate"><span class="pre">RDM.build_site_rdm()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="acetn.measurement.html#acetn.measurement.rdm.build_bond_rdm_core"><code class="docutils literal notranslate"><span class="pre">build_bond_rdm_core()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="acetn.measurement.html#acetn.measurement.rdm.build_bond_rdm_core_blocked"><code class="docutils literal notranslate"><span class="pre">build_bond_rdm_core_blocked()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="acetn.measurement.html#module-acetn.measurement">Module contents</a></li>
