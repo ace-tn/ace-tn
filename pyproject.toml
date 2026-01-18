@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools", "wheel"]
+requires = ["setuptools", "wheel", "torch"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -20,5 +20,8 @@ dependencies = [
     "pytest",
 ]
 
+[project.optional-dependencies]
+cutensor = []  # No extra Python deps, just triggers C++ build via ACETN_BUILD_CUTENSOR=1
+
 [tool.setuptools.packages]
-find = { where = ["."] }
+find = { where = ["."], exclude = ["csrc*", "tests*", "benchmarking*", "samples*", "docs*"] }

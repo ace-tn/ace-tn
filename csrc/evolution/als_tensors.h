@@ -2,13 +2,12 @@
 #define ALS_TENSORS_H
 
 #include <torch/extension.h>
-#include <memory>
 #include <optional>
 #include <unordered_map>
 #include <string>
+#include "linalg/contraction.h"
 
-class ContractionPlan;
-
+template<typename scalar_t>
 class AlsTensors {
 public:
     AlsTensors(torch::Tensor a1r, torch::Tensor a2r, torch::Tensor n12g, torch::Tensor n12, torch::Tensor a12g,
@@ -28,7 +27,7 @@ public:
     torch::Tensor const& build_S2();
     torch::Tensor const& build_R1();
     torch::Tensor const& build_R2();
-    double calculate_cost();
+    scalar_t calculate_cost();
 
 private:
     int64_t nD_;
@@ -45,19 +44,16 @@ private:
     torch::Tensor n12_;
     torch::Tensor a12g_;
 
-    // ALS tensors
     torch::Tensor S_;
     torch::Tensor R_;
 
-    // intermediate buffers
     torch::Tensor R_intm_;
     torch::Tensor a12n_;
     torch::Tensor d_intm_;
     torch::Tensor d2_;
     torch::Tensor d3_;
 
-    // contraction plans
-    std::unordered_map<std::string, std::unique_ptr<ContractionPlan>> plan_cache_;
+    std::unordered_map<std::string, ContractionPlan> plan_cache_;
 };
 
 #endif // ALS_TENSORS_H

@@ -2,6 +2,7 @@ import torch
 from torch import einsum, conj
 from torch.linalg import pinv, cholesky, solve_triangular, svd
 
+
 class ALSSolver:
     """
     Alternating Least Squares (ALS) solver for the reduced tensor update.
@@ -42,10 +43,8 @@ class ALSSolver:
         tuple
             A tuple containing the updated reduced tensors (`a1r`, `a2r`).
         """
-        # Shared initialization (always PyTorch)
         a1r, a2r, n12g = self.initialize_tensors()
 
-        # Backend-specific iteration
         if self.backend == "cutensor":
             a1r, a2r = self.solve_cutensor(a1r, a2r, n12g)
         else:
@@ -103,19 +102,11 @@ class ALSSolver:
         tuple
             Updated tensors (a1r, a2r).
         """
-        # Ensure tensors are contiguous (row-major is default in PyTorch)
-        self.n12 = self.n12.contiguous()
-        self.a12g = self.a12g.contiguous()
-        a1r = a1r.contiguous()
-        a2r = a2r.contiguous()
-        n12g = n12g.contiguous()
-        
-        # Call C++ implementation of the full iteration loop
-        a1r, a2r = torch.ops.cutensor_ext.als_solve(
+        from acetn.evolution._extensions import _C_cutensor
+        a1r, a2r = _C_cutensor.als_solve(
             a1r, a2r, n12g, self.n12, self.a12g,
             self.niter, self.tol, self.method, self.epsilon
         )
-        
         return a1r, a2r
 
     def initialize_tensors(self):
@@ -240,21 +231,21 @@ class ALSSolver:
 
     @staticmethod
     def build_s1(n12g, a2r):
-        return torch.einsum('YXpQ,XUQ->YUp', n12g, a2r)
+        return torch.einsum('YXpQ,XUQ->YUp', n12g, conj(a2r))
 
     @staticmethod
     def build_s2(n12g, a1r):
-        return torch.einsum('YXPq,YVP->XVq', n12g, a1r)
+        return torch.einsum('YXPq,YVP->XVq', n12g, conj(a1r))
 
     @staticmethod
     def build_r1(n12, a2r):
         R = torch.einsum('yxYX,xuq->yYXuq', n12, a2r)
-        return torch.einsum('yYXuQ,XUQ->YUyu', R, a2r)
+        return torch.einsum('yYXuQ,XUQ->YUyu', R, conj(a2r))
 
     @staticmethod
     def build_r2(n12, a1r):
         R = torch.einsum('yxYX,yvp->xYXvp', n12, a1r)
-        return torch.einsum('xYXvP,YVP->XVxv', R, a1r)
+        return torch.einsum('xYXvP,YVP->XVxv', R, conj(a1r))
 
     @staticmethod
     def calculate_cost(a1r, a2r, a12g, n12):

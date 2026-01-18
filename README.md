@@ -43,6 +43,40 @@ measurements = ipeps.measure()
 ```
 For more details on usage, see the project [documentation](https://ace-tn.github.io/ace-tn/) or try some of the example scripts in the `samples` directory.
 
+## Optional cuTENSOR Acceleration
+
+Ace-TN includes an optional C++ extension that uses NVIDIA's cuTENSOR and cuSOLVER libraries for accelerated tensor contractions in the ALS solver.
+
+### Requirements
+
+- NVIDIA GPU with CUDA support
+- CUDA Toolkit (with cuSOLVER)
+- [cuTENSOR library](https://developer.nvidia.com/cutensor) installed (e.g., `libcutensor.so` in `/usr/local/lib` or `$CUDA_HOME/lib64`)
+- PyTorch with CUDA support
+
+### Building with cuTENSOR
+
+To build and install with the cuTENSOR extension:
+
+```bash
+ACETN_BUILD_CUTENSOR=1 pip install .
+```
+
+### Usage
+
+Once built, set the backend in your evolution config:
+
+```python
+config = {
+    "evolution": {
+        "backend": "cutensor",  # Use cuTENSOR backend (default: "torch")
+    },
+    # ... other config options
+}
+```
+
+If the cuTENSOR extension is not available, the library will automatically fall back to the PyTorch backend.
+
 ## Multi-GPU Usage
 Run a script `script.py` in multi-GPU mode using `N` processes and `N` GPUs with
 ```

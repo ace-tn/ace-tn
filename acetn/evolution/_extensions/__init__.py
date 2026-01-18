@@ -1,40 +1,40 @@
 """
 Extension loading module for compiled C++ extensions.
 
-This module automatically loads all compiled C++ extensions (shared objects)
-found in this directory when imported.
+This module automatically loads the cuTENSOR extension if available.
+The extension provides GPU-accelerated tensor contractions via cuTENSOR.
 """
-import torch
-from pathlib import Path
-import glob
 import warnings
 
+CUTENSOR_AVAILABLE = False
 
-def load_extensions():
+
+def load_cutensor_extension():
     """
-    Load all compiled C++ extensions (shared objects) in this directory.
+    Load the cuTENSOR C++ extension if available.
     
-    Extensions are loaded into torch.ops for use by the Python code.
-    Failures to load are logged as warnings but do not prevent the module
-    from being imported.
+    Returns True if the extension was loaded successfully, False otherwise.
     """
-    ext_dir = Path(__file__).parent
-    so_files = glob.glob(str(ext_dir / "_C*.so"))
-    
-    if not so_files:
-        # No extensions found - this is okay for development
-        return
-    
-    for so_file in so_files:
-        try:
-            torch.ops.load_library(so_file)
-        except Exception as e:
-            warnings.warn(
-                f"Failed to load extension {Path(so_file).name}: {e}",
-                RuntimeWarning
-            )
+    global CUTENSOR_AVAILABLE
+
+    try:
+        # Import torch first to set up library paths for libc10.so etc.
+        import torch  # noqa: F401
+        # Try importing the compiled extension module
+        from acetn.evolution._extensions import _C_cutensor  # noqa: F401
+        CUTENSOR_AVAILABLE = True
+    except ImportError:
+        # Extension not built - this is fine, fall back to pure PyTorch
+        pass
+    except Exception as e:
+        warnings.warn(
+            f"Failed to load cuTENSOR extension: {e}",
+            RuntimeWarning
+        )
+
+    return CUTENSOR_AVAILABLE
 
 
-# Automatically load extensions when this module is imported
-load_extensions()
+# Automatically load extension when this module is imported
+load_cutensor_extension()
 
