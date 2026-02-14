@@ -1,0 +1,219 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CTMRG &mdash; Ace-TN 0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=0c084379" />
+
+  
+    <link rel="canonical" href="https://ace-tn.github.io/source/ctmrg.html" />
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=2709fde1"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Full Update" href="full_update.html" />
+    <link rel="prev" title="Methods" href="methods.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Ace-TN
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="methods.html">Methods</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="methods.html#ipeps-ansatz">iPEPS Ansatz</a></li>
+<li class="toctree-l2"><a class="reference internal" href="methods.html#double-layer-tensor">Double-Layer Tensor</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="methods.html#boundary-tensor-approximation">Boundary Tensor Approximation</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">CTMRG</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#directional-moves">Directional Moves</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#projector-calculation">Projector Calculation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#convergence">Convergence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="full_update.html">Full Update</a></li>
+<li class="toctree-l3"><a class="reference internal" href="simple_update.html">Simple Update</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="methods.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="user_guide.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Ace-TN</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="methods.html">Methods</a></li>
+      <li class="breadcrumb-item active">CTMRG</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/source/ctmrg.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="ctmrg">
+<h1>CTMRG<a class="headerlink" href="#ctmrg" title="Link to this heading"></a></h1>
+<p>The corner transfer matrix renormalization group (CTMRG) algorithm iteratively computes the
+boundary tensors <span class="math notranslate nohighlight">\(C^k\)</span> and <span class="math notranslate nohighlight">\(E^k\)</span> that approximate the infinite extension of
+the double-layer tensor network <a class="reference internal" href="methods.html#nishino1996" id="id1"><span>[Nishino1996]</span></a>, <a class="reference internal" href="#baxter1978" id="id2"><span>[Baxter1978]</span></a>, <a class="reference internal" href="methods.html#orus2009" id="id3"><span>[Orus2009]</span></a>.</p>
+<section id="directional-moves">
+<h2>Directional Moves<a class="headerlink" href="#directional-moves" title="Link to this heading"></a></h2>
+<p>The boundary tensors are computed by iteratively absorbing rows or columns of the
+double-layer tensor network. Each absorption is called a <em>directional move</em>. An up-move at
+row <span class="math notranslate nohighlight">\(y\)</span> inserts the <span class="math notranslate nohighlight">\(y+1\)</span> row of double-layer tensors and absorbs it into the top
+boundary. The following diagram shows the tensors involved in a single up-move:</p>
+<a class="reference internal image-reference" href="../_images/ctmrg_up_move.png"><img alt="../_images/ctmrg_up_move.png" class="align-center" src="../_images/ctmrg_up_move.png" style="width: 450px;" />
+</a>
+<p>The top boundary tensors <span class="math notranslate nohighlight">\(C^1, E^1, C^2\)</span> and the inserted row <span class="math notranslate nohighlight">\(a'\)</span> are
+contracted together, and projectors <span class="math notranslate nohighlight">\(P_1, P_2\)</span> are applied to truncate the growing
+boundary bonds back to dimension <span class="math notranslate nohighlight">\(\chi\)</span>:</p>
+<a class="reference internal image-reference" href="../_images/ctmrg_absorption.png"><img alt="../_images/ctmrg_absorption.png" class="align-center" src="../_images/ctmrg_absorption.png" style="width: 550px;" />
+</a>
+<p>The updated boundary tensors are:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}C^{\prime 1}_{(x,y)} &amp;= \mathrm{contract}\!\left(C^1_{(x,y+1)},\; E^4_{(x,y+1)},\; P^1_x\right) \\
+E^{\prime 1}_{(x,y)} &amp;= \mathrm{contract}\!\left(P^2_x,\; E^1_{(x,y+1)},\; a_{(x,y+1)},\; P^1_{x-1}\right) \\
+C^{\prime 2}_{(x,y)} &amp;= \mathrm{contract}\!\left(C^2_{(x,y+1)},\; E^2_{(x,y+1)},\; P^2_{x-1}\right)\end{split}\]</div>
+<p>Down, left, and right moves are defined analogously. For a unit cell of size
+<span class="math notranslate nohighlight">\(N_x \times N_y\)</span>, a complete absorption from one direction requires <span class="math notranslate nohighlight">\(N_y\)</span> (or
+<span class="math notranslate nohighlight">\(N_x\)</span>) consecutive moves.</p>
+</section>
+<section id="projector-calculation">
+<h2>Projector Calculation<a class="headerlink" href="#projector-calculation" title="Link to this heading"></a></h2>
+<p>Each absorption step increases the boundary bond dimension by a factor of <span class="math notranslate nohighlight">\(D^2\)</span>. To
+maintain a maximum boundary bond dimension <span class="math notranslate nohighlight">\(\chi\)</span>, the updated boundary tensors must be
+projected onto a lower-dimensional subspace. The projectors are computed from a truncated SVD
+of the contracted environment <a class="reference internal" href="methods.html#orus2009" id="id4"><span>[Orus2009]</span></a>, <a class="reference internal" href="#corboz2014" id="id5"><span>[Corboz2014]</span></a>.</p>
+<p><strong>1. Build quarter tensors</strong></p>
+<p>Four quarter tensors <span class="math notranslate nohighlight">\(Q_k\)</span> for <span class="math notranslate nohighlight">\(k = 1,2,3,4\)</span> are formed by contracting corner,
+edge, and site tensors at each quadrant of the environment:</p>
+<a class="reference internal image-reference" href="../_images/ctmrg_quarter_tensors.png"><img alt="../_images/ctmrg_quarter_tensors.png" class="align-center" src="../_images/ctmrg_quarter_tensors.png" style="width: 500px;" />
+</a>
+<p><strong>2. Form half-system tensors</strong></p>
+<p>Contract pairs of quarter tensors vertically to form the left and right halves of the
+environment:</p>
+<div class="math notranslate nohighlight">
+\[R_1 = Q_1 \cdot Q_4, \quad R_2 = Q_2 \cdot Q_3\]</div>
+<p><strong>3. SVD and truncation</strong></p>
+<p>The full environment is formed by contracting <span class="math notranslate nohighlight">\(R_1\)</span> and <span class="math notranslate nohighlight">\(R_2\)</span> along the bonds
+to be projected (indicated by the dashed line):</p>
+<a class="reference internal image-reference" href="../_images/ctmrg_projector.png"><img alt="../_images/ctmrg_projector.png" class="align-center" src="../_images/ctmrg_projector.png" style="width: 450px;" />
+</a>
+<p>Decompose the contraction <span class="math notranslate nohighlight">\(R_1 \cdot R_2\)</span> via SVD along the bonds to be projected:</p>
+<div class="math notranslate nohighlight">
+\[R_1 \cdot R_2 = U \, \Sigma \, V^\dagger\]</div>
+<p>Truncate to the largest <span class="math notranslate nohighlight">\(\chi\)</span> singular values.</p>
+<p><strong>4. Form projectors</strong></p>
+<p>The projectors are constructed from the truncated singular vectors and values:</p>
+<div class="math notranslate nohighlight">
+\[P_1 = R_1 \cdot U^\dagger \cdot \Sigma^{-1/2}, \quad
+P_2 = R_2 \cdot V \cdot \Sigma^{-1/2}\]</div>
+<p>These projectors approximate a decomposition of the identity and are used in the boundary
+tensor absorption contractions above. Alternatively, <em>half-system</em> projectors may be formed
+from only one of <span class="math notranslate nohighlight">\(R_1\)</span> or <span class="math notranslate nohighlight">\(R_2\)</span>, discarding correlations in the other half of the
+network <a class="reference internal" href="#corboz2014" id="id6"><span>[Corboz2014]</span></a>.</p>
+</section>
+<section id="convergence">
+<h2>Convergence<a class="headerlink" href="#convergence" title="Link to this heading"></a></h2>
+<p>CTMRG is iterated — performing directional moves in all four directions — until the boundary
+tensors reach a fixed point with respect to absorbing a full unit cell. The converged boundary
+tensors are then used for measurement of observables and, in the case of the full update, for
+constructing the tensor environment used in the ALS optimisation.</p>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading"></a></h2>
+<div role="list" class="citation-list">
+<div class="citation" id="baxter1978" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">Baxter1978</a><span class="fn-bracket">]</span></span>
+<ol class="upperalpha simple" start="18">
+<li><ol class="upperalpha simple" start="10">
+<li><p>Baxter, <em>Variational approximations for square lattice models in statistical mechanics</em>, J. Stat. Phys. <strong>19</strong>, 461 (1978).</p></li>
+</ol>
+</li>
+</ol>
+</div>
+<div class="citation" id="corboz2014" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>Corboz2014<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id5">1</a>,<a role="doc-backlink" href="#id6">2</a>)</span>
+<ol class="upperalpha simple" start="16">
+<li><p>Corboz, T. M. Rice, and M. Troyer, <em>Competing states in the t-J model: Uniform d-wave state versus stripe state</em>, Phys. Rev. Lett. <strong>113</strong>, 046402 (2014).</p></li>
+</ol>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="methods.html" class="btn btn-neutral float-left" title="Methods" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="full_update.html" class="btn btn-neutral float-right" title="Full Update" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Addison Richards.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
