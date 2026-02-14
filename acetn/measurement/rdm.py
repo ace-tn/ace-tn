@@ -1,6 +1,7 @@
 import torch
 from torch import einsum,conj
 from math import ceil
+from ..ipeps.bond import Bond
 
 class RDM:
     """
@@ -27,10 +28,9 @@ class RDM:
         Returns:
             torch.Tensor: The reduced density matrix corresponding to the provided indices (site or bond).
         """
-        if isinstance(key, tuple) and len(key) == 2:
-            return self.build_site_rdm(key)
-        if isinstance(key, list) and len(key) == 3:
+        if isinstance(key, Bond):
             return self.build_bond_rdm(key)
+        return self.build_site_rdm(key)
 
     def build_site_rdm(self, site):
         """

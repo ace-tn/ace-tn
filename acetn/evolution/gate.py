@@ -1,4 +1,5 @@
 import torch
+from ..ipeps.bond import Bond
 
 class Gate:
     """
@@ -43,10 +44,9 @@ class Gate:
         torch.Tensor
             The gate matrix for the given key (site or bond).
         """
-        if isinstance(key, tuple) and len(key) == 2:
-            return self._gate[key]
-        if isinstance(key, list) and len(key) == 3:
-            return self._gate[key[2]]
+        if isinstance(key, Bond):
+            return self._gate[key.k]
+        return self._gate[key]
 
     def __setitem__(self, key, gate):
         """
@@ -59,10 +59,10 @@ class Gate:
         gate : torch.Tensor
             The gate matrix to store for the given site or bond.
         """
-        if isinstance(key, tuple) and len(key) == 2:
+        if isinstance(key, Bond):
+            self._gate[key.k] = gate
+        else:
             self._gate[key] = gate
-        if isinstance(key, list) and len(key) == 3:
-            self._gate[key[2]] = gate
 
     def build_one_site_gates(self, model, dtau, site_list):
         """
@@ -103,8 +103,8 @@ class Gate:
             bond_ham = model.two_site_hamiltonian(bond).mat
             if self.wrap_one_site:
                 id_mat = torch.eye(pD, dtype=self.dtype, device=self.device)
-                site_ham_1 = model.one_site_hamiltonian(bond[0])
-                site_ham_2 = model.one_site_hamiltonian(bond[1])
+                site_ham_1 = model.one_site_hamiltonian(bond.s1)
+                site_ham_2 = model.one_site_hamiltonian(bond.s2)
                 if site_ham_1 is not None and site_ham_2 is not None:
                     site_ham_1 = torch.kron(site_ham_1.mat, id_mat)
                     site_ham_2 = torch.kron(id_mat, site_ham_2.mat)

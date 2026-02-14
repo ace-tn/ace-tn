@@ -40,7 +40,8 @@ def test_build_site_rdm(rdm_object):
 # Test for the `build_bond_rdm` method
 def test_build_bond_rdm(rdm_object):
     # Using mock sites (0, 0) and (1, 0) with bond index 0
-    rdm = rdm_object[[(0, 0), (1, 0), 0]]  # Call the `__getitem__` method to access bond RDM
+    from acetn.ipeps.bond import Bond
+    rdm = rdm_object[Bond((0, 0), (1, 0), 0)]  # Call the `__getitem__` method to access bond RDM
     
     # We expect the RDM to have shape based on the bond and physical dimensions
     expected_shape = (rdm_object.ipeps[(0, 0)]['A'].shape[4],)*4

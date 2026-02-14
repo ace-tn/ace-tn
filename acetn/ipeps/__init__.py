@@ -1,4 +1,5 @@
 from .ipeps import Ipeps
+from .bond import Bond
 import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
 

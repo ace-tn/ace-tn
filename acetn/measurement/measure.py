@@ -101,7 +101,7 @@ def measure_bond_observables(bond, bond_rdm, bond_norm, model, measurements, mea
         measurements (dict): A dictionary to store the measurements for the bond.
         measurements_ave (dict): A dictionary to store the averaged measurements.
     """
-    measurement_str = f"{bond[0]}\t{bond[1]}"
+    measurement_str = f"{bond.s1}\t{bond.s2}"
     for op_name,bond_op in model.two_site_observables(bond).items():
         bond_op = bond_op.mat if hasattr(bond_op, 'mat') else bond_op
         bond_op = bond_op.reshape((model.dim,)*4)

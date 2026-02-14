@@ -88,8 +88,9 @@ def test_build_bond_list(setup_tensor_network):
     assert len(bond_list) == 8
     
     # Check if the bonds are correctly defined
+    from acetn.ipeps.bond import Bond
     for bond in bond_list:
-        assert len(bond) == 3  # Each bond should contain 2 sites and the bond direction
-        assert isinstance(bond[0], tuple)  # The first site
-        assert isinstance(bond[1], tuple)  # The second site
-        assert bond[2] in [1, 2]  # Bond direction should be either 1 (vertical) or 2 (horizontal)
+        assert isinstance(bond, Bond)
+        assert isinstance(bond.s1, tuple)  # The first site
+        assert isinstance(bond.s2, tuple)  # The second site
+        assert bond.k in [1, 2]  # Bond direction should be either 1 (vertical) or 2 (horizontal)

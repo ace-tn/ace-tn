@@ -47,7 +47,8 @@ def test_tensor_update(setup_ipeps_and_gate):
     a1 = torch.rand(5, 5, 5, 5, 2, dtype=ipeps.dtype)
     a2 = torch.rand(5, 5, 5, 5, 2, dtype=ipeps.dtype)
     
-    bond = [(0, 0), (0, 1), 2]  # Sample bond (site (0, 1) and site (0, 1) with bond index 0)
+    from acetn.ipeps.bond import Bond
+    bond = Bond((0, 0), (0, 1), 2)  # Sample bond
 
     # Perform tensor update
     updated_a1, updated_a2 = full_updater.tensor_update(a1, a2, bond)

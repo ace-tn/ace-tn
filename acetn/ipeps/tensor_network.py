@@ -1,5 +1,6 @@
 import torch
 from .site_tensor import SiteTensor
+from .bond import Bond
 
 class TensorNetwork:
     """
@@ -165,16 +166,14 @@ class TensorNetwork:
                 site = (xi,yi)
                 xj = (xi+1) % self.nx
                 bond_site = (xj,yi)
-                bond = [site, bond_site, 2]
-                bond_list.append(bond)
+                bond_list.append(Bond(site, bond_site, 2))
         # vertical bonds
         for yi in range(self.ny):
             for xi in range(self.nx):
                 site = (xi,yi)
                 yj = (yi+1) % self.ny
                 bond_site = (xi,yj)
-                bond = [site, bond_site, 1]
-                bond_list.append(bond)
+                bond_list.append(Bond(site, bond_site, 1))
         return bond_list
 
     def build_site_list(self):

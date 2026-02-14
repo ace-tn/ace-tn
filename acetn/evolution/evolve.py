@@ -8,7 +8,7 @@ import logging
 
 
 def create_tensor_updater(ipeps, gate, config):
-    """Create the appropriate tensor updater based on config.update_type."""
+    """Create the appropriate tensor updater based on ``config.update_type``."""
     match config.update_type:
         case "full":
             return FastFullUpdater(ipeps, gate, config)
@@ -19,18 +19,14 @@ def create_tensor_updater(ipeps, gate, config):
 
 
 def evolve(ipeps, dtau, steps, model, config):
-    """
-    Evolves the iPEPS tensor network over a given number of steps.
+    """Evolve the iPEPS tensor network in imaginary time.
 
     Args:
-        ipeps (Ipeps): The iPEPS object representing the tensor network.
-        dtau (float): The imaginary-time step size.
-        steps (int): The number of evolution steps to perform.
-        model (Model): The model used for generating the gate in the evolution.
-        config (dict): A configuration dictionary that contains parameters for the evolution.
-
-    Returns:
-        None: The function updates the iPEPS tensors in place and logs the runtime.
+        ipeps: The iPEPS tensor network.
+        dtau: Imaginary-time step size.
+        steps: Number of evolution steps.
+        model: Model that defines the Hamiltonian and gates.
+        config: Evolution configuration.
     """
     gate = Gate(model, dtau, ipeps.bond_list, ipeps.site_list)
     tensor_updater = create_tensor_updater(ipeps, gate, config)
