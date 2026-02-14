@@ -1,0 +1,241 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Transverse-Field Ising Model &mdash; Ace-TN 0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=0c084379" />
+
+  
+    <link rel="canonical" href="https://ace-tn.github.io/source/example_01_tfim.html" />
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=2709fde1"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Heisenberg Model" href="example_02_heisenberg.html" />
+    <link rel="prev" title="Examples" href="examples.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Ace-TN
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="methods.html">Methods</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="user_guide.html">User Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ipeps.html">The ipeps Module</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="examples.html">Examples</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Transverse-Field Ising Model</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#config-file-setup">Config File Setup</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#initialize-an-ipeps">Initialize an iPEPS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evolve-to-the-ground-state">Evolve to the Ground State</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#additional-evolution-steps">Additional Evolution Steps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#modify-model-parameters">Modify Model Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#full-code-example">Full Code Example</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="example_02_heisenberg.html">Heisenberg Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="example_03_custom_model.html">Building a Custom Model Hamiltonian</a></li>
+<li class="toctree-l3"><a class="reference internal" href="example_04_compass_model.html">Quantum Compass Model</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Ace-TN</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="user_guide.html">User Guide</a></li>
+          <li class="breadcrumb-item"><a href="examples.html">Examples</a></li>
+      <li class="breadcrumb-item active">Transverse-Field Ising Model</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/source/example_01_tfim.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="transverse-field-ising-model">
+<h1>Transverse-Field Ising Model<a class="headerlink" href="#transverse-field-ising-model" title="Link to this heading"></a></h1>
+<p>The transverse-field Ising model (TFIM) is a simple model exhibiting a quantum phase transition and a common test subject for iPEPS simulations. The model is defined by the Hamiltonian:</p>
+<div class="math notranslate nohighlight">
+\[H = -J\sum_{\langle i j \rangle} S_i^z S_j^z - h_x \sum_{i} S_i^x\]</div>
+<section id="config-file-setup">
+<h2>Config File Setup<a class="headerlink" href="#config-file-setup" title="Link to this heading"></a></h2>
+<p>To simulate the ground state of this model, first create the config file <cite>input.toml</cite> or any filename that you prefer containing:</p>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="n">dtype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;float64&quot;</span>
+<span class="n">device</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;cpu&quot;</span>
+
+<span class="k">[TN]</span>
+<span class="n">nx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span>
+<span class="n">ny</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span>
+
+<span class="k">[TN.dims]</span>
+<span class="n">phys</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span>
+<span class="n">bond</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span>
+<span class="n">chi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">16</span>
+
+<span class="k">[model]</span>
+<span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;ising&quot;</span>
+
+<span class="k">[model.params]</span>
+<span class="n">jz</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0</span>
+<span class="n">hx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.1</span>
+</pre></div>
+</div>
+<p>The first two parameters set the data type and which device to store the tensors. The <cite>TN</cite> entries specify the tensor-network unit cell and dimensions, and the <cite>model</cite> entries specify the name of the predefined model to use. Predefined models such as “ising” and “heisenberg” are supplied mainly for testing and benchmarking purposes.</p>
+</section>
+<section id="initialize-an-ipeps">
+<h2>Initialize an iPEPS<a class="headerlink" href="#initialize-an-ipeps" title="Link to this heading"></a></h2>
+<p>Given the input config, an iPEPS can be constructed by:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">acetn.ipeps</span><span class="w"> </span><span class="kn">import</span> <span class="n">Ipeps</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">toml</span>
+
+<span class="n">config</span> <span class="o">=</span> <span class="n">toml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;input.toml&#39;</span><span class="p">)</span>
+<span class="n">ipeps</span> <span class="o">=</span> <span class="n">Ipeps</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The iPEPS site tensors are initialized in the ferromagnetic configuration for the Ising model with some noise. This is already close to the ground state, but not exactly. The ground state is typically found after a few hundred steps of imaginary-time evolution.</p>
+</section>
+<section id="evolve-to-the-ground-state">
+<h2>Evolve to the Ground State<a class="headerlink" href="#evolve-to-the-ground-state" title="Link to this heading"></a></h2>
+<p>We can evolve the iPEPS by:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ipeps</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="n">dtau</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">ipeps</span><span class="o">.</span><span class="n">measure</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The iPEPS should now be close to the ground state.</p>
+</section>
+<section id="additional-evolution-steps">
+<h2>Additional Evolution Steps<a class="headerlink" href="#additional-evolution-steps" title="Link to this heading"></a></h2>
+<p>For improved accuracy, the iPEPS can be evolved for more steps:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+    <span class="n">ipeps</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="n">dtau</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">ipeps</span><span class="o">.</span><span class="n">measure</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The evolution steps here use smaller <cite>dtau</cite> values for finer updates, iterating multiple times to refine the approximation of the ground state.</p>
+</section>
+<section id="modify-model-parameters">
+<h2>Modify Model Parameters<a class="headerlink" href="#modify-model-parameters" title="Link to this heading"></a></h2>
+<p>The iPEPS can be evolved again with different model parameters. For example, to use the converged iPEPS to determine the ground state at a different field value (e.g., <cite>hx=0.2</cite>), this can be done by:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ipeps</span><span class="o">.</span><span class="n">set_model_params</span><span class="p">(</span><span class="n">hx</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="n">ipeps</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="n">dtau</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="full-code-example">
+<h2>Full Code Example<a class="headerlink" href="#full-code-example" title="Link to this heading"></a></h2>
+<p>Here is a complete code example that initializes an iPEPS, evolves it to the ground state, and measures the observables using <cite>hx=0.1</cite> and <cite>hx=0.2</cite>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">acetn.ipeps</span><span class="w"> </span><span class="kn">import</span> <span class="n">Ipeps</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
+    <span class="c1"># Initialize iPEPS</span>
+    <span class="n">ipeps</span> <span class="o">=</span> <span class="n">Ipeps</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+
+    <span class="c1"># Determine ground state for hx=0.1 and measure observables</span>
+    <span class="n">ipeps</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="n">dtau</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">measurements</span> <span class="o">=</span> <span class="n">ipeps</span><span class="o">.</span><span class="n">measure</span><span class="p">()</span>
+
+    <span class="c1"># Determine ground state for hx=0.2 and measure observables</span>
+    <span class="n">ipeps</span><span class="o">.</span><span class="n">set_model_params</span><span class="p">(</span><span class="n">hx</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+    <span class="n">ipeps</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="n">dtau</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">measurements</span> <span class="o">=</span> <span class="n">ipeps</span><span class="o">.</span><span class="n">measure</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="vm">__name__</span><span class="o">==</span><span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;dtype&#39;</span><span class="p">:</span> <span class="s2">&quot;float64&quot;</span><span class="p">,</span>
+        <span class="s1">&#39;device&#39;</span><span class="p">:</span> <span class="s2">&quot;cpu&quot;</span><span class="p">,</span>
+        <span class="s1">&#39;TN&#39;</span><span class="p">:{</span>
+            <span class="s1">&#39;nx&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+            <span class="s1">&#39;ny&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+            <span class="s1">&#39;dims&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;phys&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;bond&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;chi&#39;</span><span class="p">:</span><span class="mi">20</span><span class="p">},</span>
+        <span class="p">},</span>
+        <span class="s1">&#39;model&#39;</span><span class="p">:{</span>
+            <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;ising&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;params&#39;</span><span class="p">:{</span>
+                <span class="s1">&#39;jz&#39;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+                <span class="s1">&#39;hx&#39;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>
+            <span class="p">},</span>
+        <span class="p">},</span>
+    <span class="p">}</span>
+
+    <span class="n">main</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="examples.html" class="btn btn-neutral float-left" title="Examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="example_02_heisenberg.html" class="btn btn-neutral float-right" title="Heisenberg Model" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Addison Richards.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

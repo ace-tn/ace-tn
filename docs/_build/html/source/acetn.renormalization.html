@@ -1,0 +1,475 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>acetn.renormalization package &mdash; Ace-TN 0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=0c084379" />
+
+  
+    <link rel="canonical" href="https://ace-tn.github.io/source/acetn.renormalization.html" />
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=2709fde1"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="acetn.utils package" href="acetn.utils.html" />
+    <link rel="prev" title="acetn.model.models package" href="acetn.model.models.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Ace-TN
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="methods.html">Methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user_guide.html">User Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="acetn.html">acetn package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="acetn.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="acetn.evolution.html">acetn.evolution package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="acetn.ipeps.html">acetn.ipeps package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="acetn.measurement.html">acetn.measurement package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="acetn.model.html">acetn.model package</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">acetn.renormalization package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="acetn.utils.html">acetn.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="acetn.html#module-acetn">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Ace-TN</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">API Reference</a></li>
+          <li class="breadcrumb-item"><a href="acetn.html">acetn package</a></li>
+      <li class="breadcrumb-item active">acetn.renormalization package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/source/acetn.renormalization.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="acetn-renormalization-package">
+<h1>acetn.renormalization package<a class="headerlink" href="#acetn-renormalization-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-acetn.renormalization.ctmrg">
+<span id="acetn-renormalization-ctmrg-module"></span><h2>acetn.renormalization.ctmrg module<a class="headerlink" href="#module-acetn.renormalization.ctmrg" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="acetn.renormalization.ctmrg.ctmrg">
+<span class="sig-prename descclassname"><span class="pre">acetn.renormalization.ctmrg.</span></span><span class="sig-name descname"><span class="pre">ctmrg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ipeps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.renormalization.ctmrg.ctmrg" title="Link to this definition"></a></dt>
+<dd><p>Runs the CTMRG algorithm for a specified number of steps.</p>
+<p>Depending on whether the iPEPS is distributed or not, the algorithm performs 
+boundary tensor updates in left-right and up-down directions.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>ipeps (Ipeps): The iPEPS object representing the tensor network.
+config (dict): The CTMRG Configuration dictionary.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-acetn.renormalization.directional_mover">
+<span id="acetn-renormalization-directional-mover-module"></span><h2>acetn.renormalization.directional_mover module<a class="headerlink" href="#module-acetn.renormalization.directional_mover" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="acetn.renormalization.directional_mover.DirectionalMover">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">acetn.renormalization.directional_mover.</span></span><span class="sig-name descname"><span class="pre">DirectionalMover</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.renormalization.directional_mover.DirectionalMover" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class for performing directional moves involved in iPEPS boundary renormalization.</p>
+<p>This class implements tensor renormalization moves updating iPEPS boundary tensors 
+in both left-right and up-down directions. It supports both distributed and 
+non-distributed computations.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.renormalization.directional_mover.DirectionalMover.calculate_down_projectors">
+<span class="sig-name descname"><span class="pre">calculate_down_projectors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ipeps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yi</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.renormalization.directional_mover.DirectionalMover.calculate_down_projectors" title="Link to this definition"></a></dt>
+<dd><p>Calculates the projectors for the down boundary at position (xi, yi).</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>ipeps (IPEPS): The iPEPS object representing the tensor network.
+xi (int): The x-coordinate index of the boundary.
+yi (int): The y-coordinate index of the boundary.</p>
+</dd>
+<dt>Returns:</dt><dd><p>tuple: The calculated down projectors.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.renormalization.directional_mover.DirectionalMover.calculate_left_projectors">
+<span class="sig-name descname"><span class="pre">calculate_left_projectors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ipeps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yi</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.renormalization.directional_mover.DirectionalMover.calculate_left_projectors" title="Link to this definition"></a></dt>
+<dd><p>Calculates the projectors for the left boundary at position (xi, yi).</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>ipeps (IPEPS): The iPEPS object representing the tensor network.
+xi (int): The x-coordinate index of the boundary.
+yi (int): The y-coordinate index of the boundary.</p>
+</dd>
+<dt>Returns:</dt><dd><p>tuple: The calculated left projectors.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.renormalization.directional_mover.DirectionalMover.calculate_right_projectors">
+<span class="sig-name descname"><span class="pre">calculate_right_projectors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ipeps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yi</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.renormalization.directional_mover.DirectionalMover.calculate_right_projectors" title="Link to this definition"></a></dt>
+<dd><p>Calculates the projectors for the right boundary at position (xi, yi).</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>ipeps (IPEPS): The iPEPS object representing the tensor network.
+xi (int): The x-coordinate index of the boundary.
+yi (int): The y-coordinate index of the boundary.</p>
+</dd>
+<dt>Returns:</dt><dd><p>tuple: The calculated right projectors.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.renormalization.directional_mover.DirectionalMover.calculate_up_projectors">
+<span class="sig-name descname"><span class="pre">calculate_up_projectors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ipeps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yi</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.renormalization.directional_mover.DirectionalMover.calculate_up_projectors" title="Link to this definition"></a></dt>
+<dd><p>Calculates the projectors for the up boundary at position (xi, yi).</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>ipeps (IPEPS): The iPEPS object representing the tensor network.
+xi (int): The x-coordinate index of the boundary.
+yi (int): The y-coordinate index of the boundary.</p>
+</dd>
+<dt>Returns:</dt><dd><p>tuple: The calculated up projectors.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.renormalization.directional_mover.DirectionalMover.down_move">
+<span class="sig-name descname"><span class="pre">down_move</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ipeps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yi</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.renormalization.directional_mover.DirectionalMover.down_move" title="Link to this definition"></a></dt>
+<dd><p>Performs the down boundary move for a given row index yi.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>ipeps (IPEPS): The iPEPS object representing the tensor network.
+yi (int): The y-coordinate index of the boundary to be updated.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.renormalization.directional_mover.DirectionalMover.left_move">
+<span class="sig-name descname"><span class="pre">left_move</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ipeps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xi</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.renormalization.directional_mover.DirectionalMover.left_move" title="Link to this definition"></a></dt>
+<dd><p>Performs the left boundary move for a given column index xi.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>ipeps (IPEPS): The iPEPS object representing the tensor network.
+xi (int): The x-coordinate index of the boundary to be updated.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.renormalization.directional_mover.DirectionalMover.left_right_move_dist">
+<span class="sig-name descname"><span class="pre">left_right_move_dist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ipeps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.renormalization.directional_mover.DirectionalMover.left_right_move_dist" title="Link to this definition"></a></dt>
+<dd><p>Performs the distributed left-right boundary move for columns x1 and x2.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>ipeps (IPEPS): The iPEPS object representing the tensor network.
+x1 (int): The x-coordinate index of the left boundary.
+x2 (int): The x-coordinate index of the right boundary.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.renormalization.directional_mover.DirectionalMover.renormalize_boundary">
+<span class="sig-name descname"><span class="pre">renormalize_boundary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ipeps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proj1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proj2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">s1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">s2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">j</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.renormalization.directional_mover.DirectionalMover.renormalize_boundary" title="Link to this definition"></a></dt>
+<dd><p>Renormalizes the boundary tensors of the iPEPS by applying projectors.</p>
+<p>This method updates the boundary tensors of the iPEPS by performing tensor renormalization 
+on the <cite>C</cite> and <cite>E</cite> tensors at the given boundary sites. The updates are based on the projectors 
+provided and the direction specified by the parameter <cite>k</cite>.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>ipeps (IPEPS): The iPEPS object containing the tensor network.
+proj1 (dict): Projectors for the first boundary.
+proj2 (dict): Projectors for the second boundary.
+s1 (tuple): Coordinates of the first boundary tensor.
+s2 (tuple): Coordinates of the second boundary tensor.
+i (int): Index for the first boundary (used to index into proj1 and proj2).
+j (int): Index for the second boundary (used to index into proj1 and proj2).
+k (int): The boundary direction (0 for left, 1 for up, 2 for right, 3 for down).</p>
+</dd>
+</dl>
+<p>This method modifies the <cite>C</cite> and <cite>E</cite> tensors at the boundary sites <cite>s2</cite> based on the projectors.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.renormalization.directional_mover.DirectionalMover.renormalize_cj1">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">renormalize_cj1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ci</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ei</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proj</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.renormalization.directional_mover.DirectionalMover.renormalize_cj1" title="Link to this definition"></a></dt>
+<dd><p>Renormalizes the <cite>C</cite> tensor for the first boundary based on the projectors.</p>
+<p>This method performs a series of tensor contractions to renormalize the <cite>C</cite> tensor at the first boundary 
+site using the provided <cite>E</cite> tensor and projector.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>ci (Tensor): The <cite>C</cite> tensor of the first boundary site.
+ei (Tensor): The <cite>E</cite> tensor of the first boundary site.
+proj (Tensor): The projector for the boundary.</p>
+</dd>
+<dt>Returns:</dt><dd><p>Tensor: The renormalized <cite>C</cite> tensor after contraction and normalization.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.renormalization.directional_mover.DirectionalMover.renormalize_cj2">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">renormalize_cj2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ci</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ei</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proj</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.renormalization.directional_mover.DirectionalMover.renormalize_cj2" title="Link to this definition"></a></dt>
+<dd><p>Renormalizes the <cite>C</cite> tensor for the second boundary based on the projectors.</p>
+<p>This method performs a series of tensor contractions to renormalize the <cite>C</cite> tensor at the second boundary 
+site using the provided <cite>E</cite> tensor and projector.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>ci (Tensor): The <cite>C</cite> tensor of the first boundary site.
+ei (Tensor): The <cite>E</cite> tensor of the first boundary site.
+proj (Tensor): The projector for the boundary.</p>
+</dd>
+<dt>Returns:</dt><dd><p>Tensor: The renormalized <cite>C</cite> tensor after contraction and normalization.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.renormalization.directional_mover.DirectionalMover.renormalize_ej">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">renormalize_ej</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ei</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ai</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proj2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proj1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.renormalization.directional_mover.DirectionalMover.renormalize_ej" title="Link to this definition"></a></dt>
+<dd><p>Renormalizes the <cite>E</cite> tensor for the second boundary based on the projectors.</p>
+<p>This method performs a series of tensor contractions to renormalize the <cite>E</cite> tensor at the second boundary 
+site using the provided <cite>ai</cite> tensor and the projectors for both boundaries.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>ei (Tensor): The <cite>E</cite> tensor of the first boundary site.
+ai (Tensor): The <cite>A</cite> tensor at the first boundary site, used for contraction.
+proj2 (Tensor): The projector for the second boundary.
+proj1 (Tensor): The projector for the first boundary.</p>
+</dd>
+<dt>Returns:</dt><dd><p>Tensor: The renormalized <cite>E</cite> tensor after contraction and normalization.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.renormalization.directional_mover.DirectionalMover.right_move">
+<span class="sig-name descname"><span class="pre">right_move</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ipeps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xi</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.renormalization.directional_mover.DirectionalMover.right_move" title="Link to this definition"></a></dt>
+<dd><p>Performs the right boundary move for a given column index xi.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>ipeps (IPEPS): The iPEPS object representing the tensor network.
+xi (int): The x-coordinate index of the boundary to be updated.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.renormalization.directional_mover.DirectionalMover.up_down_move_dist">
+<span class="sig-name descname"><span class="pre">up_down_move_dist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ipeps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.renormalization.directional_mover.DirectionalMover.up_down_move_dist" title="Link to this definition"></a></dt>
+<dd><p>Performs the distributed up-down boundary move for rows y1 and y2.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>ipeps (IPEPS): The iPEPS object representing the tensor network.
+y1 (int): The y-coordinate index of the up boundary.
+y2 (int): The y-coordinate index of the down boundary.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.renormalization.directional_mover.DirectionalMover.up_move">
+<span class="sig-name descname"><span class="pre">up_move</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ipeps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yi</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.renormalization.directional_mover.DirectionalMover.up_move" title="Link to this definition"></a></dt>
+<dd><p>Performs the up boundary move for a given row index yi.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>ipeps (IPEPS): The iPEPS object representing the tensor network.
+yi (int): The y-coordinate index of the boundary to be updated.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-acetn.renormalization.projectors">
+<span id="acetn-renormalization-projectors-module"></span><h2>acetn.renormalization.projectors module<a class="headerlink" href="#module-acetn.renormalization.projectors" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="acetn.renormalization.projectors.ProjectorCalculator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">acetn.renormalization.projectors.</span></span><span class="sig-name descname"><span class="pre">ProjectorCalculator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.renormalization.projectors.ProjectorCalculator" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Computes projectors for iPEPS tensor networks using full or half-system contractions.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.renormalization.projectors.ProjectorCalculator.calculate_full_system">
+<span class="sig-name descname"><span class="pre">calculate_full_system</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ipeps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sites</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.renormalization.projectors.ProjectorCalculator.calculate_full_system" title="Link to this definition"></a></dt>
+<dd><p>Computes projectors using full-system contraction.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>ipeps (object): iPEPS tensor network.
+sites (list[int]): Four site indices.
+k (int): Bond direction index.</p>
+</dd>
+<dt>Returns:</dt><dd><p>tuple[Tensor, Tensor]: Left and right projectors.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.renormalization.projectors.ProjectorCalculator.calculate_half_system">
+<span class="sig-name descname"><span class="pre">calculate_half_system</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ipeps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sites</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.renormalization.projectors.ProjectorCalculator.calculate_half_system" title="Link to this definition"></a></dt>
+<dd><p>Computes projectors using half-system contraction.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>ipeps (object): iPEPS tensor network.
+sites (list[int]): Four site indices.
+k (int): Bond direction index.</p>
+</dd>
+<dt>Returns:</dt><dd><p>tuple[Tensor, Tensor]: Left and right projectors.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.renormalization.projectors.ProjectorCalculator.calculate_projectors">
+<span class="sig-name descname"><span class="pre">calculate_projectors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">R1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">F</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chi</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.renormalization.projectors.ProjectorCalculator.calculate_projectors" title="Link to this definition"></a></dt>
+<dd><p>Computes projectors via SVD of the intermediate contraction.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>R1 (Tensor): Half-system contraction part 1.
+R2 (Tensor): Half-system contraction part 2.
+F (Tensor): Full-system contraction.
+chi (int): Max bond dimension.</p>
+</dd>
+<dt>Returns:</dt><dd><p>tuple[Tensor, Tensor]: Left and right projectors.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.renormalization.projectors.ProjectorCalculator.contract_full_system">
+<span class="sig-name descname"><span class="pre">contract_full_system</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ipeps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sites</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.renormalization.projectors.ProjectorCalculator.contract_full_system" title="Link to this definition"></a></dt>
+<dd><p>Contracts four sites to form full-system intermediate tensors.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>ipeps (object): iPEPS tensor network.
+sites (list[int]): Four site indices.
+k (int): Bond direction index.</p>
+</dd>
+<dt>Returns:</dt><dd><p>tuple[Tensor, Tensor, Tensor]: Half-system contractions R1, R2, and their product F.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.renormalization.projectors.ProjectorCalculator.contract_half_system">
+<span class="sig-name descname"><span class="pre">contract_half_system</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ipeps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sites</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.renormalization.projectors.ProjectorCalculator.contract_half_system" title="Link to this definition"></a></dt>
+<dd><p>Contracts four sites to form half-system intermediate tensors.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>ipeps (object): iPEPS tensor network.
+sites (list[int]): Four site indices.
+k (int): Bond direction index.</p>
+</dd>
+<dt>Returns:</dt><dd><p>tuple[Tensor, Tensor, Tensor]: Q1, Q4, and the half contraction result.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.renormalization.projectors.ProjectorCalculator.make_quarter_tensor">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">make_quarter_tensor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">site_tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.renormalization.projectors.ProjectorCalculator.make_quarter_tensor" title="Link to this definition"></a></dt>
+<dd><p>Builds a quarter tensor from site tensors and environments.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>site_tensor (object): iPEPS site tensor with bonds and environments.
+k (int): Bond direction index.</p>
+</dd>
+<dt>Returns:</dt><dd><p>tuple[Tensor, tuple]: Reshaped quarter tensor and its original shape.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.renormalization.projectors.ProjectorCalculator.set_calculate">
+<span class="sig-name descname"><span class="pre">set_calculate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#acetn.renormalization.projectors.ProjectorCalculator.set_calculate" title="Link to this definition"></a></dt>
+<dd><p>Sets the <cite>calculate</cite> method based on the projector type.</p>
+<dl class="simple">
+<dt>Raises:</dt><dd><p>ValueError: If projector type is invalid.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="acetn.renormalization.projectors.ProjectorCalculator.svd">
+<span class="sig-name descname"><span class="pre">svd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">A</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cD</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#acetn.renormalization.projectors.ProjectorCalculator.svd" title="Link to this definition"></a></dt>
+<dd><p>Performs singular value decomposition (SVD), full-rank or RSVD on matrix A.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>A (Tensor): Input matrix.
+cD (int): Target dimension (used for RSVD).</p>
+</dd>
+<dt>Returns:</dt><dd><p>tuple[Tensor, Tensor, Tensor]: SVD result (U, S, V).</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-acetn.renormalization">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-acetn.renormalization" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="acetn.model.models.html" class="btn btn-neutral float-left" title="acetn.model.models package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="acetn.utils.html" class="btn btn-neutral float-right" title="acetn.utils package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Addison Richards.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

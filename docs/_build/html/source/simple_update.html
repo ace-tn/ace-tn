@@ -1,0 +1,219 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simple Update &mdash; Ace-TN 0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=0c084379" />
+
+  
+    <link rel="canonical" href="https://ace-tn.github.io/source/simple_update.html" />
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=2709fde1"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="User Guide" href="user_guide.html" />
+    <link rel="prev" title="Full Update" href="full_update.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Ace-TN
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="methods.html">Methods</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="methods.html#ipeps-ansatz">iPEPS Ansatz</a></li>
+<li class="toctree-l2"><a class="reference internal" href="methods.html#double-layer-tensor">Double-Layer Tensor</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="methods.html#boundary-tensor-approximation">Boundary Tensor Approximation</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="ctmrg.html">CTMRG</a></li>
+<li class="toctree-l3"><a class="reference internal" href="full_update.html">Full Update</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Simple Update</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#gamma-lambda-decomposition">Gamma–Lambda Decomposition</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#bond-update-procedure">Bond Update Procedure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#measurements">Measurements</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="methods.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="user_guide.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Ace-TN</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="methods.html">Methods</a></li>
+      <li class="breadcrumb-item active">Simple Update</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/source/simple_update.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="simple-update">
+<h1>Simple Update<a class="headerlink" href="#simple-update" title="Link to this heading"></a></h1>
+<p>The simple update (SU) provides a computationally efficient alternative to the full update for
+performing imaginary-time evolution on the iPEPS <a class="reference internal" href="#jiang2008" id="id1"><span>[Jiang2008]</span></a>. It replaces the full CTMRG
+environment with a mean-field approximation encoded in diagonal <em>lambda tensors</em> living on the
+bonds of the tensor network.</p>
+<section id="gamma-lambda-decomposition">
+<h2>Gamma–Lambda Decomposition<a class="headerlink" href="#gamma-lambda-decomposition" title="Link to this heading"></a></h2>
+<p>In the simple update, each site tensor is decomposed into a <em>gamma</em> tensor <span class="math notranslate nohighlight">\(\Gamma_i\)</span>
+(the on-site component) and diagonal <em>lambda</em> tensors <span class="math notranslate nohighlight">\(\lambda^{(b)}\)</span> on each bond
+<span class="math notranslate nohighlight">\(b\)</span> adjacent to site <span class="math notranslate nohighlight">\(i\)</span>. This decomposition is equivalent to the Vidal canonical
+form <a class="reference internal" href="#vidal2007" id="id2"><span>[Vidal2007]</span></a>:</p>
+<div class="math notranslate nohighlight">
+\[A_i = \Gamma_i \prod_{b \sim i} \sqrt{\lambda^{(b)}}\]</div>
+<p>The lambda tensors approximate the Schmidt-like weights of the bonds. The full network of
+site tensors and lambda tensors looks like:</p>
+<a class="reference internal image-reference" href="../_images/su_lambda_network.png"><img alt="../_images/su_lambda_network.png" class="align-center" src="../_images/su_lambda_network.png" style="width: 450px;" />
+</a>
+</section>
+<section id="bond-update-procedure">
+<h2>Bond Update Procedure<a class="headerlink" href="#bond-update-procedure" title="Link to this heading"></a></h2>
+<p>Each bond update follows these steps:</p>
+<p><strong>1. Absorb surrounding lambdas</strong></p>
+<p>Starting from the two sites <span class="math notranslate nohighlight">\(A_i, A_j\)</span> connected by bond <span class="math notranslate nohighlight">\((i,j)\)</span>, absorb
+(multiply in) the square roots of the lambda tensors on all <em>surrounding</em> bonds (those not
+being updated). The lambda on the connecting bond <span class="math notranslate nohighlight">\((i,j)\)</span> itself is not absorbed:</p>
+<a class="reference internal image-reference" href="../_images/su_absorb_before.png"><img alt="../_images/su_absorb_before.png" class="align-center" src="../_images/su_absorb_before.png" style="width: 450px;" />
+</a>
+<p>After absorption, the result is a pair of tensors with bare external legs:</p>
+<a class="reference internal image-reference" href="../_images/su_absorb_after.png"><img alt="../_images/su_absorb_after.png" class="align-center" src="../_images/su_absorb_after.png" style="width: 400px;" />
+</a>
+<p><strong>2. QR decomposition</strong></p>
+<p>Each absorbed tensor is factorised using a QR decomposition to extract a smaller reduced
+tensor:</p>
+<div class="math notranslate nohighlight">
+\[A_i \to A^Q_i \; a^R_i, \quad A_j \to A^Q_j \; a^R_j\]</div>
+<p><strong>3. Gate application</strong></p>
+<p>The two-body gate <span class="math notranslate nohighlight">\(g_{ij} = e^{-\delta\tau\, h_{ij}}\)</span> is applied to the reduced
+tensors through their physical indices:</p>
+<div class="math notranslate nohighlight">
+\[\Theta = g_{ij} \; a^R_i \; a^R_j\]</div>
+<a class="reference internal image-reference" href="../_images/su_gate_svd.png"><img alt="../_images/su_gate_svd.png" class="align-center" src="../_images/su_gate_svd.png" style="width: 350px;" />
+</a>
+<p><strong>4. SVD and truncation</strong></p>
+<p>The resulting tensor <span class="math notranslate nohighlight">\(\Theta\)</span> is decomposed via SVD:</p>
+<div class="math notranslate nohighlight">
+\[\Theta = U \, \Sigma \, V^\dagger\]</div>
+<a class="reference internal image-reference" href="../_images/su_svd_result.png"><img alt="../_images/su_svd_result.png" class="align-center" src="../_images/su_svd_result.png" style="width: 400px;" />
+</a>
+<p>The singular-value matrix <span class="math notranslate nohighlight">\(\Sigma\)</span> is truncated to the <span class="math notranslate nohighlight">\(D\)</span> largest values and
+normalised. The updated lambda tensor on the bond is:</p>
+<div class="math notranslate nohighlight">
+\[\lambda'^{(i,j)} = \frac{\Sigma_{\le D}}{\| \Sigma_{\le D} \|}\]</div>
+<p><strong>5. Reassemble site tensors</strong></p>
+<p>The truncated <span class="math notranslate nohighlight">\(U\)</span> and <span class="math notranslate nohighlight">\(V^\dagger\)</span> are contracted back with the isometric parts:</p>
+<div class="math notranslate nohighlight">
+\[a'^R_i = U_{\le D}, \quad a'^R_j = V^\dagger_{\le D}\]</div>
+<div class="math notranslate nohighlight">
+\[A'_i = A^Q_i \; a'^R_i, \quad A'_j = A^Q_j \; a'^R_j\]</div>
+<p><strong>6. Strip surrounding lambdas</strong></p>
+<p>Finally, the surrounding lambda tensors that were absorbed in step 1 are stripped
+(divided out) from the updated site tensors, restoring the Gamma–Lambda decomposition.</p>
+</section>
+<section id="measurements">
+<h2>Measurements<a class="headerlink" href="#measurements" title="Link to this heading"></a></h2>
+<p>After the simple update evolution converges, measurements of expectation values require a
+converged CTMRG environment. The full site tensors <span class="math notranslate nohighlight">\(A_i\)</span> (with lambdas absorbed) are
+used for this purpose. The simple update only accelerates the imaginary-time evolution; the
+measurement step is identical to that used in the full update.</p>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading"></a></h2>
+<div role="list" class="citation-list">
+<div class="citation" id="jiang2008" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">Jiang2008</a><span class="fn-bracket">]</span></span>
+<ol class="upperalpha simple" start="8">
+<li><ol class="upperalpha simple" start="3">
+<li><p>Jiang, Z. Y. Weng, and T. Xiang, <em>Accurate determination of tensor network state of quantum lattice models in two dimensions</em>, Phys. Rev. Lett. <strong>101</strong>, 090603 (2008).</p></li>
+</ol>
+</li>
+</ol>
+</div>
+<div class="citation" id="vidal2007" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">Vidal2007</a><span class="fn-bracket">]</span></span>
+<ol class="upperalpha simple" start="7">
+<li><p>Vidal, <em>Classical simulation of infinite-size quantum lattice systems in one spatial dimension</em>, Phys. Rev. Lett. <strong>98</strong>, 070201 (2007).</p></li>
+</ol>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="full_update.html" class="btn btn-neutral float-left" title="Full Update" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="user_guide.html" class="btn btn-neutral float-right" title="User Guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Addison Richards.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

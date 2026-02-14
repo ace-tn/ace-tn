@@ -1,0 +1,269 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Full Update &mdash; Ace-TN 0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=0c084379" />
+
+  
+    <link rel="canonical" href="https://ace-tn.github.io/source/full_update.html" />
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=2709fde1"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Simple Update" href="simple_update.html" />
+    <link rel="prev" title="CTMRG" href="ctmrg.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Ace-TN
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="methods.html">Methods</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="methods.html#ipeps-ansatz">iPEPS Ansatz</a></li>
+<li class="toctree-l2"><a class="reference internal" href="methods.html#double-layer-tensor">Double-Layer Tensor</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="methods.html#boundary-tensor-approximation">Boundary Tensor Approximation</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="ctmrg.html">CTMRG</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Full Update</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#imaginary-time-evolution">Imaginary-Time Evolution</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qr-decomposition">QR Decomposition</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gate-application">Gate Application</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#norm-tensor-construction">Norm Tensor Construction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#als-solution">ALS Solution</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#reassembly">Reassembly</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fast-full-update">Fast Full Update</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="simple_update.html">Simple Update</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="methods.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="user_guide.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Ace-TN</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="methods.html">Methods</a></li>
+      <li class="breadcrumb-item active">Full Update</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/source/full_update.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="full-update">
+<h1>Full Update<a class="headerlink" href="#full-update" title="Link to this heading"></a></h1>
+<p>The full update (FU) finds the ground state of a local Hamiltonian by performing
+imaginary-time evolution on the iPEPS, using the full CTMRG environment to optimise
+the updated tensors <a class="reference internal" href="methods.html#jordan2008" id="id1"><span>[Jordan2008]</span></a>, <a class="reference internal" href="#corboz2016" id="id2"><span>[Corboz2016]</span></a>.</p>
+<section id="imaginary-time-evolution">
+<h2>Imaginary-Time Evolution<a class="headerlink" href="#imaginary-time-evolution" title="Link to this heading"></a></h2>
+<p>A two-body gate <span class="math notranslate nohighlight">\(g_{ij} = e^{-\delta\tau\, h_{ij}}\)</span> (with time step <span class="math notranslate nohighlight">\(\delta\tau\)</span>)
+is applied to each nearest-neighbour pair. Starting from two neighbouring site tensors
+<span class="math notranslate nohighlight">\(A_i\)</span> and <span class="math notranslate nohighlight">\(A_j\)</span>:</p>
+<a class="reference internal image-reference" href="../_images/fu_two_sites.png"><img alt="../_images/fu_two_sites.png" class="align-center" src="../_images/fu_two_sites.png" style="width: 400px;" />
+</a>
+</section>
+<section id="qr-decomposition">
+<h2>QR Decomposition<a class="headerlink" href="#qr-decomposition" title="Link to this heading"></a></h2>
+<p>Each site tensor is factorised with a QR decomposition:</p>
+<div class="math notranslate nohighlight">
+\[A_i = A^Q_i \; a^R_i, \qquad A_j = A^Q_j \; a^R_j\]</div>
+<p>This splits each site tensor into an isometric part <span class="math notranslate nohighlight">\(A^Q\)</span> and a smaller reduced tensor
+<span class="math notranslate nohighlight">\(a^R\)</span>. The resulting decomposition of the two-site system is:</p>
+<a class="reference internal image-reference" href="../_images/fu_qr_decomposition.png"><img alt="../_images/fu_qr_decomposition.png" class="align-center" src="../_images/fu_qr_decomposition.png" style="width: 550px;" />
+</a>
+</section>
+<section id="gate-application">
+<h2>Gate Application<a class="headerlink" href="#gate-application" title="Link to this heading"></a></h2>
+<p>The gate <span class="math notranslate nohighlight">\(g_{ij}\)</span> is contracted with the reduced tensors <span class="math notranslate nohighlight">\(a^R_i\)</span> and
+<span class="math notranslate nohighlight">\(a^R_j\)</span> through their physical indices:</p>
+<div class="math notranslate nohighlight">
+\[\Theta_{s'_i s'_j} = \sum_{s_i s_j} g^{s'_i s'_j}_{s_i s_j} \; a^R_i(s_i) \; a^R_j(s_j)\]</div>
+<a class="reference internal image-reference" href="../_images/fu_gate_application.png"><img alt="../_images/fu_gate_application.png" class="align-center" src="../_images/fu_gate_application.png" style="width: 350px;" />
+</a>
+</section>
+<section id="norm-tensor-construction">
+<h2>Norm Tensor Construction<a class="headerlink" href="#norm-tensor-construction" title="Link to this heading"></a></h2>
+<p>The gate-updated tensor <span class="math notranslate nohighlight">\(\Theta\)</span> has an enlarged bond between sites <span class="math notranslate nohighlight">\(i\)</span> and
+<span class="math notranslate nohighlight">\(j\)</span> that must be compressed back to bond dimension <span class="math notranslate nohighlight">\(D\)</span>. In the full update this
+compression is performed with respect to the full CTMRG environment. The first step is to
+construct the <strong>norm tensor</strong> <span class="math notranslate nohighlight">\(N_{ij}\)</span>.</p>
+<p><span class="math notranslate nohighlight">\(N_{ij}\)</span> is formed by contracting the converged boundary tensors
+(<span class="math notranslate nohighlight">\(C^k\)</span>, <span class="math notranslate nohighlight">\(E^k\)</span>) with the isometric parts <span class="math notranslate nohighlight">\(A^Q_i\)</span> and <span class="math notranslate nohighlight">\(A^Q_j\)</span> (and
+their conjugates) over all indices except the shared bond between sites <span class="math notranslate nohighlight">\(i\)</span> and
+<span class="math notranslate nohighlight">\(j\)</span>:</p>
+<a class="reference internal image-reference" href="../_images/fu_norm_tensor.png"><img alt="../_images/fu_norm_tensor.png" class="align-center" src="../_images/fu_norm_tensor.png" style="width: 550px;" />
+</a>
+<p>The resulting tensor <span class="math notranslate nohighlight">\(N_{ij}\)</span> is rank-4 with indices <span class="math notranslate nohighlight">\((y, x, Y, X)\)</span>, where the
+lowercase indices correspond to the ket layer and the uppercase indices to the bra layer.
+It encodes how the environment weights the bond between the two sites.</p>
+<p><strong>Positive approximation.</strong> Because the environment tensors are approximate, <span class="math notranslate nohighlight">\(N_{ij}\)</span>
+may not be exactly positive semi-definite. When reshaped to a matrix
+<span class="math notranslate nohighlight">\(N \in \mathbb{R}^{D^2 \times D^2}\)</span>, its eigendecomposition <span class="math notranslate nohighlight">\(N = Z \Lambda Z^\dagger\)</span>
+may contain small negative eigenvalues. These are regularised by shifting the spectrum:</p>
+<div class="math notranslate nohighlight">
+\[N \;\leftarrow\; N + 2 \max(\epsilon,\, |\lambda_{\min}|)\, \mathbb{1}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\lambda_{\min}\)</span> is the smallest eigenvalue. The positive-definite square root
+<span class="math notranslate nohighlight">\(\tilde{N}\)</span> (satisfying <span class="math notranslate nohighlight">\(\tilde{N}^\dagger \tilde{N} = N\)</span>) is then computed from
+the corrected eigenvalues.</p>
+<p><strong>Gauge fixing.</strong> The conditioning of the subsequent ALS can be improved by a gauge
+transformation <a class="reference internal" href="#phien2015" id="id3"><span>[Phien2015]</span></a>. QR decompositions of <span class="math notranslate nohighlight">\(\tilde{N}\)</span> along the <span class="math notranslate nohighlight">\(y\)</span> and
+<span class="math notranslate nohighlight">\(x\)</span> legs yield triangular factors <span class="math notranslate nohighlight">\(R_y\)</span> and <span class="math notranslate nohighlight">\(R_x\)</span>. Their pseudo-inverses
+are applied to transform <span class="math notranslate nohighlight">\(\tilde{N}\)</span> into a better-conditioned form:</p>
+<div class="math notranslate nohighlight">
+\[\tilde{N}_{zvw} \;\leftarrow\; R_x^{-1} \; \tilde{N} \; R_y^{-1}\]</div>
+<p>and the gate-updated tensor <span class="math notranslate nohighlight">\(\Theta\)</span> is correspondingly transformed using
+<span class="math notranslate nohighlight">\(R_x\)</span> and <span class="math notranslate nohighlight">\(R_y\)</span>. After the ALS solve, the inverse transformations are applied to
+recover the original gauge.</p>
+</section>
+<section id="als-solution">
+<h2>ALS Solution<a class="headerlink" href="#als-solution" title="Link to this heading"></a></h2>
+<p>With the norm tensor <span class="math notranslate nohighlight">\(N_{ij}\)</span> (and optionally gauge-fixed <span class="math notranslate nohighlight">\(\Theta\)</span>) in hand, the
+compression is cast as a least-squares problem:</p>
+<div class="math notranslate nohighlight">
+\[\min_{a^R_i,\, a^R_j} \left\| \Theta - a^R_i \, a^R_j \right\|_{\mathcal{N}}^2\]</div>
+<p>where the norm is defined by <span class="math notranslate nohighlight">\(N_{ij}\)</span>. Expanding the squared norm gives a cost function:</p>
+<div class="math notranslate nohighlight">
+\[\mathcal{C} = \langle a^R_i a^R_j | N_{ij} | a^R_i a^R_j \rangle
+            - 2\,\mathrm{Re}\, \langle a^R_i a^R_j | N_{ij} | \Theta \rangle\]</div>
+<p>This is solved by <strong>alternating least squares</strong> (ALS): fix one reduced tensor and solve a
+linear system for the other, then alternate.</p>
+<p><strong>Fixing</strong> <span class="math notranslate nohighlight">\(a^R_j\)</span> <strong>and solving for</strong> <span class="math notranslate nohighlight">\(a^R_i\)</span>. Contracting <span class="math notranslate nohighlight">\(N_{ij}\)</span> with
+<span class="math notranslate nohighlight">\(a^R_j\)</span> and <span class="math notranslate nohighlight">\(\overline{a^R_j}\)</span> over the indices belonging to site <span class="math notranslate nohighlight">\(j\)</span>
+produces the <strong>effective norm</strong> <span class="math notranslate nohighlight">\(R_i\)</span>. Contracting <span class="math notranslate nohighlight">\(N_{ij}\,\Theta\)</span> with
+<span class="math notranslate nohighlight">\(\overline{a^R_j}\)</span> in the same way produces the <strong>source tensor</strong> <span class="math notranslate nohighlight">\(S_i\)</span>.
+The optimal <span class="math notranslate nohighlight">\(a^R_i\)</span> then satisfies the linear system:</p>
+<div class="math notranslate nohighlight">
+\[R_i \; a^R_i = S_i\]</div>
+<p>The same procedure applies when fixing <span class="math notranslate nohighlight">\(a^R_i\)</span> and solving for <span class="math notranslate nohighlight">\(a^R_j\)</span>.</p>
+<p><strong>Regularisation.</strong> The effective norm <span class="math notranslate nohighlight">\(R_i\)</span> is symmetrised and regularised before
+solving:</p>
+<div class="math notranslate nohighlight">
+\[R_i \;\to\; \tfrac{1}{2}(R_i + R_i^\dagger) + \epsilon \, \mathbb{1}\]</div>
+<p>The system is then solved via Cholesky decomposition when <span class="math notranslate nohighlight">\(R_i\)</span> is well-conditioned,
+or via the pseudo-inverse otherwise.</p>
+<p><strong>Convergence.</strong> The ALS iteration alternates between solving for <span class="math notranslate nohighlight">\(a^R_i\)</span> and
+<span class="math notranslate nohighlight">\(a^R_j\)</span> until the relative change in the cost function falls below a tolerance
+<span class="math notranslate nohighlight">\(\delta\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\frac{|\mathcal{C}^{(n)} - \mathcal{C}^{(n-1)}|}{|\mathcal{C}^{(n-1)}|} &lt; \delta\]</div>
+</section>
+<section id="reassembly">
+<h2>Reassembly<a class="headerlink" href="#reassembly" title="Link to this heading"></a></h2>
+<p>After ALS convergence, a final QR-SVD step balances the bond distribution between the two
+reduced tensors. Each tensor is QR-decomposed along its bond leg, and an SVD of the product
+of the two R-factors determines the optimal split. The full site tensors are then reassembled:</p>
+<div class="math notranslate nohighlight">
+\[A'_i = A^Q_i \; a'^R_i, \qquad A'_j = A^Q_j \; a'^R_j\]</div>
+</section>
+<section id="fast-full-update">
+<h2>Fast Full Update<a class="headerlink" href="#fast-full-update" title="Link to this heading"></a></h2>
+<p>The fast full update (FFU) variant <a class="reference internal" href="#phien2015" id="id4"><span>[Phien2015]</span></a> exploits the QR structure to reduce the size
+of the effective norm tensor. Instead of forming <span class="math notranslate nohighlight">\(N_{ij}\)</span> with the full environment and
+then contracting with <span class="math notranslate nohighlight">\(A^Q\)</span>, the isometric parts are absorbed into the boundary tensors
+first, yielding a smaller effective norm whose dimensions depend on the QR bond dimensions
+rather than the environment bond dimension <span class="math notranslate nohighlight">\(\chi\)</span>. This makes each ALS iteration
+substantially faster while maintaining the same accuracy as the standard full update.</p>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading"></a></h2>
+<div role="list" class="citation-list">
+<div class="citation" id="corboz2016" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">Corboz2016</a><span class="fn-bracket">]</span></span>
+<ol class="upperalpha simple" start="16">
+<li><p>Corboz, <em>Variational optimization with infinite projected entangled-pair states</em>, Phys. Rev. B <strong>94</strong>, 035133 (2016).</p></li>
+</ol>
+</div>
+<div class="citation" id="phien2015" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>Phien2015<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id3">1</a>,<a role="doc-backlink" href="#id4">2</a>)</span>
+<ol class="upperalpha simple" start="8">
+<li><ol class="upperalpha simple" start="14">
+<li><p>Phien, J. A. Bengua, H. D. Tuan, P. Corboz, and R. Orús, <em>Infinite projected entangled pair states algorithm improved: Fast full update and gauge fixing</em>, Phys. Rev. B <strong>92</strong>, 035142 (2015).</p></li>
+</ol>
+</li>
+</ol>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="ctmrg.html" class="btn btn-neutral float-left" title="CTMRG" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="simple_update.html" class="btn btn-neutral float-right" title="Simple Update" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Addison Richards.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

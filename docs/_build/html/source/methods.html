@@ -1,0 +1,252 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Methods &mdash; Ace-TN 0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=0c084379" />
+
+  
+    <link rel="canonical" href="https://ace-tn.github.io/source/methods.html" />
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=2709fde1"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="CTMRG" href="ctmrg.html" />
+    <link rel="prev" title="Welcome to the Ace-TN Documentation" href="../index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Ace-TN
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Methods</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#ipeps-ansatz">iPEPS Ansatz</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#double-layer-tensor">Double-Layer Tensor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#boundary-tensor-approximation">Boundary Tensor Approximation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ctmrg.html">CTMRG</a></li>
+<li class="toctree-l3"><a class="reference internal" href="full_update.html">Full Update</a></li>
+<li class="toctree-l3"><a class="reference internal" href="simple_update.html">Simple Update</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="user_guide.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Ace-TN</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Methods</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/source/methods.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="methods">
+<h1>Methods<a class="headerlink" href="#methods" title="Link to this heading"></a></h1>
+<p>This section describes the theoretical background of the algorithms implemented in Ace-TN.
+We follow the notation established in <a class="reference internal" href="#richards2025" id="id1"><span>[Richards2025]</span></a>. For a comprehensive review of tensor
+network methods see <a class="reference internal" href="#orus2014" id="id2"><span>[Orus2014]</span></a>, <a class="reference internal" href="#cirac2021" id="id3"><span>[Cirac2021]</span></a>.</p>
+<section id="ipeps-ansatz">
+<h2>iPEPS Ansatz<a class="headerlink" href="#ipeps-ansatz" title="Link to this heading"></a></h2>
+<p>The infinite projected entangled-pair state (iPEPS) ansatz approximates an infinite
+two-dimensional quantum many-body state through a periodic tensor network <a class="reference internal" href="#verstraete2004" id="id4"><span>[Verstraete2004]</span></a>,
+<a class="reference internal" href="#jordan2008" id="id5"><span>[Jordan2008]</span></a>. Each site <span class="math notranslate nohighlight">\(i\)</span> of the square lattice is associated with a rank-5 site
+tensor <span class="math notranslate nohighlight">\(A^{[s_i]}_{l_i u_i r_i d_i}\)</span> carrying a physical index <span class="math notranslate nohighlight">\(s_i\)</span> of dimension
+<span class="math notranslate nohighlight">\(d\)</span> and four bond indices <span class="math notranslate nohighlight">\(l_i, u_i, r_i, d_i\)</span> each of dimension <span class="math notranslate nohighlight">\(D\)</span>:</p>
+<a class="reference internal image-reference" href="../_images/site_tensor.png"><img alt="../_images/site_tensor.png" class="align-center" src="../_images/site_tensor.png" style="width: 300px;" />
+</a>
+<p>The bond dimension <span class="math notranslate nohighlight">\(D\)</span> controls the amount of entanglement captured by the ansatz,
+with <span class="math notranslate nohighlight">\(D = 1\)</span> corresponding to a product state. Increasing <span class="math notranslate nohighlight">\(D\)</span> systematically
+improves the approximation.</p>
+</section>
+<section id="double-layer-tensor">
+<h2>Double-Layer Tensor<a class="headerlink" href="#double-layer-tensor" title="Link to this heading"></a></h2>
+<p>Expectation values require contracting the tensor-network state with its conjugate, forming
+a double-layer tensor network. The double-layer tensor at site <span class="math notranslate nohighlight">\(i\)</span> is obtained by
+contracting <span class="math notranslate nohighlight">\(A_i\)</span> with <span class="math notranslate nohighlight">\(A^\dagger_i\)</span> over the physical index and fusing pairs of
+bond indices:</p>
+<div class="math notranslate nohighlight">
+\[a_{(l_i l'_i)(u_i u'_i)(r_i r'_i)(d_i d'_i)}
+= \sum_{s_i} A^{[s_i]}_{l_i u_i r_i d_i} \, A^{[s_i]\dagger}_{l'_i u'_i r'_i d'_i}\]</div>
+<p>Diagrammatically, the ket and bra layers are contracted over the physical index <span class="math notranslate nohighlight">\(s_i\)</span>
+and each pair of bond indices is fused into a single leg of dimension <span class="math notranslate nohighlight">\(D^2\)</span>:</p>
+<a class="reference internal image-reference" href="../_images/double_layer.png"><img alt="../_images/double_layer.png" class="align-center" src="../_images/double_layer.png" style="width: 500px;" />
+</a>
+</section>
+<section id="boundary-tensor-approximation">
+<h2>Boundary Tensor Approximation<a class="headerlink" href="#boundary-tensor-approximation" title="Link to this heading"></a></h2>
+<p>The infinite double-layer network cannot be contracted exactly. It is approximated by boundary
+tensors surrounding each site: corner transfer matrices <span class="math notranslate nohighlight">\(C^k_i\)</span> (rank-2) and edge
+tensors <span class="math notranslate nohighlight">\(E^k_i\)</span> (rank-3) for <span class="math notranslate nohighlight">\(k = 1,2,3,4\)</span> <a class="reference internal" href="#nishino1996" id="id6"><span>[Nishino1996]</span></a>, <a class="reference internal" href="#orus2009" id="id7"><span>[Orus2009]</span></a>. The
+environment of a site is then approximated by the finite arrangement:</p>
+<a class="reference internal image-reference" href="../_images/boundary_environment.png"><img alt="../_images/boundary_environment.png" class="align-center" src="../_images/boundary_environment.png" style="width: 400px;" />
+</a>
+<p>Here <span class="math notranslate nohighlight">\(C^k\)</span> are rank-2 corner tensors and <span class="math notranslate nohighlight">\(E^k\)</span> are rank-3 edge tensors. Each
+corner carries two boundary bonds of dimension <span class="math notranslate nohighlight">\(\chi\)</span>, and each edge carries two
+boundary bonds and one double-layer bond. The boundary tensors encode the effect of the
+infinite lattice surrounding each site. Their computation is the task of the CTMRG algorithm.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ctmrg.html">CTMRG</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ctmrg.html#directional-moves">Directional Moves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ctmrg.html#projector-calculation">Projector Calculation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ctmrg.html#convergence">Convergence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ctmrg.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="full_update.html">Full Update</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="full_update.html#imaginary-time-evolution">Imaginary-Time Evolution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="full_update.html#qr-decomposition">QR Decomposition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="full_update.html#gate-application">Gate Application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="full_update.html#norm-tensor-construction">Norm Tensor Construction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="full_update.html#als-solution">ALS Solution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="full_update.html#reassembly">Reassembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="full_update.html#fast-full-update">Fast Full Update</a></li>
+<li class="toctree-l2"><a class="reference internal" href="full_update.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="simple_update.html">Simple Update</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="simple_update.html#gamma-lambda-decomposition">Gamma–Lambda Decomposition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simple_update.html#bond-update-procedure">Bond Update Procedure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simple_update.html#measurements">Measurements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simple_update.html#references">References</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading"></a></h2>
+<div role="list" class="citation-list">
+<div class="citation" id="verstraete2004" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">Verstraete2004</a><span class="fn-bracket">]</span></span>
+<ol class="upperalpha simple" start="6">
+<li><p>Verstraete and J. I. Cirac, <em>Renormalization algorithms for quantum-many body systems in two and higher dimensions</em>, arXiv:cond-mat/0407066 (2004).</p></li>
+</ol>
+</div>
+<div class="citation" id="jordan2008" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id5">Jordan2008</a><span class="fn-bracket">]</span></span>
+<ol class="upperalpha simple" start="10">
+<li><p>Jordan, R. Orús, G. Vidal, F. Verstraete, and J. I. Cirac, <em>Classical simulation of infinite-size quantum lattice systems in two spatial dimensions</em>, Phys. Rev. Lett. <strong>101</strong>, 250602 (2008).</p></li>
+</ol>
+</div>
+<div class="citation" id="nishino1996" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id6">Nishino1996</a><span class="fn-bracket">]</span></span>
+<ol class="upperalpha simple" start="20">
+<li><p>Nishino and K. Okunishi, <em>Corner transfer matrix renormalization group method</em>, J. Phys. Soc. Jpn. <strong>65</strong>, 891 (1996).</p></li>
+</ol>
+</div>
+<div class="citation" id="orus2009" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id7">Orus2009</a><span class="fn-bracket">]</span></span>
+<ol class="upperalpha simple" start="18">
+<li><p>Orús and G. Vidal, <em>Simulation of two-dimensional quantum systems on an infinite lattice revisited: Corner transfer matrix for tensor contraction</em>, Phys. Rev. B <strong>80</strong>, 094403 (2009).</p></li>
+</ol>
+</div>
+<div class="citation" id="orus2014" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">Orus2014</a><span class="fn-bracket">]</span></span>
+<ol class="upperalpha simple" start="18">
+<li><p>Orús, <em>A practical introduction to tensor networks: Matrix product states and projected entangled pair states</em>, Annals of Physics <strong>349</strong>, 117 (2014).</p></li>
+</ol>
+</div>
+<div class="citation" id="cirac2021" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">Cirac2021</a><span class="fn-bracket">]</span></span>
+<ol class="upperalpha simple" start="10">
+<li><ol class="upperroman simple">
+<li><p>Cirac, D. Pérez-García, N. Schuch, and F. Verstraete, <em>Matrix product states and projected entangled pair states: Concepts, symmetries, theorems</em>, Rev. Mod. Phys. <strong>93</strong>, 045003 (2021).</p></li>
+</ol>
+</li>
+</ol>
+</div>
+<div class="citation" id="richards2025" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">Richards2025</a><span class="fn-bracket">]</span></span>
+<ol class="upperalpha simple">
+<li><ol class="upperalpha simple" start="4">
+<li><ol class="upperalpha simple" start="19">
+<li><p>Richards and E. S. Sørensen, <em>Ace-TN: GPU-Accelerated Corner-Transfer-Matrix Renormalization of Infinite Projected Entangled-Pair States</em>, arXiv:2503.13900 (2025).</p></li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../index.html" class="btn btn-neutral float-left" title="Welcome to the Ace-TN Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ctmrg.html" class="btn btn-neutral float-right" title="CTMRG" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Addison Richards.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

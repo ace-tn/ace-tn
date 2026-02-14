@@ -1,0 +1,283 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quantum Compass Model &mdash; Ace-TN 0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=0c084379" />
+
+  
+    <link rel="canonical" href="https://ace-tn.github.io/source/example_04_compass_model.html" />
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=2709fde1"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="API Reference" href="modules.html" />
+    <link rel="prev" title="Building a Custom Model Hamiltonian" href="example_03_custom_model.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Ace-TN
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="methods.html">Methods</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="user_guide.html">User Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ipeps.html">The ipeps Module</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="examples.html">Examples</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="example_01_tfim.html">Transverse-Field Ising Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="example_02_heisenberg.html">Heisenberg Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="example_03_custom_model.html">Building a Custom Model Hamiltonian</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Quantum Compass Model</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#defining-a-custom-model">Defining a Custom Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#defining-observables">Defining Observables</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#setting-up-the-ipeps-simulation">Setting up the iPEPS Simulation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#running-the-imaginary-time-evolution">Running the Imaginary-Time Evolution</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#full-code-example">Full Code Example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Ace-TN</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="user_guide.html">User Guide</a></li>
+          <li class="breadcrumb-item"><a href="examples.html">Examples</a></li>
+      <li class="breadcrumb-item active">Quantum Compass Model</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/source/example_04_compass_model.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="quantum-compass-model">
+<h1>Quantum Compass Model<a class="headerlink" href="#quantum-compass-model" title="Link to this heading"></a></h1>
+<p>The Quantum Compass model serves as an insightful example of a Hamiltonian used to explore quantum phase transitions and has subextensive degeneracy in zero field. Its Hamiltonian is defined as:</p>
+<div class="math notranslate nohighlight">
+\[H = -\sum_{\vec{r}} \left(J_x S^x_{\vec{r}}S^x_{\vec{r}+\vec{e}_x} + J_z S^z_{\vec{r}}S^z_{\vec{r}+\vec{e}_z} + h_x S^x_{\vec{r}} + h_z S^z_{\vec{r}} \right)\]</div>
+<p>The <cite>two_site_hamiltonian</cite> method defines the bond interactions along the x- and z-directions, using Pauli matrices for spin interactions. The <cite>Model</cite> method <cite>bond_direction</cite> maps each bond to a direction in the set {“+x”, “-x”, “+y”, “-y”} to help with specifying bond-dependent Hamiltonians.</p>
+<section id="defining-a-custom-model">
+<h2>Defining a Custom Model<a class="headerlink" href="#defining-a-custom-model" title="Link to this heading"></a></h2>
+<p>To define a custom model, import the <cite>Model</cite> class, create a subclass, and implement the <cite>two_site_hamiltonian</cite> and <cite>one_site_hamiltonian</cite> methods. These methods specify bond interactions and single-site terms, respectively. In the example below, we define the Quantum Compass model’s Hamiltonian in the <cite>two_site_hamiltonian</cite> method.</p>
+<p>Here is an example of how to define the model:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">acetn.model</span><span class="w"> </span><span class="kn">import</span> <span class="n">Model</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">acetn.model.pauli_matrix</span><span class="w"> </span><span class="kn">import</span> <span class="n">pauli_matrices</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">CompassModel</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">two_site_hamiltonian</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bond</span><span class="p">):</span>
+        <span class="n">jx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;jx&quot;</span><span class="p">)</span>
+        <span class="n">jz</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;jz&quot;</span><span class="p">)</span>
+        <span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">Z</span><span class="p">,</span><span class="n">I</span> <span class="o">=</span> <span class="n">pauli_matrices</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">bond_direction</span><span class="p">(</span><span class="n">bond</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;+x&quot;</span><span class="p">,</span> <span class="s2">&quot;-x&quot;</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="o">-</span><span class="n">jx</span><span class="o">*</span><span class="n">X</span><span class="o">*</span><span class="n">X</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">bond_direction</span><span class="p">(</span><span class="n">bond</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;+y&quot;</span><span class="p">,</span> <span class="s2">&quot;-y&quot;</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="o">-</span><span class="n">jz</span><span class="o">*</span><span class="n">Z</span><span class="o">*</span><span class="n">Z</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">one_site_hamiltonian</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">site</span><span class="p">):</span>
+        <span class="n">hx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;hx&quot;</span><span class="p">)</span>
+        <span class="n">hz</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;hz&quot;</span><span class="p">)</span>
+        <span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">Z</span><span class="p">,</span><span class="n">I</span> <span class="o">=</span> <span class="n">pauli_matrices</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+        <span class="k">return</span> <span class="o">-</span><span class="n">hx</span><span class="o">*</span><span class="n">X</span> <span class="o">-</span> <span class="n">hz</span><span class="o">*</span><span class="n">Z</span>
+</pre></div>
+</div>
+</section>
+<section id="defining-observables">
+<h2>Defining Observables<a class="headerlink" href="#defining-observables" title="Link to this heading"></a></h2>
+<p>In addition to the Hamiltonian, we need to define the observables that will be measured during the simulation. For the Quantum Compass model, an important observable is the order parameter that characterizes the spin orientations along the bond directions. The order parameter phi is defined as:</p>
+<div class="math notranslate nohighlight">
+\[\phi = \sum_{\vec{r}} \left\langle \sigma^x_{\vec{r}} \sigma^x_{\vec{r} + \vec{e}_x} - \sigma^z_{\vec{r}} \sigma^z_{\vec{r} + \vec{e}_z} \right\rangle\]</div>
+<p>This order parameter is negative when the spins are oriented along the ±z-directions and positive when they are oriented along the ±x-directions. We can define this observable in the <cite>two_site_observables</cite> method of the custom model class.</p>
+<p>In addition to phi, we may also want to measure the correlation between the Pauli matrices X and Z along different bonds. This is a component of the vector chirality, denoted chi, and defined as:</p>
+<div class="math notranslate nohighlight">
+\[\chi = \sum_{\langle i j \rangle} \left\langle \sigma^x_{\vec{r}_i} \sigma^z_{\vec{r}_j} - \sigma^z_{\vec{r}_i} \sigma^x_{\vec{r}_j} \right\rangle\]</div>
+<p>This characterizes the ordered state when <cite>Jx = Jz = -hx = -hz &lt; 0</cite>, which can be derived exactly.</p>
+<p>We can define both phi and chi in the <cite>two_site_observables</cite> method as shown below:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">two_site_observables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bond</span><span class="p">):</span>
+    <span class="n">observables</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">I</span> <span class="o">=</span> <span class="n">pauli_matrices</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">bond_direction</span><span class="p">(</span><span class="n">bond</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;+x&quot;</span><span class="p">,</span> <span class="s2">&quot;-x&quot;</span><span class="p">]:</span>
+        <span class="n">observables</span><span class="p">[</span><span class="s2">&quot;phi&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">X</span><span class="o">*</span><span class="n">X</span>
+    <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">bond_direction</span><span class="p">(</span><span class="n">bond</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;+y&quot;</span><span class="p">,</span> <span class="s2">&quot;-y&quot;</span><span class="p">]:</span>
+        <span class="n">observables</span><span class="p">[</span><span class="s2">&quot;phi&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">Z</span><span class="o">*</span><span class="n">Z</span>
+    <span class="n">observables</span><span class="p">[</span><span class="s2">&quot;chi&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">X</span><span class="o">*</span><span class="n">Z</span> <span class="o">-</span> <span class="n">Z</span><span class="o">*</span><span class="n">X</span>
+    <span class="k">return</span> <span class="n">observables</span>
+</pre></div>
+</div>
+</section>
+<section id="setting-up-the-ipeps-simulation">
+<h2>Setting up the iPEPS Simulation<a class="headerlink" href="#setting-up-the-ipeps-simulation" title="Link to this heading"></a></h2>
+<p>Once the custom model is defined, the iPEPS instance can be configured to run the simulation. The iPEPS configuration specifies physical and bond dimensions. The model parameters are provided for the Hamiltonian.</p>
+<p>Here is an example of how to configure the iPEPS simulation:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">config</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;dtype&quot;</span><span class="p">:</span> <span class="s2">&quot;float64&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;device&quot;</span><span class="p">:</span> <span class="s2">&quot;cpu&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;TN&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;dims&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;phys&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;bond&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;chi&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">},</span>
+        <span class="s2">&quot;nx&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="s2">&quot;ny&quot;</span><span class="p">:</span> <span class="mi">2</span>
+    <span class="p">},</span>
+<span class="p">}</span>
+<span class="n">ipeps</span> <span class="o">=</span> <span class="n">Ipeps</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+<span class="n">ipeps</span><span class="o">.</span><span class="n">set_model</span><span class="p">(</span><span class="n">CompassModel</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;jx&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mf">1.0</span><span class="o">/</span><span class="mf">4.</span><span class="p">,</span> <span class="s2">&quot;jz&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mf">1.0</span><span class="o">/</span><span class="mf">4.</span><span class="p">,</span> <span class="s2">&quot;hz&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="o">/</span><span class="mf">2.</span><span class="p">,</span> <span class="s2">&quot;hx&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="o">/</span><span class="mf">2.</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>Note: The QCM has subextensive ground-state degeneracy in zero field. You may want to increase the lattice size parameters <cite>nx</cite> and/or <cite>ny</cite> to explore the properties of the ground states.</p>
+</section>
+<section id="running-the-imaginary-time-evolution">
+<h2>Running the Imaginary-Time Evolution<a class="headerlink" href="#running-the-imaginary-time-evolution" title="Link to this heading"></a></h2>
+<p>The iPEPS simulation can be used to evolve the system to obtain its ground state. The evolution is performed by iterating through a series of time steps with gradually smaller time intervals.</p>
+<p>Here is how to perform the imaginary-time evolution:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">dtau</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">steps</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="n">ipeps</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="n">dtau</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="n">steps</span><span class="p">)</span>
+
+<span class="n">dtau</span> <span class="o">=</span> <span class="mf">0.01</span>
+<span class="n">steps</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+    <span class="n">ipeps</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="n">dtau</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="n">steps</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In this step:
+- We start by evolving the system with a larger time step (<cite>dtau = 0.1</cite>) for 50 steps.
+- The time step is then reduced to <cite>dtau = 0.01</cite>, and 100 steps are performed to refine the accuracy.</p>
+</section>
+<section id="full-code-example">
+<h2>Full Code Example<a class="headerlink" href="#full-code-example" title="Link to this heading"></a></h2>
+<p>Below is the complete Python script demonstrating the Quantum Compass model with iPEPS:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">acetn.ipeps</span><span class="w"> </span><span class="kn">import</span> <span class="n">Ipeps</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">acetn.model</span><span class="w"> </span><span class="kn">import</span> <span class="n">Model</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">acetn.model.pauli_matrix</span><span class="w"> </span><span class="kn">import</span> <span class="n">pauli_matrices</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">CompassModel</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">two_site_hamiltonian</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bond</span><span class="p">):</span>
+        <span class="n">jx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;jx&quot;</span><span class="p">)</span>
+        <span class="n">jz</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;jz&quot;</span><span class="p">)</span>
+        <span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">Z</span><span class="p">,</span><span class="n">I</span> <span class="o">=</span> <span class="n">pauli_matrices</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">bond_direction</span><span class="p">(</span><span class="n">bond</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;+x&quot;</span><span class="p">,</span> <span class="s2">&quot;-x&quot;</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="o">-</span><span class="n">jx</span><span class="o">*</span><span class="n">X</span><span class="o">*</span><span class="n">X</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">bond_direction</span><span class="p">(</span><span class="n">bond</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;+y&quot;</span><span class="p">,</span> <span class="s2">&quot;-y&quot;</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="o">-</span><span class="n">jz</span><span class="o">*</span><span class="n">Z</span><span class="o">*</span><span class="n">Z</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">one_site_hamiltonian</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">site</span><span class="p">):</span>
+        <span class="n">hx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;hx&#39;</span><span class="p">)</span>
+        <span class="n">hz</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;hz&#39;</span><span class="p">)</span>
+        <span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">Z</span><span class="p">,</span><span class="n">I</span> <span class="o">=</span> <span class="n">pauli_matrices</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+        <span class="k">return</span> <span class="o">-</span><span class="n">hx</span><span class="o">*</span><span class="n">X</span> <span class="o">-</span> <span class="n">hz</span><span class="o">*</span><span class="n">Z</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">two_site_observables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bond</span><span class="p">):</span>
+        <span class="n">observables</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">Z</span><span class="p">,</span><span class="n">I</span> <span class="o">=</span> <span class="n">pauli_matrices</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">bond_direction</span><span class="p">(</span><span class="n">bond</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;+x&quot;</span><span class="p">,</span> <span class="s2">&quot;-x&quot;</span><span class="p">]:</span>
+            <span class="n">observables</span><span class="p">[</span><span class="s2">&quot;phi&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">X</span><span class="o">*</span><span class="n">X</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">bond_direction</span><span class="p">(</span><span class="n">bond</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;+y&quot;</span><span class="p">,</span> <span class="s2">&quot;-y&quot;</span><span class="p">]:</span>
+            <span class="n">observables</span><span class="p">[</span><span class="s2">&quot;phi&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">Z</span><span class="o">*</span><span class="n">Z</span>
+        <span class="k">return</span> <span class="n">observables</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;dtype&quot;</span><span class="p">:</span> <span class="s2">&quot;float64&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;device&quot;</span><span class="p">:</span> <span class="s2">&quot;cpu&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;TN&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;dims&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;phys&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;bond&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;chi&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">},</span> <span class="s2">&quot;nx&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;ny&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">},</span>
+    <span class="p">}</span>
+
+    <span class="n">ipeps</span> <span class="o">=</span> <span class="n">Ipeps</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+    <span class="n">ipeps</span><span class="o">.</span><span class="n">set_model</span><span class="p">(</span><span class="n">CompassModel</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;jx&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mf">1.0</span><span class="o">/</span><span class="mf">4.</span><span class="p">,</span> <span class="s2">&quot;jz&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mf">1.0</span><span class="o">/</span><span class="mf">4.</span><span class="p">,</span> <span class="s2">&quot;hz&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="o">/</span><span class="mf">2.</span><span class="p">,</span> <span class="s2">&quot;hx&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="o">/</span><span class="mf">2.</span><span class="p">})</span>
+
+    <span class="n">dtau</span> <span class="o">=</span> <span class="mf">0.1</span>
+    <span class="n">steps</span> <span class="o">=</span> <span class="mi">50</span>
+    <span class="n">ipeps</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="n">dtau</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="n">steps</span><span class="p">)</span>
+    <span class="n">ipeps</span><span class="o">.</span><span class="n">measure</span><span class="p">()</span>
+
+    <span class="n">dtau</span> <span class="o">=</span> <span class="mf">0.01</span>
+    <span class="n">steps</span> <span class="o">=</span> <span class="mi">100</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+        <span class="n">ipeps</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="n">dtau</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="n">steps</span><span class="p">)</span>
+        <span class="n">ipeps</span><span class="o">.</span><span class="n">measure</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="example_03_custom_model.html" class="btn btn-neutral float-left" title="Building a Custom Model Hamiltonian" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="modules.html" class="btn btn-neutral float-right" title="API Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Addison Richards.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
