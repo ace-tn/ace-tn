@@ -14,6 +14,7 @@ from .gate import Gate
 from .tensor_update import TensorUpdater
 from .full_update import FullUpdater
 from .fast_full_update import FastFullUpdater
+from .simple_update import SimpleUpdater
 
 __all__ = [
     'ALSSolver',
@@ -22,5 +23,6 @@ __all__ = [
     'TensorUpdater',
     'FullUpdater',
     'FastFullUpdater',
+    'SimpleUpdater',
 ]
 

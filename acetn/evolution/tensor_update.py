@@ -1,6 +1,7 @@
 from ..utils.benchmarking import record_runtime
 from abc import ABC, abstractmethod
 from torch import einsum
+from torch.linalg import qr
 
 class TensorUpdater(ABC):
     """
@@ -113,3 +114,80 @@ class TensorUpdater(ABC):
             A list representing the permutation pattern of the tensor indices.
         """
         return [(i+k)%4 for i in range(4)] + [4,]
+
+    @staticmethod
+    def decompose_site_tensors(a1, a2):
+        """
+        Decomposes the site tensors `a1` and `a2` into their core and reduced parts using QR decomposition.
+
+        Parameters:
+        -----------
+        a1 : Tensor
+            The first tensor at the site being decomposed.
+
+        a2 : Tensor
+            The second tensor at the site being decomposed.
+
+        Returns:
+        --------
+        a1q : Tensor
+            The core part of the first tensor after decomposition.
+
+        a1r : Tensor
+            The reduced part of the first tensor after decomposition.
+
+        a2q : Tensor
+            The core part of the second tensor after decomposition.
+
+        a2r : Tensor
+            The reduced part of the second tensor after decomposition.
+        """
+        bD,pD = a1.shape[3:]
+        nD = min(bD**3, pD*bD)
+
+        a1_tmp = einsum("lurdp->rdulp", a1).reshape(bD**3, pD*bD)
+        a1q,a1r = qr(a1_tmp)
+        a1q = a1q.reshape(bD, bD, bD, nD)
+        a1r = a1r.reshape(nD, bD, pD)
+
+        a2_tmp = einsum("lurdp->dlurp", a2).reshape(bD**3, pD*bD)
+        a2q,a2r = qr(a2_tmp)
+        a2q = a2q.reshape(bD, bD, bD, nD)
+        a2r = a2r.reshape(nD, bD, pD)
+
+        return a1q, a1r, a2q, a2r
+
+    @staticmethod
+    def recompose_site_tensors(a1q, a1r, a2q, a2r):
+        """
+        Reconstructs the full site tensors from the decomposed core and reduced components.
+
+        Parameters:
+        -----------
+        a1q : Tensor
+            The core part of the first tensor.
+
+        a1r : Tensor
+            The reduced part of the first tensor.
+
+        a2q : Tensor
+            The core part of the second tensor.
+
+        a2r : Tensor
+            The reduced part of the second tensor.
+
+        Returns:
+        --------
+        a1 : Tensor
+            The reconstructed tensor for the first site.
+
+        a2 : Tensor
+            The reconstructed tensor for the second site.
+        """
+        a1 = einsum('rdux,xlp->lurdp', a1q, a1r)
+        a2 = einsum('dlux,xrp->lurdp', a2q, a2r)
+        return a1,a2
+
+    def finalize(self):
+        """Called after the evolution loop completes. Override in subclasses if needed."""
+        pass

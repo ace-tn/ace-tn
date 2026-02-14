@@ -2,8 +2,21 @@ import time
 from tqdm import tqdm
 from .gate import Gate
 from .fast_full_update import FastFullUpdater
+from .simple_update import SimpleUpdater
 from ..utils.logger import logger
 import logging
+
+
+def create_tensor_updater(ipeps, gate, config):
+    """Create the appropriate tensor updater based on config.update_type."""
+    match config.update_type:
+        case "full":
+            return FastFullUpdater(ipeps, gate, config)
+        case "simple":
+            return SimpleUpdater(ipeps, gate, config)
+        case _:
+            raise ValueError(f"Unknown update_type: {config.update_type}")
+
 
 def evolve(ipeps, dtau, steps, model, config):
     """
@@ -20,7 +33,7 @@ def evolve(ipeps, dtau, steps, model, config):
         None: The function updates the iPEPS tensors in place and logs the runtime.
     """
     gate = Gate(model, dtau, ipeps.bond_list, ipeps.site_list)
-    tensor_updater = FastFullUpdater(ipeps, gate, config)
+    tensor_updater = create_tensor_updater(ipeps, gate, config)
     is_debug_mode = logger.isEnabledFor(logging.DEBUG)
     upd_time = 0
     ctm_time = 0
@@ -44,6 +57,7 @@ def evolve(ipeps, dtau, steps, model, config):
             ctm_time = 0
             upd_time = 0
             iter_start = time.time()
+    tensor_updater.finalize()
     loop_end = time.time()
     tqdm.write(f"Finished imaginary-time evolution")
     tqdm.write(f"Total runtime: {(loop_end - loop_start):.6f} seconds")
