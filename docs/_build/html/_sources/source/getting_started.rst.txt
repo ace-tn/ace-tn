@@ -75,4 +75,4 @@ The basic workflow of an iPEPS ground-state including imaginary-time evolution a
     ipeps.evolve(dtau=0.01, steps=500)
     measurements = ipeps.measure()
 
-For more detailed examples demontrating usage including custom model construction, see the `Examples <examples.html>`_ section.
+For a complete reference of all input options, see :doc:`input_settings`. For detailed examples demonstrating usage including custom model construction, see the :doc:`examples` section.

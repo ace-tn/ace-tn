@@ -7,7 +7,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Getting Started &mdash; Ace-TN 0.1 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=0c084379" />
 
@@ -21,7 +21,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="The ipeps Module" href="ipeps.html" />
+    <link rel="next" title="Input Settings" href="input_settings.html" />
     <link rel="prev" title="User Guide" href="user_guide.html" /> 
 </head>
 
@@ -52,6 +52,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#quickstart">Quickstart</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="input_settings.html">Input Settings</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ipeps.html">The ipeps Module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples.html">Examples</a></li>
 </ul>
@@ -133,8 +134,8 @@ hardware setup, before getting started. For example:</p>
 <p>This input can then be used to instantiate an iPEPS on the GPU with FP64 data type,
 physical dimension d=2, bond dimension D=4, boundary bond dimension chi=16, and
 AFM Heisenberg as the target model. The iPEPS is then instantiated with</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">acetn.ipeps</span><span class="w"> </span><span class="kn">import</span> <span class="n">Ipeps</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">toml</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">acetn.ipeps</span> <span class="kn">import</span> <span class="n">Ipeps</span>
+<span class="kn">import</span> <span class="nn">toml</span>
 
 <span class="n">config</span> <span class="o">=</span> <span class="n">toml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;input.toml&quot;</span><span class="p">)</span>
 <span class="n">ipeps</span> <span class="o">=</span> <span class="n">Ipeps</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
@@ -145,7 +146,7 @@ AFM Heisenberg as the target model. The iPEPS is then instantiated with</p>
 <span class="n">measurements</span> <span class="o">=</span> <span class="n">ipeps</span><span class="o">.</span><span class="n">measure</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>For more detailed examples demontrating usage including custom model construction, see the <a class="reference external" href="examples.html">Examples</a> section.</p>
+<p>For a complete reference of all input options, see <a class="reference internal" href="input_settings.html"><span class="doc">Input Settings</span></a>. For detailed examples demonstrating usage including custom model construction, see the <a class="reference internal" href="examples.html"><span class="doc">Examples</span></a> section.</p>
 </section>
 </section>
 
@@ -154,7 +155,7 @@ AFM Heisenberg as the target model. The iPEPS is then instantiated with</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="user_guide.html" class="btn btn-neutral float-left" title="User Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="ipeps.html" class="btn btn-neutral float-right" title="The ipeps Module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="input_settings.html" class="btn btn-neutral float-right" title="Input Settings" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

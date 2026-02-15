@@ -7,5 +7,6 @@ User Guide
    :maxdepth: 2
 
    getting_started
+   input_settings
    ipeps
    examples

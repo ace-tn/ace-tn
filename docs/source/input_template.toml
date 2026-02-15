@@ -1,0 +1,55 @@
+# Ace-TN iPEPS Input Configuration Template
+# Copy this file and adapt it for your simulation.
+# All sections except [TN] are optional; defaults are shown.
+
+# Top-level settings
+dtype = "float64"   # Data type: "float32" or "float64"
+device = "cpu"      # Device: "cpu" or "cuda"
+
+# Tensor network lattice and dimensions (required)
+[TN]
+nx = 2              # Unit cell size in x direction
+ny = 2              # Unit cell size in y direction
+
+[TN.dims]
+phys = 2            # Physical dimension (e.g. 2 for spin-1/2)
+bond = 4            # Bond dimension D
+chi = 16            # Corner transfer matrix bond dimension chi
+
+# CTMRG renormalization (optional)
+[ctmrg]
+steps = 40                              # Number of CTMRG iterations
+projectors = "half-system"              # "half-system" or "full-system"
+svd_type = "rsvd"                       # "rsvd" or "full-rank"
+svd_cutoff = 1e-12                      # Singular value cutoff
+rsvd_niter = 2                          # Randomized SVD power iterations
+rsvd_oversampling = 2                   # Randomized SVD oversampling
+disable_progressbar = false           # Set true to suppress CTMRG progress bar
+
+# Evolution settings (optional)
+[evolution]
+backend = "torch"                       # "torch" or "cutensor" (requires GPU build)
+update_type = "full"                    # "full" or "simple"
+use_gauge_fix = true                    # Apply gauge fix for stability
+gauge_fix_atol = 1e-12                  # Gauge fix tolerance
+positive_approx_cutoff = 1e-12          # Cutoff for positive definiteness
+als_niter = 100                         # ALS solver iterations
+als_tol = 1e-15                         # ALS convergence tolerance
+als_method = "cholesky"                 # "cholesky" or "pinv"
+als_epsilon = 1e-12                     # ALS regularization
+disable_progressbar = false           # Set true to suppress evolution progress bar
+
+# Model specification (optional if using set_model() for custom models)
+[model]
+name = "heisenberg"                     # Built-in: "heisenberg", "ising"; or "custom" for set_model()
+
+# Model parameters (depend on model)
+# Heisenberg: J (exchange coupling)
+# Ising: jz (nearest-neighbor), hx (transverse field)
+[model.params]
+J = 1.0
+
+# Example for Ising model:
+# [model.params]
+# jz = 1.0
+# hx = 2.95
