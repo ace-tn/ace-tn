@@ -1,0 +1,263 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Input Settings &mdash; Ace-TN 0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=0c084379" />
+
+  
+    <link rel="canonical" href="https://ace-tn.github.io/source/input_settings.html" />
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=2709fde1"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="The ipeps Module" href="ipeps.html" />
+    <link rel="prev" title="Getting Started" href="getting_started.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Ace-TN
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="methods.html">Methods</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="user_guide.html">User Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Input Settings</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#configuration-template">Configuration Template</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#option-reference">Option Reference</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#top-level">Top-level</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#tensor-network-tn">Tensor network <code class="docutils literal notranslate"><span class="pre">[TN]</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ctmrg-ctmrg">CTMRG <code class="docutils literal notranslate"><span class="pre">[ctmrg]</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evolution-evolution">Evolution <code class="docutils literal notranslate"><span class="pre">[evolution]</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#model-model">Model <code class="docutils literal notranslate"><span class="pre">[model]</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ipeps.html">The ipeps Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples.html">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Ace-TN</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="user_guide.html">User Guide</a></li>
+      <li class="breadcrumb-item active">Input Settings</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/source/input_settings.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="input-settings">
+<span id="id1"></span><h1>Input Settings<a class="headerlink" href="#input-settings" title="Link to this heading"></a></h1>
+<p>Ace-TN uses TOML configuration files to specify iPEPS simulation parameters. The configuration is passed to the <code class="docutils literal notranslate"><span class="pre">Ipeps</span></code> constructor after loading with the <code class="docutils literal notranslate"><span class="pre">toml</span></code> package:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">acetn.ipeps</span><span class="w"> </span><span class="kn">import</span> <span class="n">Ipeps</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">toml</span>
+
+<span class="n">config</span> <span class="o">=</span> <span class="n">toml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;input.toml&quot;</span><span class="p">)</span>
+<span class="n">ipeps</span> <span class="o">=</span> <span class="n">Ipeps</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Only the <code class="docutils literal notranslate"><span class="pre">[TN]</span></code> section is strictly required; all other sections are optional and will use defaults if omitted.</p>
+<section id="configuration-template">
+<h2>Configuration Template<a class="headerlink" href="#configuration-template" title="Link to this heading"></a></h2>
+<p>The following template includes all available options with their default values. Copy and adapt it for your simulation:</p>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-text">input_template.toml</span><a class="headerlink" href="#id2" title="Link to this code"></a></div>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="c1"># Ace-TN iPEPS Input Configuration Template</span>
+<span class="c1"># Copy this file and adapt it for your simulation.</span>
+<span class="c1"># All sections except [TN] are optional; defaults are shown.</span>
+
+<span class="c1"># Top-level settings</span>
+<span class="n">dtype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;float64&quot;</span><span class="w">   </span><span class="c1"># Data type: &quot;float32&quot; or &quot;float64&quot;</span>
+<span class="n">device</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;cpu&quot;</span><span class="w">      </span><span class="c1"># Device: &quot;cpu&quot; or &quot;cuda&quot;</span>
+
+<span class="c1"># Tensor network lattice and dimensions (required)</span>
+<span class="k">[TN]</span>
+<span class="n">nx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="w">              </span><span class="c1"># Unit cell size in x direction</span>
+<span class="n">ny</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="w">              </span><span class="c1"># Unit cell size in y direction</span>
+
+<span class="k">[TN.dims]</span>
+<span class="n">phys</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="w">            </span><span class="c1"># Physical dimension (e.g. 2 for spin-1/2)</span>
+<span class="n">bond</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="w">            </span><span class="c1"># Bond dimension D</span>
+<span class="n">chi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">16</span><span class="w">            </span><span class="c1"># Corner transfer matrix bond dimension chi</span>
+
+<span class="c1"># CTMRG renormalization (optional)</span>
+<span class="k">[ctmrg]</span>
+<span class="n">steps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">40</span><span class="w">                              </span><span class="c1"># Number of CTMRG iterations</span>
+<span class="n">projectors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;half-system&quot;</span><span class="w">              </span><span class="c1"># &quot;half-system&quot; or &quot;full-system&quot;</span>
+<span class="n">svd_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;rsvd&quot;</span><span class="w">                       </span><span class="c1"># &quot;rsvd&quot; or &quot;full-rank&quot;</span>
+<span class="n">svd_cutoff</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1e-12</span><span class="w">                      </span><span class="c1"># Singular value cutoff</span>
+<span class="n">rsvd_niter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="w">                          </span><span class="c1"># Randomized SVD power iterations</span>
+<span class="n">rsvd_oversampling</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="w">                   </span><span class="c1"># Randomized SVD oversampling</span>
+<span class="n">disable_progressbar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="w">           </span><span class="c1"># Set true to suppress CTMRG progress bar</span>
+
+<span class="c1"># Evolution settings (optional)</span>
+<span class="k">[evolution]</span>
+<span class="n">backend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;torch&quot;</span><span class="w">                       </span><span class="c1"># &quot;torch&quot; or &quot;cutensor&quot; (requires GPU build)</span>
+<span class="n">update_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;full&quot;</span><span class="w">                    </span><span class="c1"># &quot;full&quot; or &quot;simple&quot;</span>
+<span class="n">use_gauge_fix</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="w">                    </span><span class="c1"># Apply gauge fix for stability</span>
+<span class="n">gauge_fix_atol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1e-12</span><span class="w">                  </span><span class="c1"># Gauge fix tolerance</span>
+<span class="n">positive_approx_cutoff</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1e-12</span><span class="w">          </span><span class="c1"># Cutoff for positive definiteness</span>
+<span class="n">als_niter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">100</span><span class="w">                         </span><span class="c1"># ALS solver iterations</span>
+<span class="n">als_tol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1e-15</span><span class="w">                         </span><span class="c1"># ALS convergence tolerance</span>
+<span class="n">als_method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;cholesky&quot;</span><span class="w">                 </span><span class="c1"># &quot;cholesky&quot; or &quot;pinv&quot;</span>
+<span class="n">als_epsilon</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1e-12</span><span class="w">                     </span><span class="c1"># ALS regularization</span>
+<span class="n">disable_progressbar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="w">           </span><span class="c1"># Set true to suppress evolution progress bar</span>
+
+<span class="c1"># Model specification (optional if using set_model() for custom models)</span>
+<span class="k">[model]</span>
+<span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;heisenberg&quot;</span><span class="w">                     </span><span class="c1"># Built-in: &quot;heisenberg&quot;, &quot;ising&quot;; or &quot;custom&quot; for set_model()</span>
+
+<span class="c1"># Model parameters (depend on model)</span>
+<span class="c1"># Heisenberg: J (exchange coupling)</span>
+<span class="c1"># Ising: jz (nearest-neighbor), hx (transverse field)</span>
+<span class="k">[model.params]</span>
+<span class="n">J</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0</span>
+
+<span class="c1"># Example for Ising model:</span>
+<span class="c1"># [model.params]</span>
+<span class="c1"># jz = 1.0</span>
+<span class="c1"># hx = 2.95</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="option-reference">
+<h2>Option Reference<a class="headerlink" href="#option-reference" title="Link to this heading"></a></h2>
+<section id="top-level">
+<h3>Top-level<a class="headerlink" href="#top-level" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>dtype</strong> (str): Data type for tensors. Use <code class="docutils literal notranslate"><span class="pre">&quot;float32&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;float64&quot;</span></code>. Default: <code class="docutils literal notranslate"><span class="pre">&quot;float64&quot;</span></code>.</p></li>
+<li><p><strong>device</strong> (str): Compute device. Use <code class="docutils literal notranslate"><span class="pre">&quot;cpu&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;cuda&quot;</span></code>. Default: <code class="docutils literal notranslate"><span class="pre">&quot;cpu&quot;</span></code>. Falls back to CPU if CUDA is requested but unavailable.</p></li>
+</ul>
+</section>
+<section id="tensor-network-tn">
+<h3>Tensor network <code class="docutils literal notranslate"><span class="pre">[TN]</span></code><a class="headerlink" href="#tensor-network-tn" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>nx</strong> (int): Unit cell size in the x direction. Default: <code class="docutils literal notranslate"><span class="pre">2</span></code>.</p></li>
+<li><p><strong>ny</strong> (int): Unit cell size in the y direction. Default: <code class="docutils literal notranslate"><span class="pre">2</span></code>.</p></li>
+<li><p><strong>TN.dims.phys</strong> (int): Physical dimension (e.g. 2 for spin-1/2). Default: <code class="docutils literal notranslate"><span class="pre">2</span></code>.</p></li>
+<li><p><strong>TN.dims.bond</strong> (int): Bond dimension D of the iPEPS. Default: <code class="docutils literal notranslate"><span class="pre">2</span></code>.</p></li>
+<li><p><strong>TN.dims.chi</strong> (int): Maximum boundary bond dimension chi for corner transfer matrices. Default: <code class="docutils literal notranslate"><span class="pre">20</span></code>.</p></li>
+</ul>
+</section>
+<section id="ctmrg-ctmrg">
+<h3>CTMRG <code class="docutils literal notranslate"><span class="pre">[ctmrg]</span></code><a class="headerlink" href="#ctmrg-ctmrg" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>steps</strong> (int): Number of CTMRG iterations per renormalization. Default: <code class="docutils literal notranslate"><span class="pre">40</span></code>.</p></li>
+<li><p><strong>projectors</strong> (str): Projector type. <code class="docutils literal notranslate"><span class="pre">&quot;half-system&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;full-system&quot;</span></code>. Default: <code class="docutils literal notranslate"><span class="pre">&quot;half-system&quot;</span></code>.</p></li>
+<li><p><strong>svd_type</strong> (str): SVD algorithm for boundary compression. <code class="docutils literal notranslate"><span class="pre">&quot;rsvd&quot;</span></code> (randomized) or <code class="docutils literal notranslate"><span class="pre">&quot;full-rank&quot;</span></code>. Default: <code class="docutils literal notranslate"><span class="pre">&quot;rsvd&quot;</span></code>.</p></li>
+<li><p><strong>svd_cutoff</strong> (float): Singular value cutoff. Default: <code class="docutils literal notranslate"><span class="pre">1e-12</span></code>.</p></li>
+<li><p><strong>rsvd_niter</strong> (int): Power iterations for randomized SVD. Default: <code class="docutils literal notranslate"><span class="pre">2</span></code>.</p></li>
+<li><p><strong>rsvd_oversampling</strong> (int): Oversampling factor for randomized SVD. Default: <code class="docutils literal notranslate"><span class="pre">2</span></code>.</p></li>
+<li><p><strong>disable_progressbar</strong> (bool): Suppress progress bar during CTMRG. Default: <code class="docutils literal notranslate"><span class="pre">false</span></code>. Automatically set in non-interactive SLURM jobs.</p></li>
+</ul>
+</section>
+<section id="evolution-evolution">
+<h3>Evolution <code class="docutils literal notranslate"><span class="pre">[evolution]</span></code><a class="headerlink" href="#evolution-evolution" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>backend</strong> (str): Tensor contraction backend. <code class="docutils literal notranslate"><span class="pre">&quot;torch&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;cutensor&quot;</span></code> (requires GPU build with cuTENSOR). Default: <code class="docutils literal notranslate"><span class="pre">&quot;torch&quot;</span></code>.</p></li>
+<li><p><strong>update_type</strong> (str): Evolution update scheme. <code class="docutils literal notranslate"><span class="pre">&quot;full&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;simple&quot;</span></code>. Default: <code class="docutils literal notranslate"><span class="pre">&quot;full&quot;</span></code>.</p></li>
+<li><p><strong>use_gauge_fix</strong> (bool): Apply gauge fix for numerical stability. Default: <code class="docutils literal notranslate"><span class="pre">true</span></code>.</p></li>
+<li><p><strong>gauge_fix_atol</strong> (float): Absolute tolerance for gauge fix. Default: <code class="docutils literal notranslate"><span class="pre">1e-12</span></code>.</p></li>
+<li><p><strong>positive_approx_cutoff</strong> (float): Cutoff for positive definiteness in tensor operations. Default: <code class="docutils literal notranslate"><span class="pre">1e-12</span></code>.</p></li>
+<li><p><strong>als_niter</strong> (int): Maximum iterations for the ALS solver (full update). Default: <code class="docutils literal notranslate"><span class="pre">100</span></code>.</p></li>
+<li><p><strong>als_tol</strong> (float): Convergence tolerance for the ALS solver. Default: <code class="docutils literal notranslate"><span class="pre">1e-15</span></code>.</p></li>
+<li><p><strong>als_method</strong> (str): Linear solver method. <code class="docutils literal notranslate"><span class="pre">&quot;cholesky&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;pinv&quot;</span></code>. Default: <code class="docutils literal notranslate"><span class="pre">&quot;cholesky&quot;</span></code>.</p></li>
+<li><p><strong>als_epsilon</strong> (float): Regularization for the ALS solver. Default: <code class="docutils literal notranslate"><span class="pre">1e-12</span></code>.</p></li>
+<li><p><strong>disable_progressbar</strong> (bool): Suppress progress bar during evolution. Default: <code class="docutils literal notranslate"><span class="pre">false</span></code>.</p></li>
+</ul>
+</section>
+<section id="model-model">
+<h3>Model <code class="docutils literal notranslate"><span class="pre">[model]</span></code><a class="headerlink" href="#model-model" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>name</strong> (str): Model identifier. Built-in models: <code class="docutils literal notranslate"><span class="pre">&quot;heisenberg&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;ising&quot;</span></code>. Use <code class="docutils literal notranslate"><span class="pre">&quot;custom&quot;</span></code> when registering via <code class="xref py py-meth docutils literal notranslate"><span class="pre">Ipeps.set_model()</span></code>.</p></li>
+<li><p><strong>model.params</strong> (table): Model-specific parameters. Keys and values depend on the model.</p>
+<ul>
+<li><p><strong>Heisenberg model</strong>: <code class="docutils literal notranslate"><span class="pre">J</span></code> (exchange coupling, default 1.0)</p></li>
+<li><p><strong>Ising model</strong>: <code class="docutils literal notranslate"><span class="pre">jz</span></code> (nearest-neighbor coupling), <code class="docutils literal notranslate"><span class="pre">hx</span></code> (transverse field)</p></li>
+</ul>
+</li>
+</ul>
+<p>For custom models, the model and its parameters are set programmatically with <code class="xref py py-meth docutils literal notranslate"><span class="pre">set_model()</span></code>; see <a class="reference internal" href="example_03_custom_model.html"><span class="doc">Building a Custom Model Hamiltonian</span></a> for details.</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="getting_started.html" class="btn btn-neutral float-left" title="Getting Started" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ipeps.html" class="btn btn-neutral float-right" title="The ipeps Module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Addison Richards.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
