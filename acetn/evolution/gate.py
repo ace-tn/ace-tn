@@ -1,5 +1,5 @@
 import torch
-from ..ipeps.bond import Bond
+
 
 class Gate:
     """
@@ -36,16 +36,14 @@ class Gate:
 
         Parameters:
         -----------
-        key : tuple or list
-            A tuple representing a site or a list representing a bond.
+        key : tuple or Bond
+            A tuple representing a site or a Bond representing a bond.
 
         Returns:
         --------
         torch.Tensor
             The gate matrix for the given key (site or bond).
         """
-        if isinstance(key, Bond):
-            return self._gate[key.k]
         return self._gate[key]
 
     def __setitem__(self, key, gate):
@@ -54,15 +52,12 @@ class Gate:
 
         Parameters:
         -----------
-        key : tuple or list
-            A tuple representing a site or a list representing a bond.
+        key : tuple or Bond
+            A tuple representing a site or a Bond representing a bond.
         gate : torch.Tensor
             The gate matrix to store for the given site or bond.
         """
-        if isinstance(key, Bond):
-            self._gate[key.k] = gate
-        else:
-            self._gate[key] = gate
+        self._gate[key] = gate
 
     def build_one_site_gates(self, model, dtau, site_list):
         """
@@ -127,6 +122,4 @@ class Gate:
         torch.Tensor
             The calculated gate for the given Hamiltonian.
         """
-        from scipy.linalg import expm
-        gate = expm(-dtau*ham.cpu())
-        return torch.tensor(gate).to(dtype=self.dtype, device=self.device)
+        return torch.matrix_exp(-dtau * ham).to(dtype=self.dtype, device=self.device)

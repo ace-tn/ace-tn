@@ -16,7 +16,6 @@ dependencies = [
     "torch",
     "tqdm",
     "toml",
-    "scipy",
     "pytest",
 ]
 

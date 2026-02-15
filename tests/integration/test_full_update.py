@@ -46,9 +46,9 @@ def test_tensor_update(setup_ipeps_and_gate):
     # Create some dummy tensors a1 and a2 with new dimensions (5, 5, 5, 5, 3)
     a1 = torch.rand(5, 5, 5, 5, 2, dtype=ipeps.dtype)
     a2 = torch.rand(5, 5, 5, 5, 2, dtype=ipeps.dtype)
-    
-    from acetn.ipeps.bond import Bond
-    bond = Bond((0, 0), (0, 1), 2)  # Sample bond
+
+    # Use a bond from the gate (same as used to build gates)
+    bond = ipeps.bond_list[0]
 
     # Perform tensor update
     updated_a1, updated_a2 = full_updater.tensor_update(a1, a2, bond)
